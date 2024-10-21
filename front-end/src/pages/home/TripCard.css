@@ -1,0 +1,19 @@
+.trip-card {
+    cursor: pointer;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    text-align: center;
+    padding: 20px;
+    transition: transform 0.3s;
+  }
+  
+  .trip-card:hover {
+    transform: scale(1.05);
+  }
+  
+  .trip-emoji {
+    font-size: 50px;
+    margin-bottom: 10px;
+  }
+  
