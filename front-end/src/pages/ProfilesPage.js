@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import ProfileHeader from '../components/profile/ProfileHeader';
 import ProfileForm from '../components/profile/ProfileForm';
-//import './ProfilesPage.css';
+import './ProfilesPage.css';
 
 const ProfilesPage = () => {
   const [userData, setUserData] = useState({
