@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import PastTrip from './pages/PastTrip';
 import './App.css';
 import ActivitiesPage from './pages/ActivitiesPage';
+import ProfilesPage from './pages/ProfilesPage';
 const App = () => {
   const user = { name: "John Doe", profilePicture: "https://via.placeholder.com/100" };
   const isLoggedIn = !!user;
@@ -17,6 +18,7 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/past-trip/:id" element={<PastTrip />} />
           <Route path="/a" element={<ActivitiesPage />} />
+          <Route path="/profile" element={<ProfilesPage />} />
         </Routes>
       </main>
     </Router>
