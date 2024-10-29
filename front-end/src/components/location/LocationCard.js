@@ -1,10 +1,14 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import './LocationCard.css';
 
+
 const LocationCard = ({ location }) => {
+  const navigate = useNavigate();
   const handleCardClick = () => {
-    console.log(`Navigating to location: ${location.name}`); //this is just a placeholder for now
+      navigate(`/past-trip/${location.id}`);
   };
+  
 
   return (
     <div className="location-card" onClick={handleCardClick}>

@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext'; // Import useAuth
-import './SignUpPage.css';
+import './SignupPage.css';
 
 const SignUpPage = () => {
   const [username, setUsername] = useState('');

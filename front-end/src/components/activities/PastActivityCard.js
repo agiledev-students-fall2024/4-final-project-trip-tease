@@ -57,7 +57,7 @@ const PastActivityCard = ({ id, title, description, price, comments, imageUrl })
 };
 
 PastActivityCard.propTypes = {
-    id: PropTypes.number.isRequired,
+    id: PropTypes.string,
     title: PropTypes.string.isRequired,
     description: PropTypes.string,
     price: PropTypes.string,

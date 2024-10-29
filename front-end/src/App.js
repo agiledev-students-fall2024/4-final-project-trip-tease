@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/common/Header';
 import Home from './pages/Home';
 import LoginPage from './pages/LoginPage';
-import SignUpPage from './pages/SignUpPage';
+import SignUpPage from './pages/SignupPage';
 import ProfileDropdown from './components/profile/ProfileDropdown';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import PastTrip from './pages/PastTrip';
