@@ -89,10 +89,8 @@ router.delete('/:activityId', (req, res) => {
     }
   });  
 
-// Upvote an activity (POST) - Increment the vote count for an activity
 router.post('/:activityId/upvote', activitiesController.upvoteActivity);
 
-// Downvote an activity (POST) - Decrement the vote count for an activity
 router.post('/:activityId/downvote', activitiesController.downvoteActivity);
 
 // Add a comment to an activity (POST) - Add a new comment to the activity and respond with the created comment data
