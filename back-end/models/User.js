@@ -12,6 +12,7 @@ import mongoose from 'mongoose';
     - bio: Short biography of the user
     - trips: Array of references to Trip documents (trips the user is participating in)
 */
+
 const UserSchema = new mongoose.Schema({
     username: { type: String, required: true, unique: true }, // Unique username
     email: { type: String, required: true, unique: true }, // Unique email address

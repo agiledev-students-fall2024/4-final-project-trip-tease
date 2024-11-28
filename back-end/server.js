@@ -10,6 +10,8 @@ import config from './config/config.js';
 // load env variables
 dotenv.config();
 
+const JWT_SECRET = process.env.JWT_SECRET;
+
 const app = express();
 const PORT = config.port;
 

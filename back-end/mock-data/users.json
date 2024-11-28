@@ -1,33 +1,151 @@
 [
-    {
-      "id": "user_123",
-      "username": "john_doe",
-      "password": "password123",
-      "email": "john@example.com",
-      "name": "John Doe",
-      "profileAvatar": "😎",
-      "bio": "Travel enthusiast and food lover.",
-      "trips": ["trip_456", "trip_789", "trip_101"]
-    },
-    {
-      "id": "user_456",
-      "username": "jane_smith",
-      "password": "password456",
-      "email": "jane@example.com",
-      "name": "Jane Smith",
-      "profileAvatar": "🌍",
-      "bio": "Explorer and photographer.",
-      "trips": ["trip_456", "trip_101"]
-    },
-    {
-      "id": "user_789",
-      "username": "alex_wanderer",
-      "password": "password789",
-      "email": "alex@example.com",
-      "name": "Alex Wanderer",
-      "profileAvatar": "🧳",
-      "bio": "Always on the move.",
-      "trips": ["trip_789", "trip_101"]
-    }
-  ]
-  
+  {
+    "id": "user_123",
+    "username": "john_doe",
+    "password": "password123",
+    "email": "john@example.com",
+    "name": "John Doe",
+    "profileAvatar": "😎",
+    "bio": "Travel enthusiast and food lover.",
+    "trips": [
+      "trip_456",
+      "trip_789",
+      "trip_101"
+    ]
+  },
+  {
+    "id": "user_456",
+    "username": "jane_smith",
+    "password": "password456",
+    "email": "jane@example.com",
+    "name": "Jane Smith",
+    "profileAvatar": "🌍",
+    "bio": "Explorer and photographer.",
+    "trips": [
+      "trip_456",
+      "trip_101"
+    ]
+  },
+  {
+    "id": "user_789",
+    "username": "alex_wanderer",
+    "password": "password789",
+    "email": "alex@example.com",
+    "name": "Alex Wanderer",
+    "profileAvatar": "🧳",
+    "bio": "Always on the move.",
+    "trips": [
+      "trip_789",
+      "trip_101"
+    ]
+  },
+  {
+    "id": 4,
+    "username": "hawk-test1",
+    "password": "hawk-test1",
+    "email": "hawk-test1@gmail.com",
+    "bio": "hawk-test1"
+  },
+  {
+    "id": 5,
+    "username": "hawk-test2",
+    "password": "hawk-test2",
+    "email": "hawk-test2@gmail.com",
+    "bio": "hawk-test2 bio"
+  },
+  {
+    "id": 6,
+    "username": "hawk-test3",
+    "password": "hawk-test3",
+    "email": "hawk-test3@gmail.com",
+    "bio": "hawk-test3 bio"
+  },
+  {
+    "id": 7,
+    "username": "hawk-test4",
+    "password": "hawk-test4",
+    "email": "hawk-test4@gmail.com",
+    "bio": "hawk-test4 bio"
+  },
+  {
+    "id": 8,
+    "username": "hawk-test5",
+    "password": "hawk-test5",
+    "email": "hawk-test5@gmail.com",
+    "bio": "hawk-test5 bio"
+  },
+  {
+    "id": 9,
+    "username": "Hawk-test6",
+    "password": "Hawk-test6",
+    "email": "Hawk-test6@gmail.com",
+    "bio": "Hawk-test6 bio"
+  },
+  {
+    "id": 10,
+    "username": "hawk-test6",
+    "password": "hawk-test6",
+    "email": "hawk-test6@gmail.com",
+    "bio": "hawk-test6 bio"
+  },
+  {
+    "id": 11,
+    "username": "hawk-test7",
+    "password": "hawk-test7",
+    "email": "hawk-test7@gmail.com",
+    "bio": "hawk-test7 bio"
+  },
+  {
+    "id": 12,
+    "username": "hawk-test8",
+    "password": "hawk-test8",
+    "email": "hawk-test8@gmail.com",
+    "bio": "hawk-test8 bio"
+  },
+  {
+    "id": 13,
+    "username": "hawk-test9",
+    "password": "hawk-test9",
+    "email": "hawk-test9@gmail.com",
+    "bio": "hawk-test9 bio"
+  },
+  {
+    "id": 14,
+    "username": "hawk-test10",
+    "password": "hawk-test10",
+    "email": "hawk-test10@gmail.com",
+    "bio": "hawk-test10 bio"
+  },
+  {
+    "id": 15,
+    "username": "hawk-test11",
+    "password": "hawk-test11",
+    "email": "hawk-test11@gmail.com",
+    "bio": "hawk-test11 bio"
+  },
+  {
+    "id": 16,
+    "username": "hawk-test12",
+    "password": "hawk-test12",
+    "email": "hawk-test12@gmail.com",
+    "bio": "hawk-test12 bio"
+  },
+  {
+    "id": 17,
+    "username": "hawk-test13",
+    "password": "hawk-test13",
+    "email": "hawk-test13@gmail.com",
+    "name": "hawk-test13f hawk-test13l",
+    "profileAvatar": "😊",
+    "bio": "hawk-test13 bio"
+  },
+  {
+    "id": 18,
+    "username": "hawk-test14",
+    "password": "hawk-test14",
+    "email": "hawk-test14@gmail.com",
+    "name": "hawk-test14f hawk-test14l",
+    "profileAvatar": "🌎",
+    "bio": "hawk-test14 bio"
+  }
+]
