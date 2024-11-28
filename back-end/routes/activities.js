@@ -89,35 +89,9 @@ router.delete('/:activityId', (req, res) => {
     }
   });  
 
-// Upvote an activity (POST) - Increment the vote count for an activity and respond with the updated vote count
-router.post('/:activityId/upvote', (req, res) => {
-  const activityId = req.params.activityId;
-  const activity = activities.find(a => a.id === activityId);
+router.post('/:activityId/upvote', activitiesController.upvoteActivity);
 
-  if (activity) {
-    activity.votes = (activity.votes || 0) + 1;
-    activities.sort((a, b) => b.votes - a.votes); 
-    saveActivitiesToFile();
-    res.json({ votes: activity.votes });
-  } else {
-    res.status(404).json({ error: 'Activity not found' });
-  }
-});
-
-// Downvote an activity (POST) - Decrement the vote count for an activity and respond with the updated vote count
-router.post('/:activityId/downvote', (req, res) => {
-  const activityId = req.params.activityId;
-  const activity = activities.find(a => a.id === activityId);
-
-  if (activity) {
-    activity.votes = (activity.votes || 0) - 1;
-    activities.sort((a, b) => b.votes - a.votes); 
-    saveActivitiesToFile();
-    res.json({ votes: activity.votes });
-  } else {
-    res.status(404).json({ error: 'Activity not found' });
-  }
-});
+router.post('/:activityId/downvote', activitiesController.downvoteActivity);
 
 // Add a comment to an activity (POST) - Add a new comment to the activity and respond with the created comment data
 router.post('/:activityId/comments', (req, res) => {

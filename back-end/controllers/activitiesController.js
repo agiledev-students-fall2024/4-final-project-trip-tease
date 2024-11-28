@@ -81,11 +81,44 @@ const createActivity = async (req, res) => {
 };
 
 const upvoteActivity = async (req, res) => {
-  res.status(501).json({ message: 'Upvote activity endpoint not implemented yet' });
+  const { activityId } = req.params;
+
+  try {
+    const activity = await Activity.findById(activityId);
+    if (!activity) {
+      return res.status(404).json({ error: 'Activity not found' });
+    }
+
+    activity.votes += 1; // Increment votes
+    await activity.save(); // Save changes to the database
+
+    res.status(200).json({ message: 'Activity upvoted successfully', votes: activity.votes });
+  } catch (error) {
+    console.error('Error upvoting activity:', error);
+    res.status(500).json({ error: 'Failed to upvote activity' });
+  }
 };
 
 const downvoteActivity = async (req, res) => {
-  res.status(501).json({ message: 'Downvote activity endpoint not implemented yet' });
+  const { activityId } = req.params;
+
+  try {
+    const activity = await Activity.findById(activityId);
+    if (!activity) {
+      return res.status(404).json({ error: 'Activity not found' });
+    }
+
+    if (activity.votes > 0) {
+      activity.votes -= 1; // Decrement votes
+      await activity.save(); // Save changes to the database
+      return res.status(200).json({ message: 'Activity downvoted successfully', votes: activity.votes });
+    } else {
+      return res.status(400).json({ message: 'Votes cannot go below 0', votes: activity.votes });
+    }
+  } catch (error) {
+    console.error('Error downvoting activity:', error);
+    res.status(500).json({ error: 'Failed to downvote activity' });
+  }
 };
 
 const addCommentToActivity = async (req, res) => {
