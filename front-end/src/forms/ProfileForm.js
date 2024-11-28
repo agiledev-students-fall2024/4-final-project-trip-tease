@@ -28,8 +28,8 @@ const ProfileForm = ({ userData, isEditMode, onEditToggle, onInputChange }) => {
           <label>Profile Avatar</label>
           {isEditMode ? (
             <select
-              name="profilePicture"
-              value={userData.profilePicture}
+              name="profileAvatar"
+              value={userData.profileAvatar}
               onChange={onInputChange}
             >
               {emojis.map((emoji) => (
@@ -39,7 +39,7 @@ const ProfileForm = ({ userData, isEditMode, onEditToggle, onInputChange }) => {
               ))}
             </select>
           ) : (
-            <p className="selected-emoji">{userData.profilePicture}</p>
+            <p className="selected-emoji">{userData.profileAvatar}</p>
           )}
         </div>
       </div>
