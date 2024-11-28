@@ -3,7 +3,7 @@ import './ProfileForm.css';
 
 const emojis = ['😀', '😎', '🌍', '🧳', '🎒', '🚴', '✈️', '🏞️', '🌄'];
 
-const ProfileForm = ({ userData, isEditMode, onEditToggle, onInputChange }) => {
+const ProfileForm = ({ userData, isEditMode, onEditToggle, onInputChange, onSaveChanges }) => {
   return (
     <form className="profile-form">
       <div className="form-section">
@@ -47,19 +47,19 @@ const ProfileForm = ({ userData, isEditMode, onEditToggle, onInputChange }) => {
       <div className="form-section">
         <div className="name-fields">
           <div className="name-field">
-            <label>First Name</label>
+            <label>Full Name</label>
             {isEditMode ? (
               <input
                 type="text"
-                name="firstName"
-                value={userData.firstName}
+                // name="firstName"
+                value={userData.name}
                 onChange={onInputChange}
               />
             ) : (
-              <p>{userData.firstName}</p>
+              <p>{userData.name}</p>
             )}
           </div>
-          <div className="name-field">
+          {/* <div className="name-field">
             <label>Last Name</label>
             {isEditMode ? (
               <input
@@ -71,7 +71,7 @@ const ProfileForm = ({ userData, isEditMode, onEditToggle, onInputChange }) => {
             ) : (
               <p>{userData.lastName}</p>
             )}
-          </div>
+          </div> */}
         </div>
       </div>
 
@@ -124,7 +124,7 @@ const ProfileForm = ({ userData, isEditMode, onEditToggle, onInputChange }) => {
           {isEditMode ? 'Save Changes' : 'Edit Profile'}
         </button>
         {isEditMode && (
-          <button type="button" className="sign-out-button">
+          <button type="button" onClick={onSaveChanges} className="sign-out-button">
             Sign Out
           </button>
         )}
