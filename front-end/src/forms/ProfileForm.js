@@ -39,7 +39,7 @@ const ProfileForm = ({ userData, isEditMode, onEditToggle, onInputChange }) => {
               ))}
             </select>
           ) : (
-            <p className="selected-emoji">{userData.profilePicture}</p>
+            <p className="selected-emoji">{userData.profileAvatar}</p>
           )}
         </div>
       </div>

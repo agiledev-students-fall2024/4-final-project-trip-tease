@@ -17,7 +17,7 @@ const ProfilesPage = () => {
   useEffect(() => {
     async function fetchUserData() {
       try {
-        const response = await fetch('/users/user_123'); //hardcoded this backend route because we dont have unique id's bc we havent covered authentication in class yet
+        const response = await fetch('/users/64b1c7c8f2a5b9a2d5c8f001'); //hardcoded this backend route because we dont have unique id's bc we havent covered authentication in class yet
         const data = await response.json();
         const [firstName, lastName] = data.name.split(' '); 
         setUserData({ ...data, firstName, lastName });
@@ -45,7 +45,7 @@ const ProfilesPage = () => {
 
   return (
     <div className="profiles-page">
-      <ProfileHeader name={`${userData.firstName} ${userData.lastName}`} profilePicture={userData.profilePicture} />
+      <ProfileHeader name={`${userData.firstName} ${userData.lastName}`} profilePicture={userData.profileAvatar} />
       <ProfileForm
         userData={userData}
         isEditMode={isEditMode}
