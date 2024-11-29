@@ -16,17 +16,34 @@ import SignUp from './pages/SignUp';
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(true); // Default to "logged in" for mock
   const [user, setUser] = useState(null);
+  const [users, setUsers] = useState([]); // State to store all users
+
 
   useEffect(() => {
     // Fetch user data when the component mounts
     fetchUserData();
+
+    // Fetch all users when the app launches
+    fetchAllUsers();
   }, []);
+
+  const fetchAllUsers = async () => {
+    try {
+      const response = await fetch('/users');
+      const data = await response.json();
+      setUsers(data); // Set all users in the state
+      console.log('All users:', data);
+    } catch (error) {
+      console.error('Error fetching users:', error);
+    }
+  };
 
   const fetchUserData = async () => {
     try {
       const response = await fetch('/users/64b1c7c8f2a5b9a2d5c8f001');
       const data = await response.json();
       setUser({ name: data.name, profileAvatar: data.profileAvatar });
+      console.log('Current user:', data);
     } catch (error) {
       console.error('Error fetching user data:', error);
     }
