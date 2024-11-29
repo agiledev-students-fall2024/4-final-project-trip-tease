@@ -11,15 +11,25 @@ const ProfilesPage = () => {
     email: '',
     password: '',
     bio: '',
+    id: ''
   });
   const [isEditMode, setIsEditMode] = useState(false);
 
   useEffect(() => {
     async function fetchUserData() {
       try {
-        const userId = "64b1c7c8f2a5b9a2d5c8f001";
-        const response = await fetch(`/users/${userId}`); // hardcoded until login/sign up is implemented
+        const response = await fetch(`/users/64b1c7c8f2a5b9a2d5c8f001`); // hardcoded until login/sign up is implemented
         const data = await response.json();
+
+        // Check if _id is present in the fetched data
+        if (data && data.id) {
+          setUserData(data); // Set user data only if _id is valid
+          console.log('User data fetched:', data);
+        } else {
+          console.error("User data missing _id:", data);
+        }
+
+
         // const [firstName, lastName] = data.name.split(' '); 
         setUserData(data);
         // setUserData({ ...data, firstName, lastName });
@@ -45,31 +55,36 @@ const ProfilesPage = () => {
     }));
   };
 
-  const handleSaveChanges = async () => {
+  const handleSaveChanges = async (userData) => {
+    if (!userData.id) {  // Check for 'id' instead of '_id'
+      console.error("User ID is missing, cannot save changes.");
+      return; // Exit if userData.id is not available
+    }
+  
     try {
-      const response = await fetch('/users/64b1c7c8f2a5b9a2d5c8f001', {  // hardcoded until login/sign up is implemented
-        method: 'PUT',  
+      const userId = userData.id;  // Use the id from userData
+      const response = await fetch(`http://localhost:3002/users/${userId}`, {
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(userData),  // Send updated user data
       });
-
+  
       if (!response.ok) {
         throw new Error('Failed to update user data');
       }
-
-      // Once the data is updated, toggle back to view mode and fetch the updated user data
-      setIsEditMode(false);
+  
       const updatedUser = await response.json();
-      setUserData(updatedUser);
-
+      setUserData(updatedUser);  // Update state with the new user data
+      setIsEditMode(false);  // Close the edit mode
       console.log('User data updated:', updatedUser);
     } catch (error) {
       console.error('Error saving changes:', error);
     }
   };
-
+  
+  
   return (
     <div className="profiles-page">
       <ProfileHeader name={`${userData.name}`} profilePicture={userData.profileAvatar} />

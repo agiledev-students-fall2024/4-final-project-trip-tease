@@ -50,20 +50,23 @@ router.put('/:userId', (req, res) => {
   const { userId } = req.params;
   const { username, email, name, profileAvatar, bio } = req.body;
 
+  // Find user by ID (mocking with users array)
   const userIndex = users.findIndex(u => u.id === parseInt(userId));
 
   if (userIndex === -1) {
     return res.status(404).json({ error: 'User not found' });
   }
 
+  // Update the user data
   const updatedUser = { ...users[userIndex], username, email, name, profileAvatar, bio };
   users[userIndex] = updatedUser;
 
-  // Save updated user list
+  // Save updated user list to mock-data file
   fs.writeFileSync('./mock-data/users.json', JSON.stringify(users, null, 2));
 
-  res.json(updatedUser);
+  res.json(updatedUser);  // Return updated user data to the frontend
 });
+
 
 // Delete a user (DELETE)
 router.delete('/:userId', (req, res) => {

@@ -107,11 +107,11 @@ const ProfileForm = ({ userData, isEditMode, onEditToggle, onInputChange, onSave
       </div>
 
       <div className="button-group">
-        <button type="button" onClick={onEditToggle} className="edit-button">
+        <button type="button" onClick={isEditMode ? () => onSaveChanges(userData) : onEditToggle} className="edit-button">
           {isEditMode ? 'Save Changes' : 'Edit Profile'}
         </button>
         {isEditMode && (
-          <button type="button" onClick={onSaveChanges} className="sign-out-button">
+          <button type="button" className="sign-out-button">
             Sign Out
           </button>
         )}
