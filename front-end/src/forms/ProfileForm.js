@@ -59,19 +59,6 @@ const ProfileForm = ({ userData, isEditMode, onEditToggle, onInputChange, onSave
               <p>{userData.name}</p>
             )}
           </div>
-          {/* <div className="name-field">
-            <label>Last Name</label>
-            {isEditMode ? (
-              <input
-                type="text"
-                name="lastName"
-                value={userData.lastName}
-                onChange={onInputChange}
-              />
-            ) : (
-              <p>{userData.lastName}</p>
-            )}
-          </div> */}
         </div>
       </div>
 
