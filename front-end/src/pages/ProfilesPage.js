@@ -6,8 +6,8 @@ import './ProfilesPage.css';
 const ProfilesPage = () => {
   const [userData, setUserData] = useState({
     username: '',
-    firstName: '',
-    lastName: '',
+    profileAvatar: '',
+    name: '',
     email: '',
     password: '',
     bio: '',
@@ -17,23 +17,22 @@ const ProfilesPage = () => {
   useEffect(() => {
     async function fetchUserData() {
       try {
-        const response = await fetch('/users/user_123'); //hardcoded this backend route because we dont have unique id's bc we havent covered authentication in class yet
+        // Hardcoded backend route (replace with a real one once authentication is in place)
+        const response = await fetch('/users/64b1c7c8f2a5b9a2d5c8f001');
         const data = await response.json();
-        const [firstName, lastName] = data.name.split(' '); 
-        setUserData({ ...data, firstName, lastName });
+        // const [firstName, lastName] = data.name.split(' ');
+        setUserData({ ...data });
       } catch (error) {
         console.error('Error fetching user data:', error);
       }
     }
+
     fetchUserData();
   }, []);
 
-
-  //same with editing the user, not really essential and will change once we implement log-in / sign-up in future sprint
   const handleEditToggle = () => {
     setIsEditMode((prevMode) => !prevMode);
   };
-
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -45,7 +44,10 @@ const ProfilesPage = () => {
 
   return (
     <div className="profiles-page">
-      <ProfileHeader name={`${userData.firstName} ${userData.lastName}`} profilePicture={userData.profilePicture} />
+      <ProfileHeader
+        name={`${userData.name} `}
+        profilePicture={userData.profileAvatar}
+      />
       <ProfileForm
         userData={userData}
         isEditMode={isEditMode}
