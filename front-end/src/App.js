@@ -1,5 +1,4 @@
-// App.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/common/Header';
 import Home from './pages/Home';
@@ -16,14 +15,31 @@ import SignUp from './pages/SignUp';
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(true); // Default to "logged in" for mock
-  const user = { name: "John Doe", profilePicture: "🧑" };
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    // Fetch user data when the component mounts
+    fetchUserData();
+  }, []);
+
+  const fetchUserData = async () => {
+    try {
+      const response = await fetch('/users/64b1c7c8f2a5b9a2d5c8f001');
+      const data = await response.json();
+      setUser({ name: data.name, profileAvatar: data.profileAvatar });
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+    }
+  };
 
   const handleSignOut = () => {
     setIsLoggedIn(false);
+    setUser(null); // Reset user data on sign-out
+    window.location.href = '/log-in'; // Use window.location.href for navigation
   };
 
   const handleLogoClick = () => {
-    setIsLoggedIn(true); // Mock auto-login when returning to homepage
+    window.location.href = '/'; // Use window.location.href to go back to the homepage
   };
 
   return (
@@ -37,7 +53,7 @@ const App = () => {
           <Route path="/locations/:tripId" element={<Locations />} />
           <Route path="/add-activity/:locationId" element={<AddActivity />} />
           <Route path="/add-location/:tripId" element={<AddLocation />} />
-          <Route path="/profile" element={<ProfilesPage />} />
+          <Route path="/profile" element={<ProfilesPage setUser={setUser} />} />
           <Route path="/create-trip/:userId" element={<AddTrip />} />
           <Route path="/join-trip" element={<JoinTrip />} />
           <Route path="/log-in" element={<LogIn />} />

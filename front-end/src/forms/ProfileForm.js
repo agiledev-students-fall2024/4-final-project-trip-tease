@@ -28,7 +28,7 @@ const ProfileForm = ({ userData, isEditMode, onEditToggle, onInputChange }) => {
           <label>Profile Avatar</label>
           {isEditMode ? (
             <select
-              name="profilePicture"
+              name="profileAvatar"
               value={userData.profileAvatar}
               onChange={onInputChange}
             >

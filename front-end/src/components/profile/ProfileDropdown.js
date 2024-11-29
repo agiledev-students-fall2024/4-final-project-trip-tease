@@ -11,7 +11,7 @@ const ProfileDropdown = ({ onSignOut, user }) => {
         className="profile-dropdown-item"
         onClick={() => navigate('/profile')}
       >
-        <span className="profile-dropdown-item-icon">{user?.profilePicture || "👤"}</span>
+        <span className="profile-dropdown-item-icon">{user?.profileAvatar || "👤"}</span>
         View Profile
       </button>
       <button

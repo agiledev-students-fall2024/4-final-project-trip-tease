@@ -18,13 +18,20 @@ const Header = ({ user, isLoggedIn, onSignOut, onLogoClick }) => {
 
       <div className="header__right">
         {isLoggedIn ? (
-          <div className="header__profile-wrapper" onClick={toggleDropdown}>
-            <div className="header__profile">
-              <span className="header__profile-menu-icon">☰</span>
-              <span className="header__profile-icon">{user.profilePicture}</span>
+          user && user.profileAvatar ? (
+            <div className="header__profile-wrapper" onClick={toggleDropdown}>
+              <div className="header__profile">
+                <span className="header__profile-menu-icon">☰</span>
+                <span className="header__profile-icon">{user.profileAvatar}</span>
+              </div>
+              {isDropdownOpen && <ProfileDropdown user={user} onSignOut={onSignOut} />}
             </div>
-            {isDropdownOpen && <ProfileDropdown user={user} onSignOut={onSignOut} />}
-          </div>
+          ) : (
+            <div className="header__profile-wrapper">
+              {/* Placeholder if profileAvatar is not available */}
+              <span className="header__profile-icon">👤</span>
+            </div>
+          )
         ) : (
           <div className="header__auth">
             <Link to="/log-in" className="header__auth-link">Login</Link>

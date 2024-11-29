@@ -20,7 +20,6 @@ const ProfilesPage = () => {
         // Hardcoded backend route (replace with a real one once authentication is in place)
         const response = await fetch('/users/64b1c7c8f2a5b9a2d5c8f001');
         const data = await response.json();
-        // const [firstName, lastName] = data.name.split(' ');
         setUserData({ ...data });
       } catch (error) {
         console.error('Error fetching user data:', error);
@@ -46,7 +45,7 @@ const ProfilesPage = () => {
     <div className="profiles-page">
       <ProfileHeader
         name={`${userData.name} `}
-        profilePicture={userData.profileAvatar}
+        profileAvatar={userData.profileAvatar}
       />
       <ProfileForm
         userData={userData}
