@@ -15,15 +15,19 @@ import LogIn from './pages/LogIn';
 import SignUp from './pages/SignUp';
 
 const App = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(true); // Default to "logged in" for mock
-  const user = { name: "John Doe", profilePicture: "🧑" };
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // Default to "logged in" for mock
+  const [user, setUser] = useState(null); // User is initially null when not logged in
 
   const handleSignOut = () => {
     setIsLoggedIn(false);
+    setUser(null); // Clear user data when signing out
   };
 
   const handleLogoClick = () => {
-    setIsLoggedIn(true); // Mock auto-login when returning to homepage
+    if (isLoggedIn) {
+      window.location.href = '/'; // Navigate to the homepage only if the user is logged in
+    }
+    // If the user is not logged in, do nothing
   };
 
   return (
