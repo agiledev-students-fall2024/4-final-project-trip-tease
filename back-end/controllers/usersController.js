@@ -51,9 +51,29 @@ const createUser = async (req, res) => {
   res.status(501).json({ message: 'Create user endpoint not implemented yet' });
 };
 
+// const updateUser = async (req, res) => {
+//   res.status(501).json({ message: 'Update user endpoint not implemented yet' });
+// };
+
 const updateUser = async (req, res) => {
-  res.status(501).json({ message: 'Update user endpoint not implemented yet' });
+  try {
+    const { userId } = req.params;  // Extract userId from URL params
+    const updatedData = req.body;   // The updated user data
+
+    // Assuming you're using `id` instead of `_id` in the backend
+    const user = await User.findOneAndUpdate({ id: userId }, updatedData, { new: true });
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.status(200).json(user);
+  } catch (error) {
+    console.error('Error updating user:', error);
+    res.status(500).json({ message: 'Error updating user' });
+  }
 };
+
 
 const deleteUser = async (req, res) => {
   res.status(501).json({ message: 'Delete user endpoint not implemented yet' });
