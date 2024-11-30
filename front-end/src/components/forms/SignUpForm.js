@@ -3,20 +3,20 @@ import './SignUpForm.css';
 
 const SignUpForm = ({ onSubmit }) => {
   const [username, setUsername] = useState('');
-  const [avatar, setAvatar] = useState('😊'); // Default emoji
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
+  const [profileAvatar, setProfileAvatar] = useState('😊'); // Default emoji
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [bio, setBio] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit({ username, avatar, firstName, lastName, email, password, bio });
+    console.log('Form submitted with data:', { username, profileAvatar, name, email, password, bio });
+    onSubmit({ username, profileAvatar, name, email, password, bio });
+    
     setUsername('');
-    setAvatar('😊'); // Reset to default emoji
-    setFirstName('');
-    setLastName('');
+    setProfileAvatar('😊'); // Reset to default emoji
+    setName('');
     setEmail('');
     setPassword('');
     setBio('');
@@ -43,8 +43,8 @@ const SignUpForm = ({ onSubmit }) => {
             <button
               key={emoji}
               type="button"
-              className={`avatar-button ${avatar === emoji ? 'selected' : ''}`}
-              onClick={() => setAvatar(emoji)}
+              className={`avatar-button ${profileAvatar === emoji ? 'selected' : ''}`}
+              onClick={() => setProfileAvatar(emoji)}
             >
               {emoji}
             </button>
@@ -53,25 +53,14 @@ const SignUpForm = ({ onSubmit }) => {
       </label>
 
       <label>
-        First Name:
+        Full Name:
         <input
           type="text"
-          value={firstName}
-          onChange={(e) => setFirstName(e.target.value)}
+          value={name}
+          onChange={(e) => setName(e.target.value)}
           required
         />
       </label>
-
-      <label>
-        Last Name:
-        <input
-          type="text"
-          value={lastName}
-          onChange={(e) => setLastName(e.target.value)}
-          required
-        />
-      </label>
-
       <label>
         Email:
         <input

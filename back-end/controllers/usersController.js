@@ -1,5 +1,54 @@
 import User from '../models/User.js'; // User model
 import Trip from '../models/Trip.js'; // Trip model
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcryptjs';
+
+const JWT_SECRET = process.env.JWT_SECRET;
+
+// Create a new user (POST)
+// In your `createUser` function (backend):
+const createUser = async (req, res) => {
+  const { username, profileAvatar, name, email, password, bio } = req.body;
+
+  // Log the request body to see what data is being received
+  console.log('Received request body for user creation:', req.body);
+
+
+  try {
+    const existingUser = await User.findOne({ $or: [{ username }, { email }] });
+    if (existingUser) {
+      return res.status(400).json({ message: 'User already exists' });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const newUser = new User({
+      username,
+      profileAvatar,
+      name,
+      email,
+      password: hashedPassword,
+      bio,
+    });
+
+    await newUser.save();
+
+    // Exclude the password from the response
+    const userResponse = newUser.toObject();
+    delete userResponse.password;
+
+    const token = jwt.sign({ userId: newUser._id }, JWT_SECRET, { expiresIn: '1h' });
+
+    res.status(201).json({
+      message: 'User created successfully',
+      user: userResponse,  // Send the user object without the password
+      token,
+    });
+
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to create user', error: error.message });
+  }
+};
 
 // Get all users (GET) - Retrieve and respond with a list of all users
 const getAllUsers = async (req, res) => {
@@ -45,37 +94,6 @@ const getUserTrips = async (req, res) => {
     res.status(500).json({ error: 'Failed to retrieve trips for the user' });
   }
 };
-
-// Placeholder functions for unimplemented methods
-const createUser = async (req, res) => {
-  res.status(501).json({ message: 'Create user endpoint not implemented yet' });
-};
-
-// const updateUser = async (req, res) => {
-//   res.status(501).json({ message: 'Update user endpoint not implemented yet' });
-// };
-const updateUser = async (req, res) => {
-  try {
-    const userId = req.params.userId; // Extract user ID from request parameters
-    const updateData = req.body; // Data to update the user with
-
-    // Find the user by ID and update their details
-    const updatedUser = await User.findByIdAndUpdate(userId, updateData, {
-      new: true, // Return the updated document
-      runValidators: true, // Ensure that validation checks are applied during the update
-    });
-
-    if (updatedUser) {
-      res.status(200).json(updatedUser); // Respond with the updated user details
-    } else {
-      res.status(404).json({ error: 'User not found' }); // Handle case where the user is not found
-    }
-  } catch (error) {
-    console.error('Error updating user:', error);
-    res.status(500).json({ error: 'Failed to update user' });
-  }
-};
-
 
 const deleteUser = async (req, res) => {
   res.status(501).json({ message: 'Delete user endpoint not implemented yet' });
