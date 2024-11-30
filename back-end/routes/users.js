@@ -1,7 +1,6 @@
 import express from 'express';
 import usersController from '../controllers/usersController.js';
 import User from '../models/User.js'; // Import the User model
-import bcrypt from 'bcrypt'; // Import bcrypt for hashing passwords
 import fs from 'fs';
 
 const router = express.Router();

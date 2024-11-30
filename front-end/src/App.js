@@ -59,12 +59,11 @@ const App = () => {
           <Route path="/locations/:tripId" element={<Locations />} />
           <Route path="/add-activity/:locationId" element={<AddActivity />} />
           <Route path="/add-location/:tripId" element={<AddLocation />} />
-          {/* <Route path="/profile" element={<ProfilesPage setUser={setUser} />} /> */}
           <Route path="/profile" element={<ProfilesPage user={user} setUser={setUser} />} />
           <Route path="/create-trip/:userId" element={<AddTrip />} />
           <Route path="/join-trip" element={<JoinTrip />} />
           <Route path="/log-in" element={<LogIn user={user} setUser={setUser} setIsLoggedIn={setIsLoggedIn} />} />
-          <Route path="/sign-up" element={<SignUp />} />
+          <Route path="/sign-up" element={<SignUp user={user} setUser={setUser} setIsLoggedIn={setIsLoggedIn} />} />
         </Routes>
       </main>
     </Router>

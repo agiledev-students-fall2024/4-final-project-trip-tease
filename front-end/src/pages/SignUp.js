@@ -4,7 +4,7 @@ import SignUpForm from '../components/forms/SignUpForm'; // Assuming you have a 
 import axios from 'axios';  // Import axios for making HTTP requests
 import './SignUp.css';
 
-const SignUp = () => {
+const SignUp = (setUser, setIsLoggedIn, isLoggedIn) => {
   const navigate = useNavigate();
   const [error, setError] = useState(null); // For error handling
 
@@ -17,48 +17,39 @@ const SignUp = () => {
     bio: "",
   });
 
-  const handleFormSubmit = async (tripData) => {
-    try{
-      const newUser = { ...userData };
-      const response = await axios.post('/users', newUser);
-
-      if (response.status === 201){
-        console.log("added a user :)", response.data);
-        navigate('/');
-      }else{console.error("failed to add user :(")};
-    }catch(error){
-      console.error("error creating user", error);
-    };
-  };
-
-
-  // const handleFormSubmit = async (userData) => {
-  //   console.log('Signing up with data:', userData); // Log the data to confirm what is being sent
+  const handleFormSubmit = async (userData) => {
+    console.log('Signing up with data:', userData); // Log the data to confirm what is being sent
     
-  //   try {
-  //     const response = await axios.post('/users', userData, {
-  //       headers: {
-  //         'Content-Type': 'application/json',  // Ensure the request body is JSON
-  //       },
-  //     });
+    try {
+      const response = await axios.post('/users', userData, {
+        headers: {
+          'Content-Type': 'application/json',  // Ensure the request body is JSON
+        },
+      });
   
-  //     console.log('Response data:', response.data);
+      console.log('Response data:', response.data);
   
-  //     if (response.status === 201) {
-  //       // User created successfully
-  //       localStorage.setItem('token', response.data.token);  // Save the token to localStorage
-  //       navigate('/');  // Redirect to the Home page
-  //     } else {
-  //       // Handle unsuccessful signup
-  //       setError(response.data.message || 'An error occurred during signup');
-  //     }
+      if (response.status === 201) {
+        // User created successfully
+        localStorage.setItem('token', response.data.token);  // Save the token to localStorage
+        setUser(response.data.user);  // Set the user object in state
+        setIsLoggedIn(true);  // Set the logged-in state
+        if (response.data.user && isLoggedIn) {
+          // Store user and login state in localStorage when logged in
+          localStorage.setItem('user', JSON.stringify(response.data.user));
+          localStorage.setItem('isLoggedIn', 'true');
+        }
+        navigate('/');  // Redirect to the Home page
+      } else {
+        // Handle unsuccessful signup
+        setError(response.data.message || 'An error occurred during signup');
+      }
   
-  //   } catch (error) {
-  //     console.error('Error signing up:', error);
-  //     setError('There was an issue creating your account. Please try again.');
-  //   }
-  // };
-  
+    } catch (error) {
+      console.error('Error signing up:', error);
+      setError('There was an issue creating your account. Please try again.');
+    }
+  };
 
   return (
     <div className="signup-page">

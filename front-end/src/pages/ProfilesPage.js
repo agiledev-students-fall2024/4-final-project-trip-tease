@@ -5,7 +5,7 @@ import './ProfilesPage.css';
 
 const ProfilesPage = ({ user, setUser }) => {
   const [isEditMode, setIsEditMode] = useState(false);
-
+  
   const handleEditToggle = () => {
     setIsEditMode((prevMode) => !prevMode);
   };
