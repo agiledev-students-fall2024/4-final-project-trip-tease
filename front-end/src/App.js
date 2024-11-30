@@ -1,5 +1,4 @@
-// App.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/common/Header';
 import Home from './pages/Home';
@@ -15,15 +14,37 @@ import LogIn from './pages/LogIn';
 import SignUp from './pages/SignUp';
 
 const App = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(true); // Default to "logged in" for mock
-  const user = { name: "John Doe", profilePicture: "🧑" };
+  // Retrieve user data from localStorage safely (only if available)
+  const storedUser = localStorage.getItem('user');
+  const storedIsLoggedIn = localStorage.getItem('isLoggedIn');
+
+  const [isLoggedIn, setIsLoggedIn] = useState(storedIsLoggedIn === 'true'); // Default to stored value
+  const [user, setUser] = useState(storedUser ? JSON.parse(storedUser) : null); // Default to stored user object
+
+  // Handle login persistence with localStorage
+  useEffect(() => {
+    if (user && isLoggedIn) {
+      // Store user and login state in localStorage when logged in
+      localStorage.setItem('user', JSON.stringify(user));
+      localStorage.setItem('isLoggedIn', 'true');
+    } else {
+      // Clear localStorage when logged out
+      localStorage.removeItem('user');
+      localStorage.removeItem('isLoggedIn');
+    }
+  }, [user, isLoggedIn]); // Depend on user and isLoggedIn
 
   const handleSignOut = () => {
     setIsLoggedIn(false);
+    setUser(null); // Reset user data on sign-out
+    localStorage.removeItem('user');
+    localStorage.removeItem('isLoggedIn');
+    window.location.href = '/log-in'; // Redirect to login page on sign-out
   };
 
   const handleLogoClick = () => {
-    setIsLoggedIn(true); // Mock auto-login when returning to homepage
+    // Clicking the logo should not log out the user
+    window.location.href = '/'; // Redirect to the homepage
   };
 
   return (
@@ -37,10 +58,10 @@ const App = () => {
           <Route path="/locations/:tripId" element={<Locations />} />
           <Route path="/add-activity/:locationId" element={<AddActivity />} />
           <Route path="/add-location/:tripId" element={<AddLocation />} />
-          <Route path="/profile" element={<ProfilesPage />} />
+          <Route path="/profile" element={<ProfilesPage setUser={setUser} />} />
           <Route path="/create-trip/:userId" element={<AddTrip />} />
           <Route path="/join-trip" element={<JoinTrip />} />
-          <Route path="/log-in" element={<LogIn />} />
+          <Route path="/log-in" element={<LogIn user={user} setUser={setUser} setIsLoggedIn={setIsLoggedIn} />} />
           <Route path="/sign-up" element={<SignUp />} />
         </Routes>
       </main>

@@ -28,8 +28,8 @@ const ProfileForm = ({ userData, isEditMode, onEditToggle, onInputChange }) => {
           <label>Profile Avatar</label>
           {isEditMode ? (
             <select
-              name="profilePicture"
-              value={userData.profilePicture}
+              name="profileAvatar"
+              value={userData.profileAvatar}
               onChange={onInputChange}
             >
               {emojis.map((emoji) => (
@@ -39,7 +39,7 @@ const ProfileForm = ({ userData, isEditMode, onEditToggle, onInputChange }) => {
               ))}
             </select>
           ) : (
-            <p className="selected-emoji">{userData.profilePicture}</p>
+            <p className="selected-emoji">{userData.profileAvatar}</p>
           )}
         </div>
       </div>
@@ -47,29 +47,16 @@ const ProfileForm = ({ userData, isEditMode, onEditToggle, onInputChange }) => {
       <div className="form-section">
         <div className="name-fields">
           <div className="name-field">
-            <label>First Name</label>
+            <label>Full Name</label>
             {isEditMode ? (
               <input
                 type="text"
-                name="firstName"
-                value={userData.firstName}
+                name="fullName"
+                value={userData.name}
                 onChange={onInputChange}
               />
             ) : (
-              <p>{userData.firstName}</p>
-            )}
-          </div>
-          <div className="name-field">
-            <label>Last Name</label>
-            {isEditMode ? (
-              <input
-                type="text"
-                name="lastName"
-                value={userData.lastName}
-                onChange={onInputChange}
-              />
-            ) : (
-              <p>{userData.lastName}</p>
+              <p>{userData.name}</p>
             )}
           </div>
         </div>
