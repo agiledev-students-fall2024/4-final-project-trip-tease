@@ -15,18 +15,12 @@ const ProfilesPage = () => {
   const [isEditMode, setIsEditMode] = useState(false);
 
   useEffect(() => {
-    async function fetchUserData() {
-      try {
-        // Hardcoded backend route (replace with a real one once authentication is in place)
-        const response = await fetch('/users/64b1c7c8f2a5b9a2d5c8f001');
-        const data = await response.json();
-        setUserData({ ...data });
-      } catch (error) {
-        console.error('Error fetching user data:', error);
-      }
+    // Get the current logged-in user from localStorage
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      const parsedUser = JSON.parse(storedUser);
+      setUserData({ ...parsedUser });
     }
-
-    fetchUserData();
   }, []);
 
   const handleEditToggle = () => {
