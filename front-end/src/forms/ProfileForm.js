@@ -3,7 +3,7 @@ import './ProfileForm.css';
 
 const emojis = ['😀', '😎', '🌍', '🧳', '🎒', '🚴', '✈️', '🏞️', '🌄'];
 
-const ProfileForm = ({ userData, isEditMode, onEditToggle, onInputChange }) => {
+const ProfileForm = ({ user, isEditMode, onEditToggle, onInputChange, onSaveChanges }) => {
   return (
     <form className="profile-form">
       <div className="form-section">
@@ -13,11 +13,11 @@ const ProfileForm = ({ userData, isEditMode, onEditToggle, onInputChange }) => {
             <input
               type="text"
               name="username"
-              value={userData.username}
+              value={user.username}
               onChange={onInputChange}
             />
           ) : (
-            <p>{userData.username}</p>
+            <p>{user.username}</p>
           )}
         </div>
       </div>
@@ -29,7 +29,7 @@ const ProfileForm = ({ userData, isEditMode, onEditToggle, onInputChange }) => {
           {isEditMode ? (
             <select
               name="profileAvatar"
-              value={userData.profileAvatar}
+              value={user.profileAvatar}
               onChange={onInputChange}
             >
               {emojis.map((emoji) => (
@@ -39,7 +39,7 @@ const ProfileForm = ({ userData, isEditMode, onEditToggle, onInputChange }) => {
               ))}
             </select>
           ) : (
-            <p className="selected-emoji">{userData.profileAvatar}</p>
+            <p className="selected-emoji">{user.profileAvatar}</p>
           )}
         </div>
       </div>
@@ -52,11 +52,11 @@ const ProfileForm = ({ userData, isEditMode, onEditToggle, onInputChange }) => {
               <input
                 type="text"
                 name="fullName"
-                value={userData.name}
+                value={user.name}
                 onChange={onInputChange}
               />
             ) : (
-              <p>{userData.name}</p>
+              <p>{user.name || 'Traveler'}</p> // Default to 'Traveler' if no name is set
             )}
           </div>
         </div>
@@ -69,11 +69,11 @@ const ProfileForm = ({ userData, isEditMode, onEditToggle, onInputChange }) => {
             <input
               type="email"
               name="email"
-              value={userData.email}
+              value={user.email}
               onChange={onInputChange}
             />
           ) : (
-            <p>{userData.email}</p>
+            <p>{user.email}</p>
           )}
         </div>
         <div className="field-group">
@@ -82,7 +82,7 @@ const ProfileForm = ({ userData, isEditMode, onEditToggle, onInputChange }) => {
             <input
               type="password"
               name="password"
-              value={userData.password}
+              value={user.password}
               onChange={onInputChange}
             />
           ) : (
@@ -97,17 +97,17 @@ const ProfileForm = ({ userData, isEditMode, onEditToggle, onInputChange }) => {
           {isEditMode ? (
             <textarea
               name="bio"
-              value={userData.bio}
+              value={user.bio}
               onChange={onInputChange}
             />
           ) : (
-            <p>{userData.bio}</p>
+            <p>{user.bio}</p>
           )}
         </div>
       </div>
 
       <div className="button-group">
-        <button type="button" onClick={onEditToggle} className="edit-button">
+      <button type="button" onClick={isEditMode ? onSaveChanges : onEditToggle} className="edit-button">
           {isEditMode ? 'Save Changes' : 'Edit Profile'}
         </button>
         {isEditMode && (

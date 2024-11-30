@@ -39,6 +39,7 @@ const App = () => {
     setUser(null); // Reset user data on sign-out
     localStorage.removeItem('user');
     localStorage.removeItem('isLoggedIn');
+    localStorage.clear(); // Clear all data from localStorage
     window.location.href = '/log-in'; // Redirect to login page on sign-out
   };
 
@@ -58,7 +59,8 @@ const App = () => {
           <Route path="/locations/:tripId" element={<Locations />} />
           <Route path="/add-activity/:locationId" element={<AddActivity />} />
           <Route path="/add-location/:tripId" element={<AddLocation />} />
-          <Route path="/profile" element={<ProfilesPage setUser={setUser} />} />
+          {/* <Route path="/profile" element={<ProfilesPage setUser={setUser} />} /> */}
+          <Route path="/profile" element={<ProfilesPage user={user} setUser={setUser} />} />
           <Route path="/create-trip/:userId" element={<AddTrip />} />
           <Route path="/join-trip" element={<JoinTrip />} />
           <Route path="/log-in" element={<LogIn user={user} setUser={setUser} setIsLoggedIn={setIsLoggedIn} />} />

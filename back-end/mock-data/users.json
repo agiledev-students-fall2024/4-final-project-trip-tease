@@ -1,33 +1,51 @@
 [
-    {
-      "id": "user_123",
-      "username": "john_doe",
-      "password": "password123",
-      "email": "john@example.com",
-      "name": "John Doe",
-      "profileAvatar": "😎",
-      "bio": "Travel enthusiast and food lover.",
-      "trips": ["trip_456", "trip_789", "trip_101"]
-    },
-    {
-      "id": "user_456",
-      "username": "jane_smith",
-      "password": "password456",
-      "email": "jane@example.com",
-      "name": "Jane Smith",
-      "profileAvatar": "🌍",
-      "bio": "Explorer and photographer.",
-      "trips": ["trip_456", "trip_101"]
-    },
-    {
-      "id": "user_789",
-      "username": "alex_wanderer",
-      "password": "password789",
-      "email": "alex@example.com",
-      "name": "Alex Wanderer",
-      "profileAvatar": "🧳",
-      "bio": "Always on the move.",
-      "trips": ["trip_789", "trip_101"]
-    }
-  ]
-  
+  {
+    "id": "user_123",
+    "username": "john_doe",
+    "password": "password123",
+    "email": "john@example.com",
+    "name": "John Doe",
+    "profileAvatar": "😎",
+    "bio": "Travel enthusiast and food lover.",
+    "trips": [
+      "trip_456",
+      "trip_789",
+      "trip_101"
+    ]
+  },
+  {
+    "id": "user_456",
+    "username": "jane_smith",
+    "password": "password456",
+    "email": "jane@example.com",
+    "name": "Jane Smith",
+    "profileAvatar": "🌍",
+    "bio": "Explorer and photographer.",
+    "trips": [
+      "trip_456",
+      "trip_101"
+    ]
+  },
+  {
+    "id": "user_789",
+    "username": "alex_wanderer",
+    "password": "password789",
+    "email": "alex@example.com",
+    "name": "Alex Wanderer",
+    "profileAvatar": "🧳",
+    "bio": "Always on the move.",
+    "trips": [
+      "trip_789",
+      "trip_101"
+    ]
+  },
+  {
+    "id": 4,
+    "username": "hawk-test17",
+    "password": "securePassword123",
+    "email": "john.doe@example.com",
+    "name": "Hawk",
+    "profileAvatar": "😎",
+    "bio": "I love traveling and coding!"
+  }
+]

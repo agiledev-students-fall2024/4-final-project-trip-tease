@@ -51,9 +51,31 @@ const createUser = async (req, res) => {
   res.status(501).json({ message: 'Create user endpoint not implemented yet' });
 };
 
+// const updateUser = async (req, res) => {
+//   res.status(501).json({ message: 'Update user endpoint not implemented yet' });
+// };
 const updateUser = async (req, res) => {
-  res.status(501).json({ message: 'Update user endpoint not implemented yet' });
+  try {
+    const userId = req.params.userId; // Extract user ID from request parameters
+    const updateData = req.body; // Data to update the user with
+
+    // Find the user by ID and update their details
+    const updatedUser = await User.findByIdAndUpdate(userId, updateData, {
+      new: true, // Return the updated document
+      runValidators: true, // Ensure that validation checks are applied during the update
+    });
+
+    if (updatedUser) {
+      res.status(200).json(updatedUser); // Respond with the updated user details
+    } else {
+      res.status(404).json({ error: 'User not found' }); // Handle case where the user is not found
+    }
+  } catch (error) {
+    console.error('Error updating user:', error);
+    res.status(500).json({ error: 'Failed to update user' });
+  }
 };
+
 
 const deleteUser = async (req, res) => {
   res.status(501).json({ message: 'Delete user endpoint not implemented yet' });

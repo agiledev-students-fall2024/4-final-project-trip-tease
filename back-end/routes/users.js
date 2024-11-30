@@ -50,7 +50,7 @@ router.put('/:userId', (req, res) => {
   const { userId } = req.params;
   const { username, email, name, profileAvatar, bio } = req.body;
 
-  const userIndex = users.findIndex(u => u.id === parseInt(userId));
+  const userIndex = users.findIndex(u => u._id === parseInt(userId));
 
   if (userIndex === -1) {
     return res.status(404).json({ error: 'User not found' });
