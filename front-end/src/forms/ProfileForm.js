@@ -47,7 +47,7 @@ const ProfileForm = ({ userData, isEditMode, onEditToggle, onInputChange }) => {
       <div className="form-section">
         <div className="name-fields">
           <div className="name-field">
-            <label>First Name</label>
+            <label>Full Name</label>
             {isEditMode ? (
               <input
                 type="text"
