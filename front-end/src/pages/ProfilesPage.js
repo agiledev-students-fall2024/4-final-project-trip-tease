@@ -38,7 +38,7 @@ const ProfilesPage = ({ user, setUser }) => {
   // Fetch the user data when the component mounts
   useEffect(() => {
     fetchUserData();
-  }, [fetchUserData]); // Use fetchUserData as a dependency
+  }, [fetchUserData]); // Only rerun when `fetchUserData` changes
 
   const handleEditToggle = () => {
     setIsEditMode((prevMode) => !prevMode);
