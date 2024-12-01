@@ -96,10 +96,49 @@ const deleteUser = async (req, res) => {
   res.status(501).json({ message: 'Delete user endpoint not implemented yet' });
 };
 
-// Placeholder for updateUser
+// Update user (PUT)
 const updateUser = async (req, res) => {
-  res.status(501).json({ message: 'Update user endpoint not implemented yet' });
+  const { userId } = req.params; // Extract user ID from the URL parameters
+  const { username, profileAvatar, name, email, password, bio } = req.body; // Extract fields from the request body
+
+  // Log the received data (optional for debugging)
+  console.log('Received request body for user update:', req.body);
+
+  try {
+    // Find the user by ID
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' }); // Return if user is not found
+    }
+
+    // Update the user with the new data, only if provided
+    if (username) user.username = username;
+    if (profileAvatar) user.profileAvatar = profileAvatar;
+    if (name) user.name = name;
+    if (email) user.email = email;
+    if (password) user.password = password;
+    if (bio) user.bio = bio;
+
+    // Save the updated user to the database
+    await user.save();
+
+    // Exclude the password from the response
+    const userResponse = user.toObject();
+    delete userResponse.password;
+
+    // Send back the updated user details
+    res.status(200).json({
+      message: 'User updated successfully',
+      user: userResponse,  // Send the updated user object without the password
+    });
+
+  } catch (error) {
+    console.error('Error updating user:', error);
+    res.status(500).json({ message: 'Failed to update user', error: error.message });
+  }
 };
+
 
 // Export all controller functions as a single default object
 export default {

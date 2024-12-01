@@ -7,7 +7,29 @@ import './ProfilesPage.css';
 const ProfilesPage = ({ user, setUser }) => {
   const [isEditMode, setIsEditMode] = useState(false);
 
-  
+  // Fetch the latest user data when the component mounts
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const userId = user.id; // Get the user ID from the `user` prop
+
+      try {
+        const response = await fetch(`/users/${userId}`);
+        const data = await response.json();
+
+        if (response.ok) {
+          setUser(data); // Update the global user state with the latest user data
+        } else {
+          alert(data.error || 'Error fetching user data');
+        }
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+        alert('Failed to retrieve user data');
+      }
+    };
+
+    fetchUserData();
+  }, [user.id, setUser]); // Re-run this effect whenever `user.id` changes
+
   const handleEditToggle = () => {
     setIsEditMode((prevMode) => !prevMode);
   };
