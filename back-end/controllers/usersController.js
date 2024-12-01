@@ -4,14 +4,11 @@ import jwt from 'jsonwebtoken';
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
-// Create a new user (POST)
-// In your `createUser` function (backend):
 const createUser = async (req, res) => {
   const { username, profileAvatar, name, email, password, bio } = req.body;
 
   // Log the request body to see what data is being received
   console.log('Received request body for user creation:', req.body);
-
 
   try {
     const existingUser = await User.findOne({ $or: [{ username }, { email }] });
@@ -96,6 +93,7 @@ const deleteUser = async (req, res) => {
   res.status(501).json({ message: 'Delete user endpoint not implemented yet' });
 };
 
+
 // Update user (PUT)
 const updateUser = async (req, res) => {
   const { userId } = req.params; // Extract user ID from the URL parameters
@@ -120,6 +118,8 @@ const updateUser = async (req, res) => {
     if (password) user.password = password;
     if (bio) user.bio = bio;
 
+
+
     // Save the updated user to the database
     await user.save();
 
@@ -127,11 +127,13 @@ const updateUser = async (req, res) => {
     const userResponse = user.toObject();
     delete userResponse.password;
 
+
     // Send back the updated user details
     res.status(200).json({
       message: 'User updated successfully',
       user: userResponse,  // Send the updated user object without the password
     });
+
 
   } catch (error) {
     console.error('Error updating user:', error);

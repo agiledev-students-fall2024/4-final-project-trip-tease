@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 const ProfilesPage = ({ user, setUser }) => {
+
   const [isEditMode, setIsEditMode] = useState(false);
   const navigate = useNavigate();
 
@@ -42,6 +43,7 @@ const ProfilesPage = ({ user, setUser }) => {
 
   const handleEditToggle = () => {
     setIsEditMode((prevMode) => !prevMode);
+
   };
 
   const handleInputChange = (e) => {
@@ -53,6 +55,7 @@ const ProfilesPage = ({ user, setUser }) => {
 
   const handleSaveChanges = async () => {
     const userId = user.id; // Get the user ID from the passed `user` prop
+
 
     try {
       // Send updated data to the backend
@@ -82,6 +85,7 @@ const ProfilesPage = ({ user, setUser }) => {
     } catch (error) {
       console.error('Error updating user:', error);
       alert('Failed to update user');
+
     }
   };
 
@@ -92,16 +96,18 @@ const ProfilesPage = ({ user, setUser }) => {
   return (
     <div className="profiles-page">
       <ProfileHeader
-        name={user.name || 'Traveler'} // Default to 'Traveler' if no name is set
+        name={user.name || 'Traveler'} 
         profileAvatar={user.profileAvatar}
       />
       <ProfileForm
         user={user}
+
         isEditMode={isEditMode}
         onEditToggle={handleEditToggle}
         onInputChange={handleInputChange}
         onSaveChanges={handleSaveChanges}
         onCancelEdit={handleCancelClick}
+
       />
     </div>
   );

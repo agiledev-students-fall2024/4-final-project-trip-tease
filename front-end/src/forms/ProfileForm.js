@@ -3,7 +3,9 @@ import './ProfileForm.css';
 
 const emojis = ['😀', '😎', '🌍', '🧳', '🎒', '🚴', '✈️', '🏞️', '🌄'];
 
+
 const ProfileForm = ({ user, isEditMode, onEditToggle, onInputChange, onSaveChanges, onCancelEdit }) => {
+
   return (
     <form className="profile-form">
       <div className="form-section">
@@ -17,8 +19,8 @@ const ProfileForm = ({ user, isEditMode, onEditToggle, onInputChange, onSaveChan
               onChange={onInputChange}
             />
           ) : (
+
             <p>{user.username}</p>
-          )}
         </div>
       </div>
 
@@ -26,6 +28,7 @@ const ProfileForm = ({ user, isEditMode, onEditToggle, onInputChange, onSaveChan
       <div className="form-section">
         <div className="field-group">
           <label>Profile Avatar</label>
+
           {isEditMode ? (
             <select
               name="profileAvatar"
@@ -39,8 +42,8 @@ const ProfileForm = ({ user, isEditMode, onEditToggle, onInputChange, onSaveChan
               ))}
             </select>
           ) : (
+
             <p className="selected-emoji">{user.profileAvatar}</p>
-          )}
         </div>
       </div>
 
@@ -58,6 +61,7 @@ const ProfileForm = ({ user, isEditMode, onEditToggle, onInputChange, onSaveChan
             ) : (
               <p>{user.name }</p>
             )}
+
           </div>
         </div>
       </div>
@@ -65,6 +69,7 @@ const ProfileForm = ({ user, isEditMode, onEditToggle, onInputChange, onSaveChan
       <div className="form-section">
         <div className="field-group">
           <label>Email</label>
+
           {isEditMode ? (
             <input
               type="email"
@@ -73,8 +78,8 @@ const ProfileForm = ({ user, isEditMode, onEditToggle, onInputChange, onSaveChan
               onChange={onInputChange}
             />
           ) : (
+
             <p>{user.email}</p>
-          )}
         </div>
         <div className="field-group">
           <label>Password</label>
@@ -86,8 +91,8 @@ const ProfileForm = ({ user, isEditMode, onEditToggle, onInputChange, onSaveChan
               onChange={onInputChange}
             />
           ) : (
+
             <p>********</p>
-          )}
         </div>
       </div>
 
@@ -102,13 +107,12 @@ const ProfileForm = ({ user, isEditMode, onEditToggle, onInputChange, onSaveChan
             />
           ) : (
             <p>{user.bio}</p>
-          )}
         </div>
       </div>
 
       <div className="button-group">
-      <button type="button" onClick={isEditMode ? onSaveChanges : onEditToggle} className="edit-button">
-          {isEditMode ? 'Save Changes' : 'Edit Profile'}
+      <button type="button" onClick={onEditUserData} className="edit-button">
+        {'Edit Profile'}
         </button>
         {isEditMode && (
           <button type="button" onClick={onCancelEdit} className="sign-out-button">
