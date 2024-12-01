@@ -1,33 +1,96 @@
 [
-    {
-      "id": "user_123",
-      "username": "john_doe",
-      "password": "password123",
-      "email": "john@example.com",
-      "name": "John Doe",
-      "profileAvatar": "😎",
-      "bio": "Travel enthusiast and food lover.",
-      "trips": ["trip_456", "trip_789", "trip_101"]
-    },
-    {
-      "id": "user_456",
-      "username": "jane_smith",
-      "password": "password456",
-      "email": "jane@example.com",
-      "name": "Jane Smith",
-      "profileAvatar": "🌍",
-      "bio": "Explorer and photographer.",
-      "trips": ["trip_456", "trip_101"]
-    },
-    {
-      "id": "user_789",
-      "username": "alex_wanderer",
-      "password": "password789",
-      "email": "alex@example.com",
-      "name": "Alex Wanderer",
-      "profileAvatar": "🧳",
-      "bio": "Always on the move.",
-      "trips": ["trip_789", "trip_101"]
-    }
-  ]
-  
+  {
+    "id": "user_123",
+    "username": "john_doe",
+    "password": "password123",
+    "email": "john@example.com",
+    "name": "John Doe",
+    "profileAvatar": "😎",
+    "bio": "Travel enthusiast and food lover.",
+    "trips": [
+      "trip_456",
+      "trip_789",
+      "trip_101"
+    ]
+  },
+  {
+    "id": "user_456",
+    "username": "jane_smith",
+    "password": "password456",
+    "email": "jane@example.com",
+    "name": "Jane Smith",
+    "profileAvatar": "🌍",
+    "bio": "Explorer and photographer.",
+    "trips": [
+      "trip_456",
+      "trip_101"
+    ]
+  },
+  {
+    "id": "user_789",
+    "username": "alex_wanderer",
+    "password": "password789",
+    "email": "alex@example.com",
+    "name": "Alex Wanderer",
+    "profileAvatar": "🧳",
+    "bio": "Always on the move.",
+    "trips": [
+      "trip_789",
+      "trip_101"
+    ]
+  },
+  {
+    "id": 4,
+    "username": "hawk-test17",
+    "password": "securePassword123",
+    "email": "john.doe@example.com",
+    "name": "Hawk",
+    "profileAvatar": "😎",
+    "bio": "I love traveling and coding!"
+  },
+  {
+    "id": 5,
+    "username": "hawk-test20",
+    "password": "hawk-test17",
+    "email": "hawk-test17@example.com",
+    "name": "hawk-test17",
+    "profileAvatar": "✈️",
+    "bio": "hawk-test17 bio"
+  },
+  {
+    "id": 6,
+    "username": "hawk-test21",
+    "password": "hawk-test21",
+    "email": "hawk-test21@example.com",
+    "name": "hawk-test21",
+    "profileAvatar": "✈️",
+    "bio": "hawk-test21 bio"
+  },
+  {
+    "id": 7,
+    "username": "hawk-test23",
+    "password": "hawk-test23",
+    "email": "hawk-test23@example.com",
+    "name": "hawk-test23",
+    "profileAvatar": "✈️",
+    "bio": "hawk-test23 bio"
+  },
+  {
+    "id": 8,
+    "username": "hawk-test24",
+    "password": "hawk-test24",
+    "email": "hawk-test24@example.com",
+    "name": "hawk-test24",
+    "profileAvatar": "✈️",
+    "bio": "hawk-test24"
+  },
+  {
+    "id": 9,
+    "username": "",
+    "password": "",
+    "email": "",
+    "name": "",
+    "profileAvatar": "",
+    "bio": ""
+  }
+]

@@ -16,6 +16,7 @@ We envision **TripTease** as the go-to platform for planning group trips, making
 * [Aditi Kanaujia](https://github.com/akana3866)
 * [Frederick Rohn](https://github.com/frederickrohn)
 * [Harrison Wong](https://github.com/harrisonmangitwong)
+* [Shay Butler](https://github.com/hawk-2414)
 
 ## Project History
 

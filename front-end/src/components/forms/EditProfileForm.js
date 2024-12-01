@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './SignUpForm.css';
+import './EditProfileForm.css';
 
 const SignUpForm = ({ onSubmit }) => {
   const [username, setUsername] = useState('');
@@ -23,8 +23,8 @@ const SignUpForm = ({ onSubmit }) => {
   };
 
   return (
-    <form className="signup-form" onSubmit={handleSubmit}>
-      <h2>Sign Up</h2>
+    <form className="edit-profile-form" onSubmit={handleSubmit}>
+      <h2>Edit Profile</h2>
 
       <label>
         Username:
@@ -96,4 +96,4 @@ const SignUpForm = ({ onSubmit }) => {
   );
 };
 
-export default SignUpForm;
+export default EditProfleForm;

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import LogInForm from '../components/forms/LogInForm';
 import './LogIn.css';
 
-const LogIn = ({ user, setUser, setIsLoggedIn }) => {
+const LogIn = ({ setUser, setIsLoggedIn }) => {
   const [allUsers, setAllUsers] = useState([]); // State to store all users
   const navigate = useNavigate();
 
