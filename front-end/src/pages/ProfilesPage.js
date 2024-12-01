@@ -2,12 +2,16 @@ import React, { useState, useEffect } from 'react';
 import ProfileHeader from '../components/profile/ProfileHeader';
 import ProfileForm from '../forms/ProfileForm';
 import './ProfilesPage.css';
+import { useNavigate } from 'react-router-dom';
+
 
 const ProfilesPage = ({ user, setUser }) => {
-  const [isEditMode, setIsEditMode] = useState(false);
-  
-  const handleEditToggle = () => {
-    setIsEditMode((prevMode) => !prevMode);
+  const navigate = useNavigate();  // Initialize navigate function
+  // const [isEditMode, setIsEditMode] = useState(false);
+
+  // Navigate to the Edit Profile page when the button is clicked
+  const handleEditProfileClick = () => {
+    navigate('/edit-profile'); // Redirect to Edit Profile page
   };
 
   const handleInputChange = (e) => {
@@ -35,7 +39,7 @@ const ProfilesPage = ({ user, setUser }) => {
       localStorage.setItem('user', JSON.stringify(data));
       setUser(data); // Update the global user state with the updated data
       alert('Profile updated successfully');
-      setIsEditMode(false); // Switch back to view mode
+      // setIsEditMode(false); // Switch back to view mode
     } else {
       alert(data.error || 'Error updating profile');
     }
@@ -44,15 +48,16 @@ const ProfilesPage = ({ user, setUser }) => {
   return (
     <div className="profiles-page">
       <ProfileHeader
-        name={user.name || 'Traveler'} // Default to 'Traveler' if no name is set
+        name={user.name || 'Traveler'} 
         profileAvatar={user.profileAvatar}
       />
       <ProfileForm
         user={user}
-        isEditMode={isEditMode}
-        onEditToggle={handleEditToggle}
-        onInputChange={handleInputChange}
-        onSaveChanges={handleSaveChanges}
+        onEditUserData={handleEditProfileClick}
+        // isEditMode={isEditMode}
+        // onEditToggle={handleEditToggle}
+        // onInputChange={handleInputChange}
+        // onSaveChanges={handleSaveChanges}
       />
     </div>
   );

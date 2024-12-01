@@ -12,6 +12,7 @@ import AddTrip from './pages/AddTrip';
 import JoinTrip from './pages/JoinTrip';
 import LogIn from './pages/LogIn';
 import SignUp from './pages/SignUp';
+import EditProfilePage from './pages/EditProfilePage'
 
 const App = () => {
   // Retrieve user data from localStorage safely (only if available)
@@ -64,6 +65,7 @@ const App = () => {
           <Route path="/join-trip" element={<JoinTrip />} />
           <Route path="/log-in" element={<LogIn user={user} setUser={setUser} setIsLoggedIn={setIsLoggedIn} />} />
           <Route path="/sign-up" element={<SignUp user={user} setUser={setUser} setIsLoggedIn={setIsLoggedIn} />} />
+          <Route path="/edit-profile" element={<EditProfilePage />} />
         </Routes>
       </main>
     </Router>
