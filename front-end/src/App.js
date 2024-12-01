@@ -19,7 +19,9 @@ const App = () => {
   const storedIsLoggedIn = localStorage.getItem('isLoggedIn');
 
   const [isLoggedIn, setIsLoggedIn] = useState(storedIsLoggedIn === 'true'); // Default to stored value
-  const [user, setUser] = useState(storedUser ? JSON.parse(storedUser) : null); // Default to stored user object
+  // const [user, setUser] = useState(storedUser ? JSON.parse(storedUser) : null); // Default to stored user object
+  const [user, setUser] = useState(storedUser ? JSON.parse(storedUser) : { username: '', name: '', profileAvatar: '', email: '', bio: '' });
+
 
   // Handle login persistence with localStorage
   useEffect(() => {

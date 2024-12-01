@@ -13,7 +13,7 @@ const ProfileForm = ({ user, isEditMode, onEditToggle, onInputChange, onSaveChan
             <input
               type="text"
               name="username"
-              value={user.username}
+              value={user.username || ''}  // Fallback to empty string if `user.username` is undefined
               onChange={onInputChange}
             />
           ) : (
@@ -29,7 +29,7 @@ const ProfileForm = ({ user, isEditMode, onEditToggle, onInputChange, onSaveChan
           {isEditMode ? (
             <select
               name="profileAvatar"
-              value={user.profileAvatar}
+              value={user.profileAvatar || '🤩'}  
               onChange={onInputChange}
             >
               {emojis.map((emoji) => (
@@ -52,11 +52,11 @@ const ProfileForm = ({ user, isEditMode, onEditToggle, onInputChange, onSaveChan
               <input
                 type="text"
                 name="fullName"
-                value={user.name}
+                value={user.name || 'Traveler'} 
                 onChange={onInputChange}
               />
             ) : (
-              <p>{user.name || 'Traveler'}</p> // Default to 'Traveler' if no name is set
+              <p>{user.name }</p>
             )}
           </div>
         </div>
@@ -69,7 +69,7 @@ const ProfileForm = ({ user, isEditMode, onEditToggle, onInputChange, onSaveChan
             <input
               type="email"
               name="email"
-              value={user.email}
+              value={user.email || ''}  
               onChange={onInputChange}
             />
           ) : (
@@ -82,7 +82,7 @@ const ProfileForm = ({ user, isEditMode, onEditToggle, onInputChange, onSaveChan
             <input
               type="password"
               name="password"
-              value={user.password}
+              value={user.password || ''} 
               onChange={onInputChange}
             />
           ) : (
@@ -97,7 +97,7 @@ const ProfileForm = ({ user, isEditMode, onEditToggle, onInputChange, onSaveChan
           {isEditMode ? (
             <textarea
               name="bio"
-              value={user.bio}
+              value={user.bio || ''} 
               onChange={onInputChange}
             />
           ) : (
