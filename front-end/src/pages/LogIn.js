@@ -27,11 +27,9 @@ const LogIn = ({ setUser, setIsLoggedIn }) => {
   const handleSubmit = (credentials) => {
     console.log('Logging in with credentials:', credentials);
     
-    // Check if the user exists and credentials are correct
-    const foundUser = allUsers.find(user => user.username === credentials.username && user.password === credentials.password);
-  
     // Ensure allUsers is defined and not empty
     if (allUsers && allUsers.length > 0) {
+      // Check if the user exists and credentials are correct
       const foundUser = allUsers.find(user => user.username === credentials.username && user.password === credentials.password);
   
       if (foundUser) {

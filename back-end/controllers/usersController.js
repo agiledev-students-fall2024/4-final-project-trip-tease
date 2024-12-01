@@ -93,31 +93,32 @@ const deleteUser = async (req, res) => {
   res.status(501).json({ message: 'Delete user endpoint not implemented yet' });
 };
 
-// Update user details (PUT) - Allows a user to update their profile
+
+// Update user (PUT)
 const updateUser = async (req, res) => {
-  const { userId } = req.params;  // Get userId from the request parameters
-  const { username, profileAvatar, name, email, bio } = req.body;  // Extract the fields from the request body
+  const { userId } = req.params; // Extract user ID from the URL parameters
+  const { username, profileAvatar, name, email, password, bio } = req.body; // Extract fields from the request body
+
+  // Log the received data (optional for debugging)
+  console.log('Received request body for user update:', req.body);
 
   try {
-    // Find the user to be updated
+    // Find the user by ID
     const user = await User.findById(userId);
 
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ message: 'User not found' }); // Return if user is not found
     }
 
-    // Check if email or username is already taken by another user (excluding the current user)
-    const existingUser = await User.findOne({ $or: [{ username }, { email }] });
-    if (existingUser && existingUser._id.toString() !== userId) {
-      return res.status(400).json({ message: 'Username or email is already taken by another user' });
-    }
+    // Update the user with the new data, only if provided
+    if (username) user.username = username;
+    if (profileAvatar) user.profileAvatar = profileAvatar;
+    if (name) user.name = name;
+    if (email) user.email = email;
+    if (password) user.password = password;
+    if (bio) user.bio = bio;
 
-    // Update the user fields with the new data
-    user.username = username || user.username;
-    user.profileAvatar = profileAvatar || user.profileAvatar;
-    user.name = name || user.name;
-    user.email = email || user.email;
-    user.bio = bio || user.bio;
+
 
     // Save the updated user to the database
     await user.save();
@@ -126,10 +127,14 @@ const updateUser = async (req, res) => {
     const userResponse = user.toObject();
     delete userResponse.password;
 
+
+    // Send back the updated user details
     res.status(200).json({
       message: 'User updated successfully',
-      user: userResponse,  // Return the updated user details (excluding the password)
+      user: userResponse,  // Send the updated user object without the password
     });
+
+
   } catch (error) {
     console.error('Error updating user:', error);
     res.status(500).json({ message: 'Failed to update user', error: error.message });
