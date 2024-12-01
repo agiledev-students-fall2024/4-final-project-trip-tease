@@ -4,18 +4,9 @@ import SignUpForm from '../components/forms/SignUpForm'; // Assuming you have a 
 import axios from 'axios';  // Import axios for making HTTP requests
 import './SignUp.css';
 
-const SignUp = (setUser, setIsLoggedIn, isLoggedIn) => {
+const SignUp = ({ setUser, setIsLoggedIn, isLoggedIn }) => { // Destructure props correctly
   const navigate = useNavigate();
   const [error, setError] = useState(null); // For error handling
-
-  const [userData, setUserData] = useState({
-    username: '',
-    profileAvatar: '',
-    name: '',
-    email: '',
-    password: "",
-    bio: "",
-  });
 
   const handleFormSubmit = async (userData) => {
     console.log('Signing up with data:', userData); // Log the data to confirm what is being sent

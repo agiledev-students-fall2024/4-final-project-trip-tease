@@ -1,7 +1,6 @@
 import User from '../models/User.js'; // User model
 import Trip from '../models/Trip.js'; // Trip model
 import jwt from 'jsonwebtoken';
-import bcrypt from 'bcryptjs';
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
@@ -20,14 +19,12 @@ const createUser = async (req, res) => {
       return res.status(400).json({ message: 'User already exists' });
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
-
     const newUser = new User({
       username,
       profileAvatar,
       name,
       email,
-      password: hashedPassword,
+      password,
       bio,
     });
 
@@ -97,6 +94,11 @@ const getUserTrips = async (req, res) => {
 
 const deleteUser = async (req, res) => {
   res.status(501).json({ message: 'Delete user endpoint not implemented yet' });
+};
+
+// Placeholder for updateUser
+const updateUser = async (req, res) => {
+  res.status(501).json({ message: 'Update user endpoint not implemented yet' });
 };
 
 // Export all controller functions as a single default object
