@@ -3,7 +3,7 @@ import './ProfileForm.css';
 
 const emojis = ['😀', '😎', '🌍', '🧳', '🎒', '🚴', '✈️', '🏞️', '🌄'];
 
-const ProfileForm = ({ user, isEditMode, onEditToggle, onInputChange, onSaveChanges }) => {
+const ProfileForm = ({ user, isEditMode, onEditToggle, onInputChange, onSaveChanges, onCancelEdit }) => {
   return (
     <form className="profile-form">
       <div className="form-section">
@@ -111,8 +111,8 @@ const ProfileForm = ({ user, isEditMode, onEditToggle, onInputChange, onSaveChan
           {isEditMode ? 'Save Changes' : 'Edit Profile'}
         </button>
         {isEditMode && (
-          <button type="button" className="sign-out-button">
-            Sign Out
+          <button type="button" onClick={onCancelEdit} className="sign-out-button">
+            Cancel
           </button>
         )}
       </div>

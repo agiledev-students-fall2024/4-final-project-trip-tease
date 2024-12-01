@@ -3,8 +3,10 @@ import ProfileHeader from '../components/profile/ProfileHeader';
 import ProfileForm from '../forms/ProfileForm';
 import './ProfilesPage.css';
 
+
 const ProfilesPage = ({ user, setUser }) => {
   const [isEditMode, setIsEditMode] = useState(false);
+
   
   const handleEditToggle = () => {
     setIsEditMode((prevMode) => !prevMode);
@@ -41,6 +43,10 @@ const ProfilesPage = ({ user, setUser }) => {
     }
   };
 
+  const handleCancelClick = () => {
+    setIsEditMode(false);
+  };
+
   return (
     <div className="profiles-page">
       <ProfileHeader
@@ -53,6 +59,7 @@ const ProfilesPage = ({ user, setUser }) => {
         onEditToggle={handleEditToggle}
         onInputChange={handleInputChange}
         onSaveChanges={handleSaveChanges}
+        onCancelEdit={handleCancelClick}
       />
     </div>
   );
