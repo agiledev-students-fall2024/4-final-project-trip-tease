@@ -57,7 +57,7 @@ const ProfileForm = ({ user, isEditMode, onEditToggle, onInputChange, onSaveChan
               onChange={onInputChange}
             />
           ) : (
-            <p>{user.fullName}</p>
+            <p>{user.name}</p>
           )}
         </div>
       </div>
