@@ -122,12 +122,60 @@ const downvoteActivity = async (req, res) => {
 };
 
 const addCommentToActivity = async (req, res) => {
-  res.status(501).json({ message: 'Add comment endpoint not implemented yet' });
+  const { activityId } = req.params;
+  const { userId, commentString } = req.body;
+
+  if (!userId || !commentString) {
+    return res.status(400).json({ error: 'Missing required comment fields' });
+  }
+
+  try {
+    const activity = await Activity.findById(activityId);
+    if (!activity) {
+      return res.status(404).json({ error: 'Activity not found' });
+    }
+
+    // Add the comment
+    const comment = {
+      userId,
+      commentString
+    };
+    activity.comments.push(comment);
+
+    await activity.save();
+    res.status(201).json({ message: 'Comment added successfully', activity });
+  } catch (error) {
+    console.error('Error adding comment:', error);
+    res.status(500).json({ error: 'Failed to add comment' });
+  }
 };
 
+
 const deleteCommentFromActivity = async (req, res) => {
-  res.status(501).json({ message: 'Delete comment endpoint not implemented yet' });
+  const { activityId, commentId } = req.params;
+
+  try {
+    const activity = await Activity.findById(activityId);
+    if (!activity) {
+      return res.status(404).json({ error: 'Activity not found' });
+    }
+
+    // Find the comment to remove
+    const commentIndex = activity.comments.findIndex(comment => comment._id.toString() === commentId);
+    if (commentIndex === -1) {
+      return res.status(404).json({ error: 'Comment not found' });
+    }
+
+    // Remove the comment
+    activity.comments.splice(commentIndex, 1);
+    await activity.save();
+    res.status(200).json({ message: 'Comment deleted successfully', activity });
+  } catch (error) {
+    console.error('Error deleting comment:', error);
+    res.status(500).json({ error: 'Failed to delete comment' });
+  }
 };
+
 
 // Export all controller functions as a single default object
 export default {

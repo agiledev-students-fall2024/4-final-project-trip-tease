@@ -94,44 +94,16 @@ router.post('/:activityId/upvote', activitiesController.upvoteActivity);
 router.post('/:activityId/downvote', activitiesController.downvoteActivity);
 
 // Add a comment to an activity (POST) - Add a new comment to the activity and respond with the created comment data
-router.post('/:activityId/comments', (req, res) => {
-  const activityId = req.params.activityId;
-  const activity = activities.find(a => a.id === activityId);
 
-  if (activity) {
-    const newComment = {
-      id: `comment_${Date.now()}`,
-      userId: req.body.userId,
-      commentString: req.body.commentString
-    };
-    activity.comments.push(newComment);
-    saveActivitiesToFile();
-    res.status(201).json(newComment);
-  } else {
-    res.status(404).json({ error: 'Activity not found' });
-  }
-});
+router.post('/:activityId/comments', activitiesController.addCommentToActivity);
+
 
 //I removed update bc it seem redundant and not needed for now we can implement later if wanted
+//we should add an update or delete later on TODO:
+
 
 // Delete a comment (DELETE) - Remove the specified comment and respond with a confirmation message
-router.delete('/:activityId/comments/:commentId', (req, res) => {
-  const activityId = req.params.activityId;
-  const commentId = req.params.commentId;
-  const activity = activities.find(a => a.id === activityId);
 
-  if (activity) {
-    const commentIndex = activity.comments.findIndex(c => c.id === commentId);
-    if (commentIndex !== -1) {
-      activity.comments.splice(commentIndex, 1);
-      saveActivitiesToFile();
-      res.json({ message: 'Comment deleted successfully' });
-    } else {
-      res.status(404).json({ error: 'Comment not found' });
-    }
-  } else {
-    res.status(404).json({ error: 'Activity not found' });
-  }
-});
+router.delete('/:activityId/comments/:commentId', activitiesController.deleteCommentFromActivity);
 
 export default router;
