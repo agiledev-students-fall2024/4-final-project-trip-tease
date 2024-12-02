@@ -3,48 +3,40 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import './ActivityCard.css';
 
-const ActivityCard = ({ id, title, votes, description, price, comments, imageUrl, isCompleted, onUpvote, onDownvote }) => {
+const ActivityCard = ({ id, title, votes, description, price, comments, imageUrl, isCompleted, onUpvote, onDownvote, onAddComment }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [newComment, setNewComment] = useState('');
   const [commentList, setCommentList] = useState([]);
 
-  // Set initial comment list when component mounts or comments prop changes
   useEffect(() => {
     setCommentList(comments || []);
   }, [comments]);
 
-  // Toggle the visibility of the activity details
   const toggleDetails = () => {
-    setIsExpanded(prev => !prev);
+    setIsExpanded((prev) => !prev);
   };
 
-  // Add a new comment to the activity
   const addComment = () => {
-    if (newComment.trim()) {
-      axios.post(`/activities/${id}/comments`, { userId: '5f7769e2e99a2a4b3c456abc', commentString: newComment })
-        .then(response => {
-          // Add the new comment to the comment list if the response is valid
-          if (response.data && response.data.comment) {
-            setCommentList(prevComments => [...prevComments, response.data.comment]);
-          } else {
-            console.error('Unexpected response format:', response.data);
-          }
-          setNewComment(''); // Clear the input after submitting
-        })
-        .catch(error => {
-          console.error('Error adding comment:', error);
-        });
-    }
-  };
+    const tempComment = { userId: '5f7769e2e99a2a4b3c456abc', commentString: newComment, id: Date.now() }; // temporary id until auth is done TODO:
+    setCommentList(prev => [...prev, tempComment]); 
 
-  // Delete a comment from the activity
+    axios.post(`/activities/${id}/comments`, { userId: '5f7769e2e99a2a4b3c456abc', commentString: newComment })
+    .then(response => {
+        setCommentList(response.data.comments); 
+    })
+    .catch(error => {
+        console.error('Error adding comment:', error);
+        setCommentList(prev => prev.filter(comment => comment.id !== tempComment.id)); 
+    });
+};
+ 
+
   const deleteComment = (commentId) => {
     axios.delete(`/activities/${id}/comments/${commentId}`)
       .then(() => {
-        // Filter out the deleted comment from the comment list
-        setCommentList(prevComments => prevComments.filter(comment => comment.id !== commentId));
+        setCommentList((prevComments) => prevComments.filter((comment) => comment.id !== commentId));
       })
-      .catch(error => {
+      .catch((error) => {
         console.error('Error deleting comment:', error);
       });
   };
@@ -82,14 +74,12 @@ const ActivityCard = ({ id, title, votes, description, price, comments, imageUrl
             />
             <button onClick={addComment}>Add Comment</button>
             <div className="comments-list">
-              {commentList.map((comment, index) => {
-                return comment && comment.id && comment.commentString ? (
-                  <p key={comment.id}>
-                    {comment.commentString}
-                    <button onClick={() => deleteComment(comment.id)}>Delete</button>
-                  </p>
-                ) : null;
-              })}
+              {commentList.map((comment) => (
+                <p key={comment.id}>
+                  {comment.commentString}
+                  <button onClick={() => deleteComment(comment.id)}>Delete</button>
+                </p>
+              ))}
             </div>
           </div>
         </div>
@@ -104,14 +94,17 @@ ActivityCard.propTypes = {
   votes: PropTypes.number.isRequired,
   description: PropTypes.string,
   price: PropTypes.string,
-  comments: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    commentString: PropTypes.string.isRequired
-  })),
+  comments: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      commentString: PropTypes.string.isRequired,
+    })
+  ),
   imageUrl: PropTypes.string,
   isCompleted: PropTypes.bool,
   onUpvote: PropTypes.func.isRequired,
   onDownvote: PropTypes.func.isRequired,
+  onAddComment: PropTypes.func.isRequired,
 };
 
 export default ActivityCard;

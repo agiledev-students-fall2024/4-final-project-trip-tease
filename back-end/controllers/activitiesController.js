@@ -52,6 +52,7 @@ const createActivity = async (req, res) => {
       price,
       description: '',
       createdBy: '64b1c7c8f2a5b9a2d5c8f001',
+      //TODO: change createdBy once auth implemented
       // just took a random userId i found in the database tbh, lol, i've no idea which user this actually is hahaha
       //maybe we set this through auth?
       type: 'activities', //this also shouldn't be directly set to activities, but we haven't set this in the form
@@ -109,8 +110,8 @@ const downvoteActivity = async (req, res) => {
     }
 
     if (activity.votes > 0) {
-      activity.votes -= 1; // Decrement votes
-      await activity.save(); // Save changes to the database
+      activity.votes -= 1; 
+      await activity.save(); 
       return res.status(200).json({ message: 'Activity downvoted successfully', votes: activity.votes });
     } else {
       return res.status(400).json({ message: 'Votes cannot go below 0', votes: activity.votes });
@@ -121,34 +122,35 @@ const downvoteActivity = async (req, res) => {
   }
 };
 
+//TODO: show profile picture and name of comment once auth implemented
 const addCommentToActivity = async (req, res) => {
   const { activityId } = req.params;
   const { userId, commentString } = req.body;
 
   if (!userId || !commentString) {
-    return res.status(400).json({ error: 'Missing required comment fields' });
+      return res.status(400).json({ error: 'Missing required comment fields' });
   }
 
   try {
-    const activity = await Activity.findById(activityId);
-    if (!activity) {
-      return res.status(404).json({ error: 'Activity not found' });
-    }
+      const activity = await Activity.findById(activityId);
+      if (!activity) {
+          return res.status(404).json({ error: 'Activity not found' });
+      }
 
-    // Add the comment
-    const comment = {
-      userId,
-      commentString
-    };
-    activity.comments.push(comment);
+      const comment = {
+          userId,
+          commentString
+      };
+      activity.comments.push(comment);
 
-    await activity.save();
-    res.status(201).json({ message: 'Comment added successfully', activity });
+      await activity.save();
+      res.status(201).json({ message: 'Comment added successfully', comments: activity.comments });
   } catch (error) {
-    console.error('Error adding comment:', error);
-    res.status(500).json({ error: 'Failed to add comment' });
+      console.error('Error adding comment:', error);
+      res.status(500).json({ error: 'Failed to add comment' });
   }
 };
+
 
 
 const deleteCommentFromActivity = async (req, res) => {
@@ -160,13 +162,11 @@ const deleteCommentFromActivity = async (req, res) => {
       return res.status(404).json({ error: 'Activity not found' });
     }
 
-    // Find the comment to remove
     const commentIndex = activity.comments.findIndex(comment => comment._id.toString() === commentId);
     if (commentIndex === -1) {
       return res.status(404).json({ error: 'Comment not found' });
     }
 
-    // Remove the comment
     activity.comments.splice(commentIndex, 1);
     await activity.save();
     res.status(200).json({ message: 'Comment deleted successfully', activity });

@@ -1,4 +1,3 @@
-// ActivitiesPage.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import GroupTripPictureCard from '../components/activities/GroupTripPictureCard';
@@ -16,10 +15,9 @@ const ActivitiesPage = () => {
     axios.get(`/locations/${locationId}`)
       .then((locationResponse) => {
         setLocationName(locationResponse.data.name);
-        return axios.get(`/locations/activities/${locationId}`); //changed this to use fred's, not harrison's
+        return axios.get(`/locations/activities/${locationId}`);
       })
       .then((activitiesResponse) => {
-     
         const sortedActivities = activitiesResponse.data.sort((a, b) => b.votes - a.votes);
         setActivities(sortedActivities);
       })
@@ -36,7 +34,7 @@ const ActivitiesPage = () => {
           const updatedActivities = prevActivities.map((activity) =>
             activity.id === activityId ? { ...activity, votes: response.data.votes } : activity
           );
-          return updatedActivities.sort((a, b) => b.votes - a.votes); 
+          return updatedActivities.sort((a, b) => b.votes - a.votes);
         });
       })
       .catch((error) => {
@@ -51,12 +49,22 @@ const ActivitiesPage = () => {
           const updatedActivities = prevActivities.map((activity) =>
             activity.id === activityId ? { ...activity, votes: response.data.votes } : activity
           );
-          return updatedActivities.sort((a, b) => b.votes - a.votes); 
+          return updatedActivities.sort((a, b) => b.votes - a.votes);
         });
       })
       .catch((error) => {
         console.error('Error downvoting activity:', error);
       });
+  };
+
+  const handleAddComment = (activityId, newComment) => {
+    setActivities((prevActivities) =>
+      prevActivities.map((activity) =>
+        activity.id === activityId
+          ? { ...activity, comments: [...activity.comments, newComment] }
+          : activity
+      )
+    );
   };
 
   return (
@@ -77,18 +85,19 @@ const ActivitiesPage = () => {
       ) : (
         <div className="activity-list">
           {activities.map((activity) => (
-              <ActivityCard
+            <ActivityCard
               key={activity.id}
               id={activity.id}
               title={activity.name}
               votes={activity.votes}
               description={activity.description}
               price={activity.price ? `$${activity.price}` : 'Free'}
-              comments={activity.comments} 
+              comments={activity.comments || []} 
               imageUrl={activity.image}
               isCompleted={activity.isCompleted}
               onUpvote={() => handleUpvote(activity.id)}
               onDownvote={() => handleDownvote(activity.id)}
+              onAddComment={handleAddComment} 
             />
           ))}
         </div>
