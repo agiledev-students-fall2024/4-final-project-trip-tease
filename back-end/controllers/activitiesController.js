@@ -52,6 +52,7 @@ const createActivity = async (req, res) => {
       price,
       description: '',
       createdBy: '64b1c7c8f2a5b9a2d5c8f001',
+      //TODO: change createdBy once auth implemented
       // just took a random userId i found in the database tbh, lol, i've no idea which user this actually is hahaha
       //maybe we set this through auth?
       type: 'activities', //this also shouldn't be directly set to activities, but we haven't set this in the form
@@ -109,8 +110,8 @@ const downvoteActivity = async (req, res) => {
     }
 
     if (activity.votes > 0) {
-      activity.votes -= 1; // Decrement votes
-      await activity.save(); // Save changes to the database
+      activity.votes -= 1; 
+      await activity.save(); 
       return res.status(200).json({ message: 'Activity downvoted successfully', votes: activity.votes });
     } else {
       return res.status(400).json({ message: 'Votes cannot go below 0', votes: activity.votes });
@@ -121,13 +122,60 @@ const downvoteActivity = async (req, res) => {
   }
 };
 
+//TODO: show profile picture and name of comment once auth implemented
 const addCommentToActivity = async (req, res) => {
-  res.status(501).json({ message: 'Add comment endpoint not implemented yet' });
+  const { activityId } = req.params;
+  const { userId, commentString } = req.body;
+
+  if (!userId || !commentString) {
+      return res.status(400).json({ error: 'Missing required comment fields' });
+  }
+
+  try {
+      const activity = await Activity.findById(activityId);
+      if (!activity) {
+          return res.status(404).json({ error: 'Activity not found' });
+      }
+
+      const comment = {
+          userId,
+          commentString
+      };
+      activity.comments.push(comment);
+
+      await activity.save();
+      res.status(201).json({ message: 'Comment added successfully', comments: activity.comments });
+  } catch (error) {
+      console.error('Error adding comment:', error);
+      res.status(500).json({ error: 'Failed to add comment' });
+  }
 };
 
+
+//TODO: only allows to delete own comment and not others
 const deleteCommentFromActivity = async (req, res) => {
-  res.status(501).json({ message: 'Delete comment endpoint not implemented yet' });
+  const { activityId, commentId } = req.params;
+
+  try {
+    const activity = await Activity.findById(activityId);
+    if (!activity) {
+      return res.status(404).json({ error: 'Activity not found' });
+    }
+
+    const commentIndex = activity.comments.findIndex(comment => comment._id.toString() === commentId);
+    if (commentIndex === -1) {
+      return res.status(404).json({ error: 'Comment not found' });
+    }
+
+    activity.comments.splice(commentIndex, 1);
+    await activity.save();
+    res.status(200).json({ message: 'Comment deleted successfully', activity });
+  } catch (error) {
+    console.error('Error deleting comment:', error);
+    res.status(500).json({ error: 'Failed to delete comment' });
+  }
 };
+
 
 // Export all controller functions as a single default object
 export default {
