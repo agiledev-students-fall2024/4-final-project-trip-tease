@@ -152,7 +152,7 @@ const addCommentToActivity = async (req, res) => {
 };
 
 
-
+//TODO: only allows to delete own comment and not others
 const deleteCommentFromActivity = async (req, res) => {
   const { activityId, commentId } = req.params;
 
