@@ -1,27 +1,22 @@
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { createLocation } from '../api/apiUtils';
 import AddLocationForm from '../components/forms/AddLocationForm';
 import './AddLocationPage.css';
 
-const AddLocation = () => {
+const AddLocationPage = () => {
   const { tripId } = useParams();
   const navigate = useNavigate();
 
-  const handleFormSubmit = async (location) => {
-    try {
-      await createLocation({ ...location, tripId });
-      navigate(-1);
-    } catch (error) {
-      console.error('Error adding location:', error);
-    }
+  const handleLocationCreated = () => {
+    navigate(-1); // Navigate back after successfully creating the location
   };
 
   return (
     <div className="add-location-page">
-      <AddLocationForm onSubmit={handleFormSubmit} />
+      <h1>Add New Location</h1>
+      <AddLocationForm tripId={tripId} onLocationCreated={handleLocationCreated} />
     </div>
   );
 };
 
-export default AddLocation;
+export default AddLocationPage;

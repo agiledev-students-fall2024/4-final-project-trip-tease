@@ -31,8 +31,12 @@ const ActivitiesList = ({ locationId, selectedType }) => {
     <div className="activities-list">
       {error ? (
         <p className="error-message">{error}</p>
+      ) : activities.length === 0 ? (
+        <p className="no-activities-message">No activities created yet. Feel free to add one!</p>
       ) : filteredActivities.length === 0 ? (
-        <p className="no-activities-message">No activities of this type available. Try another filter or add one!</p>
+        <p className="no-activities-message">
+          No activities of this type available. Try another filter or add one!
+        </p>
       ) : (
         filteredActivities.map((activity) => (
           <ActivityCard

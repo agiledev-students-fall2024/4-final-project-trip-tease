@@ -74,41 +74,55 @@ export const getLocationActivities = async (req, res) => {
 }
 
 export const addLocation = async (req, res) => {
-    console.log('location trying to get added!');
-    try{
-
-        //TODO (but not necessary): add a trip validation to make error handling more graceful
-
+    console.log('Attempting to add location...');
+    try {
         const { name, address, tripId } = req.body;
 
-        const newLoc = new Location({ 
-            //all other fields will use their default values as defined in the schema
-            //namely, the activities array will be set to [] because it is set as an array type in the schema
+        // Validate input fields
+        if (!name || !tripId) {
+            return res.status(400).json({ error: 'Name and tripId are required fields.' });
+        }
+
+        // Check if the trip exists
+        const trip = await Trip.findById(tripId);
+        if (!trip) {
+            return res.status(404).json({ error: 'Trip not found. Cannot add location to a non-existent trip.' });
+        }
+
+        // Create a new location
+        const newLocation = new Location({
             name,
             address,
-            tripId
+            tripId, // Link the location to the trip
         });
 
-        const savedNewLoc = await newLoc.save(); //saves the location into the database
-        console.log(savedNewLoc); //prints it, just for debugging
+        // Save the location to the database
+        const savedLocation = await newLocation.save();
+        console.log('New location saved:', savedLocation);
 
+        // Update the trip with the new location ID
         const updatedTrip = await Trip.findByIdAndUpdate(
-            tripId, //pass in the tripId
-            { $push: { locations: savedNewLoc._id } }, //adds the id to the trip's locations array
-            { new: true } //returns the new trip
+            tripId,
+            { $push: { locations: savedLocation._id } }, // Add the location ID to the trip's locations array
+            { new: true } // Return the updated trip
         );
 
-        res.status(201).json({
-            message: 'saved location and added to trip :)',
-            updatedTrip: updatedTrip,
-            newLoc: savedNewLoc
-        });
+        if (!updatedTrip) {
+            return res.status(404).json({ error: 'Failed to update trip with new location.' });
+        }
 
-    }catch(error){
-        console.error('error creating location :( ->', error);
-        res.status(500).json({ error: 'failed to create a new location & add to trip...' });
-    };
+        // Respond with success
+        res.status(201).json({
+            message: 'Location successfully created and added to trip.',
+            newLocation,
+            updatedTrip,
+        });
+    } catch (error) {
+        console.error('Error adding location:', error.message);
+        res.status(500).json({ error: 'Failed to create location and update trip.' });
+    }
 };
+
 
 export default {
     getLocation,

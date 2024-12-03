@@ -22,8 +22,10 @@ const getActivitiesByLocation = async (req, res) => {
 
     // Fetch activities for the specified location
     const activities = await Activity.find({ locationId }).lean();
+
     if (activities.length === 0) {
-      return res.status(404).json({ error: 'No activities found for this location' });
+      // Return an empty array if no activities are found
+      return res.status(200).json([]);
     }
 
     // Collect unique user IDs from activities and comments
@@ -40,7 +42,7 @@ const getActivitiesByLocation = async (req, res) => {
     const userMap = users.reduce((acc, user, index) => {
       acc[user._id] = {
         username: user.username,
-        avatar: user.profileAvatar|| emojiMap[index % emojiMap.length], // Assign emoji if no avatar
+        avatar: user.profileAvatar || emojiMap[index % emojiMap.length], // Assign emoji if no avatar
       };
       return acc;
     }, {});
@@ -64,6 +66,7 @@ const getActivitiesByLocation = async (req, res) => {
     res.status(500).json({ error: 'Failed to retrieve activities for this location' });
   }
 };
+
 
 
 
