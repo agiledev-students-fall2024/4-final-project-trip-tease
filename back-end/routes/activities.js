@@ -106,4 +106,6 @@ router.post('/:activityId/comments', activitiesController.addCommentToActivity);
 
 router.delete('/:activityId/comments/:commentId', activitiesController.deleteCommentFromActivity);
 
+router.put('/:activityId/toggle-completion', activitiesController.toggleActivityCompletion);
+
 export default router;
