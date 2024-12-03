@@ -1,7 +1,7 @@
 import express from 'express';
 import tripsController from '../controllers/tripsController.js';
 import { ensureAuthenticated } from '../config/jwt-config.js'; // Middleware for authentication
-
+import { validateGetTripById, validateGetTripLocations } from '../validators/tripsValidators.js'; //import the validators
 import fs from 'fs';
 
 const router = express.Router();
@@ -13,10 +13,12 @@ const router = express.Router();
 router.get('/', ensureAuthenticated, tripsController.getAllTrips);
 
 // Get a specific trip by ID (GET) - Retrieve details for the specified trip, including associated locations and participants
-router.get('/:tripId', ensureAuthenticated, tripsController.getTripById);
+router.get('/:tripId', ensureAuthenticated, validateGetTripById, tripsController.getTripById);
+//note: here is the example validator call
+//note: ensure authenticated ALWAYS GOES FIRST
 
 // Get Trip info (locations) for a specific trip by tripId
-router.get('/:tripId/locations', ensureAuthenticated, tripsController.getTripLocations);
+router.get('/:tripId/locations', ensureAuthenticated, validateGetTripLocations, tripsController.getTripLocations);
 
 // Create a new trip (POST) - Add a new trip to the system and respond with the newly created trip data
 router.post('/', ensureAuthenticated, tripsController.createTrip);
