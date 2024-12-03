@@ -1,0 +1,110 @@
+.profile-form-container {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  margin-top: 1rem;
+}
+
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  font-size: 1rem;
+  font-weight: bold;
+  text-align: left;
+  color: #444;
+  margin-bottom: 0.5rem;
+}
+
+input,
+textarea {
+  padding: 0.8rem;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  transition: border-color 0.3s ease;
+}
+
+input:focus,
+textarea:focus {
+  border-color: #ff385c;
+  outline: none;
+  box-shadow: 0 0 5px rgba(255, 56, 92, 0.3);
+}
+
+textarea {
+  resize: vertical;
+}
+
+.avatar-grid {
+  display: flex;
+  gap: 10px;
+}
+
+.avatar-button {
+  width: 50px;
+  height: 50px;
+  font-size: 1.5rem;
+  background: #f9f9f9;
+  border: 2px solid transparent;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.2s, border-color 0.2s;
+}
+
+.avatar-button.selected {
+  border-color: #ff385c;
+  background: #ffe6eb;
+}
+
+.avatar-button:hover {
+  transform: scale(1.1);
+}
+
+.button-group {
+  display: flex;
+  justify-content: space-between;
+}
+
+.save-button {
+  background: #ff385c;
+  color: white;
+  padding: 1rem 2rem; /* Increased padding for a larger button */
+  border: none;
+  border-radius: 50px;
+  font-size: 1.2rem; /* Increased font size */
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.save-button:hover {
+  background: #e0304b;
+}
+
+.cancel-button {
+  background: #ddd;
+  color: #333;
+  padding: 1rem 2rem; /* Increased padding for a larger button */
+  border: none;
+  border-radius: 50px;
+  font-size: 1.2rem; /* Increased font size */
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.cancel-button:hover {
+  background: #bbb;
+}

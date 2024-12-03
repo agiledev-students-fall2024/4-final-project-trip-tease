@@ -1,0 +1,36 @@
+.trip-members-list {
+  margin: 1.5rem 0;
+  padding: 1rem;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+}
+
+.trip-members-list h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: #333;
+  text-align: center;
+}
+
+.trip-members-list ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.trip-members-list li {
+  font-size: 1rem;
+  color: #555;
+  padding: 0.5rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.member-avatar {
+  margin-right: 0.5rem;
+  font-size: 1.5rem;
+  color: #FF385C;
+}

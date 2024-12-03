@@ -1,0 +1,44 @@
+.profile-header {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.profile-picture {
+  width: 100px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffe6eb;
+  border-radius: 50%;
+  margin: 0 auto 1rem;
+  font-size: 3rem;
+  box-shadow: 0 4px 12px rgba(233, 30, 99, 0.2);
+  animation: bounceIn 0.5s ease-in-out;
+}
+
+.profile-welcome {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.profile-settings-title {
+  font-size: 1rem;
+  color: #777;
+}
+
+@keyframes bounceIn {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
+}

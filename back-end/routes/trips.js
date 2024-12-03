@@ -1,5 +1,7 @@
 import express from 'express';
 import tripsController from '../controllers/tripsController.js';
+import { ensureAuthenticated } from '../config/jwt-config.js'; // Middleware for authentication
+
 import fs from 'fs';
 
 const router = express.Router();
@@ -8,22 +10,22 @@ const router = express.Router();
 // const users = JSON.parse(fs.readFileSync('./mock-data/users.json', 'utf-8'));
 
 // Get all trips (GET) - Retrieve and respond with a list of all trips in the system
-router.get('/', tripsController.getAllTrips);
+router.get('/', ensureAuthenticated, tripsController.getAllTrips);
 
 // Get a specific trip by ID (GET) - Retrieve details for the specified trip, including associated locations and participants
-router.get('/:tripId', tripsController.getTripById);
+router.get('/:tripId', ensureAuthenticated, tripsController.getTripById);
 
 // Get Trip info (locations) for a specific trip by tripId
-router.get('/:tripId/locations', tripsController.getTripLocations);
+router.get('/:tripId/locations', ensureAuthenticated, tripsController.getTripLocations);
 
 // Create a new trip (POST) - Add a new trip to the system and respond with the newly created trip data
-router.post('/', tripsController.createTrip);
+router.post('/', ensureAuthenticated, tripsController.createTrip);
 
 // Join a Trip (POST) - Check if trip exists and add to user's and trip's data if valid
-router.post('/:tripId/join', tripsController.joinTrip);
+router.post('/:tripId/join', ensureAuthenticated, tripsController.joinTrip);
 
 // Update trip status by Trip ID (PUT) - Modify the status of a trip (e.g., upcoming, ongoing, completed)
-router.put('/:tripId/status', tripsController.updateTripStatus);
+router.put('/:tripId/status', ensureAuthenticated, tripsController.updateTripStatus);
 
 //Stretch Goal Routes
 // TODO: Update trip information (PUT) - Modify trip data and respond with the updated information

@@ -1,15 +1,22 @@
 import React, { useState } from 'react';
+import { createLocation } from '../../api/apiUtils';
 import './AddLocationForm.css';
 
-const AddLocationForm = ({ onSubmit }) => {
+const AddLocationForm = ({ tripId, onLocationCreated }) => {
   const [name, setName] = useState('');
   const [address, setAddress] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onSubmit({ name, address }); // call parent’s submit function (passed in as a prop)
-    setName(''); // clear the inputs
-    setAddress(''); 
+    try {
+      const locationData = { name, address, tripId };
+      const newLocation = await createLocation(locationData);
+      onLocationCreated(newLocation); // Callback to handle the newly created location
+      setName('');
+      setAddress('');
+    } catch (error) {
+      console.error('Error creating location:', error);
+    }
   };
 
   return (

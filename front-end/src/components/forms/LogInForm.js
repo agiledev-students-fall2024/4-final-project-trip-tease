@@ -2,25 +2,49 @@ import React, { useState } from 'react';
 import './LogInForm.css';
 
 const LogInForm = ({ onSubmit }) => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [formData, setFormData] = useState({ username: '', password: '' });
+  const [errorMessage, setErrorMessage] = useState(''); // Local error state
 
-  const handleSubmit = (e) => {
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onSubmit({ username, password });
-    setUsername('');
-    setPassword('');
+    setErrorMessage(''); // Clear previous errors
+
+    if (!formData.username || !formData.password) {
+      setErrorMessage('Both fields are required.');
+      return;
+    }
+
+    try {
+      await onSubmit(formData.username, formData.password); // Trigger parent-provided `onSubmit`
+    } catch (error) {
+      console.error('Login error:', error); // Debug log
+      console.log(error.message)
+      const backendError =
+        error.message || 'An error occurred. Please try again.';
+      setErrorMessage(backendError); // Set error message from backend or fallback
+    }
   };
 
   return (
     <form className="login-form" onSubmit={handleSubmit}>
       <h2>Log In</h2>
+
+      {/* Display error message */}
+      {errorMessage && <div className="error-message">{errorMessage}</div>}
+
       <label>
         Username:
         <input
           type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          name="username"
+          value={formData.username}
+          onChange={handleChange}
+          className="input-field"
           required
         />
       </label>
@@ -28,12 +52,16 @@ const LogInForm = ({ onSubmit }) => {
         Password:
         <input
           type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          name="password"
+          value={formData.password}
+          onChange={handleChange}
+          className="input-field"
           required
         />
       </label>
-      <button type="submit">Log In</button>
+      <button type="submit" className="submit-button">
+        Log In
+      </button>
     </form>
   );
 };

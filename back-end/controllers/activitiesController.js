@@ -1,138 +1,182 @@
-import Activity from '../models/Activity.js'; // Activity model
-import Location from '../models/Location.js'; //Location model used to get the tripId
+import Activity from '../models/Activity.js';
+import Location from '../models/Location.js';
 
-// Get all activities (GET) - Retrieve and respond with a list of all activities in the system
+// Get all activities
 const getActivities = async (req, res) => {
   try {
-    const activities = await Activity.find(); 
-    res.status(200).json(activities); 
+    const activities = await Activity.find(); // Fetch all activities
+    res.status(200).json(activities);
   } catch (error) {
-    console.error('Error fetching activities:', error);
-    res.status(500).json({ error: 'Failed to retrieve activities' }); 
+    console.error('Error fetching activities:', error.message);
+    res.status(500).json({ error: 'Failed to retrieve activities' });
   }
 };
 
-// Get activities by locationId (GET) - Retrieve activities filtered by a specific location
+// Get activities by location ID
 const getActivitiesByLocation = async (req, res) => {
   try {
-    const { locationId } = req.params; // Extract locationId from the request parameters
-    const activities = await Activity.find({ locationId }); // Find activities with the given locationId
-
-    if (activities.length > 0) {
-      res.status(200).json(activities); // Respond with the filtered activities
-    } else {
-      res.status(404).json({ error: 'No activities found for this location' }); // Handle case where no activities are found
+    const { locationId } = req.params;
+    const activities = await Activity.find({ locationId }); // Fetch activities for the location
+    if (activities.length === 0) {
+      return res.status(404).json({ error: 'No activities found for this location' });
     }
+    res.status(200).json(activities);
   } catch (error) {
-    console.error('Error fetching activities by location:', error);
-    res.status(500).json({ error: 'Failed to retrieve activities for this location' }); // Handle errors
+    console.error('Error fetching activities by location:', error.message);
+    res.status(500).json({ error: 'Failed to retrieve activities for this location' });
   }
 };
 
-// Placeholder functions for other routes
-const createActivity = async (req, res) => {
+// Get a specific activity by ID
+const getActivityById = async (req, res) => {
+  try {
+    const { activityId } = req.params;
+    const activity = await Activity.findById(activityId);
+    if (!activity) {
+      return res.status(404).json({ error: 'Activity not found' });
+    }
+    res.status(200).json(activity);
+  } catch (error) {
+    console.error('Error fetching activity by ID:', error.message);
+    res.status(500).json({ error: 'Failed to retrieve activity' });
+  }
+};
 
-  try{
-    //get info from submitted form
+// Create a new activity
+const createActivity = async (req, res) => {
+  try {
     const { name, description, price, locationId } = req.body;
 
-    //get associated tripId
+    // Check if location exists
     const location = await Location.findById(locationId);
     if (!location) {
       return res.status(404).json({ error: 'Location not found' });
     }
-    const tripId = location.tripId;
 
-    //create the new activity
+    // Create new activity
     const newActivity = new Activity({
       name,
       description,
       locationId,
-      tripId,
+      tripId: location.tripId, // Fetch tripId from the location
       price,
-      description: '',
-      createdBy: '64b1c7c8f2a5b9a2d5c8f001',
-      // just took a random userId i found in the database tbh, lol, i've no idea which user this actually is hahaha
-      //maybe we set this through auth?
-      type: 'activities', //this also shouldn't be directly set to activities, but we haven't set this in the form
-      //we also might just get rid of this filter so...
+      createdBy: req.user?.id || 'system', // Use authenticated user or default to 'system'
     });
 
-    //save the activity
     const savedActivity = await newActivity.save();
 
-    //append the new activity to the associated location
-    const updatedLocation = await Location.findByIdAndUpdate(
-      locationId, //this is what we are searching by
-      { $push: { activities: savedActivity._id } }, //this is what does the appending
-      { new: true } //this returns the updated location in case we want to send it back too
+    // Update the location with the new activity
+    await Location.findByIdAndUpdate(
+      locationId,
+      { $push: { activities: savedActivity._id } },
+      { new: true }
     );
 
-    res.status(201).json({
-      message: 'activity created successfully :)',
-      activity: savedActivity,
-      updatedLocation: updatedLocation
-    });
-
-  }catch(error){
-    console.error(error);
-    res.status(500).json({ error: 'failed to add activity :(' });
-  };
+    res.status(201).json(savedActivity);
+  } catch (error) {
+    console.error('Error creating activity:', error.message);
+    res.status(500).json({ error: 'Failed to create activity' });
+  }
 };
 
+// Upvote an activity
 const upvoteActivity = async (req, res) => {
-  const { activityId } = req.params;
-
   try {
+    const { activityId } = req.params;
     const activity = await Activity.findById(activityId);
     if (!activity) {
       return res.status(404).json({ error: 'Activity not found' });
     }
 
-    activity.votes += 1; // Increment votes
-    await activity.save(); // Save changes to the database
+    activity.votes += 1;
+    await activity.save();
 
-    res.status(200).json({ message: 'Activity upvoted successfully', votes: activity.votes });
+    res.status(200).json({ message: 'Upvoted successfully', votes: activity.votes });
   } catch (error) {
-    console.error('Error upvoting activity:', error);
+    console.error('Error upvoting activity:', error.message);
     res.status(500).json({ error: 'Failed to upvote activity' });
   }
 };
 
+// Downvote an activity
 const downvoteActivity = async (req, res) => {
-  const { activityId } = req.params;
-
   try {
+    const { activityId } = req.params;
     const activity = await Activity.findById(activityId);
     if (!activity) {
       return res.status(404).json({ error: 'Activity not found' });
     }
 
     if (activity.votes > 0) {
-      activity.votes -= 1; // Decrement votes
-      await activity.save(); // Save changes to the database
-      return res.status(200).json({ message: 'Activity downvoted successfully', votes: activity.votes });
+      activity.votes -= 1;
+      await activity.save();
     } else {
-      return res.status(400).json({ message: 'Votes cannot go below 0', votes: activity.votes });
+      return res.status(400).json({ error: 'Votes cannot be less than 0' });
     }
+
+    res.status(200).json({ message: 'Downvoted successfully', votes: activity.votes });
   } catch (error) {
-    console.error('Error downvoting activity:', error);
+    console.error('Error downvoting activity:', error.message);
     res.status(500).json({ error: 'Failed to downvote activity' });
   }
 };
 
+// Add a comment to an activity
 const addCommentToActivity = async (req, res) => {
-  res.status(501).json({ message: 'Add comment endpoint not implemented yet' });
+  try {
+    const { activityId } = req.params;
+    const { userId, commentString } = req.body;
+
+    const activity = await Activity.findById(activityId);
+    if (!activity) {
+      return res.status(404).json({ error: 'Activity not found' });
+    }
+
+    const comment = {
+      id: `comment_${Date.now()}`,
+      userId,
+      commentString,
+    };
+
+    activity.comments.push(comment);
+    await activity.save();
+
+    res.status(201).json(comment);
+  } catch (error) {
+    console.error('Error adding comment:', error.message);
+    res.status(500).json({ error: 'Failed to add comment' });
+  }
 };
 
+// Delete a comment from an activity
 const deleteCommentFromActivity = async (req, res) => {
-  res.status(501).json({ message: 'Delete comment endpoint not implemented yet' });
+  try {
+    const { activityId, commentId } = req.params;
+
+    const activity = await Activity.findById(activityId);
+    if (!activity) {
+      return res.status(404).json({ error: 'Activity not found' });
+    }
+
+    const commentIndex = activity.comments.findIndex((comment) => comment.id === commentId);
+    if (commentIndex === -1) {
+      return res.status(404).json({ error: 'Comment not found' });
+    }
+
+    activity.comments.splice(commentIndex, 1);
+    await activity.save();
+
+    res.status(200).json({ message: 'Comment deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting comment:', error.message);
+    res.status(500).json({ error: 'Failed to delete comment' });
+  }
 };
 
-// Export all controller functions as a single default object
 export default {
   getActivities,
   getActivitiesByLocation,
+  getActivityById,
   createActivity,
   upvoteActivity,
   downvoteActivity,
