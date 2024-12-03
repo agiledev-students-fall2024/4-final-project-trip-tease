@@ -1,0 +1,185 @@
+.activities-page {
+    padding: 40px;
+    background-color: #fafafa;
+  }
+  
+  .tabs {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .tabs button {
+    background: none;
+    border: none;
+    font-size: 18px;
+    font-weight: bold;
+    color: #e91e63;
+    cursor: pointer;
+    transition: color 0.3s;
+  }
+  
+  .tabs button:hover {
+    color: #ff4081;
+  }
+  
+  .add-activity-link {
+    margin-left: auto;
+    font-weight: bold;
+    text-decoration: none;
+    color: #e91e63;
+    cursor: pointer;
+  }
+  
+  .activity-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    margin-top: 20px;
+  }
+  
+  .activity-card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    transition: box-shadow 0.3s;
+    position: relative;
+  }
+  
+  .activity-card:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  }
+  
+  .activity-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    margin-bottom: 10px;
+  }
+  
+  .vote-section {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .details-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-top: 10px;
+    gap: 16px;
+  }
+  
+  .description-section {
+    flex: 2;
+    font-size: 16px;
+    color: #333;
+  }
+  
+  .image-section {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .activity-image {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+  }
+  
+  .comments-section {
+    margin-top: 20px;
+  }
+  
+  .comments-section input {
+    width: 80%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    margin-right: 10px;
+  }
+  
+  .comments-section button {
+    padding: 10px 16px;
+    background-color: #e91e63;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .comments-section button:hover {
+    background-color: #ff4081;
+  }
+  
+  .comments-list p {
+    background-color: #f0f0f0;
+    padding: 10px;
+    border-radius: 8px;
+    margin-top: 8px;
+  }
+
+  .activity-card__status {
+    position: absolute;
+    top: 5px; 
+    left: 5px;
+    background-color: #FF385C;
+    color: white;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    padding: 0.25rem 0.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    display: inline-block;
+  }
+  
+
+  .comments-list p {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    background-color: #f0f0f0;
+    padding: 10px;
+    border-radius: 8px;
+    margin-top: 8px;
+  }
+  
+  .comments-list p button {
+    background-color: transparent;
+    border: none;
+    color: #e91e63; 
+    cursor: pointer;
+    font-size: 0.9em;
+    margin-left: 10px; 
+    transition: color 0.3s;
+  }
+  
+  .comments-list p button:hover {
+    color: #ff4081; 
+  }
+
+  .activity-card__toggle-button {
+    background: none;
+    color: gray; 
+    border: none;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 5px 0;
+    text-decoration: none; 
+    transition: color 0.3s;
+  }
+  
+  .activity-card__toggle-button:hover {
+    color: black; 
+  }
+  
+  .activity-card__toggle-button:focus {
+    outline: none;
+  }

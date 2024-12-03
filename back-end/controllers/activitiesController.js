@@ -107,10 +107,22 @@ const createActivity = async (req, res) => {
       name,
       description,
       locationId,
+<<<<<<< HEAD
       tripId: location.tripId, // Fetch tripId from the location
       price: parseInt(price, 10), // Ensure price is stored as a number
       type, // Include the type field
       createdBy: req.user?.id || 'system', // Use authenticated user or default to 'system'
+=======
+      tripId,
+      price,
+      description: '',
+      createdBy: '64b1c7c8f2a5b9a2d5c8f001',
+      //TODO: change createdBy once auth implemented
+      // just took a random userId i found in the database tbh, lol, i've no idea which user this actually is hahaha
+      //maybe we set this through auth?
+      type: 'activities', //this also shouldn't be directly set to activities, but we haven't set this in the form
+      //we also might just get rid of this filter so...
+>>>>>>> origin/master
     });
 
     const savedActivity = await newActivity.save();
@@ -158,8 +170,14 @@ const downvoteActivity = async (req, res) => {
     }
 
     if (activity.votes > 0) {
+<<<<<<< HEAD
       activity.votes -= 1;
       await activity.save();
+=======
+      activity.votes -= 1; 
+      await activity.save(); 
+      return res.status(200).json({ message: 'Activity downvoted successfully', votes: activity.votes });
+>>>>>>> origin/master
     } else {
       return res.status(400).json({ error: 'Votes cannot be less than 0' });
     }
@@ -171,6 +189,7 @@ const downvoteActivity = async (req, res) => {
   }
 };
 
+<<<<<<< HEAD
 // Add a comment to an activity
 const addCommentToActivity = async (req, res) => {
   try {
@@ -203,26 +222,97 @@ const deleteCommentFromActivity = async (req, res) => {
   try {
     const { activityId, commentId } = req.params;
 
+=======
+//TODO: show profile picture and name of comment once auth implemented
+const addCommentToActivity = async (req, res) => {
+  const { activityId } = req.params;
+  const { userId, commentString } = req.body;
+
+  if (!userId || !commentString) {
+      return res.status(400).json({ error: 'Missing required comment fields' });
+  }
+
+  try {
+      const activity = await Activity.findById(activityId);
+      if (!activity) {
+          return res.status(404).json({ error: 'Activity not found' });
+      }
+
+      const comment = {
+          userId,
+          commentString
+      };
+      activity.comments.push(comment);
+
+      await activity.save();
+      res.status(201).json({ message: 'Comment added successfully', comments: activity.comments });
+  } catch (error) {
+      console.error('Error adding comment:', error);
+      res.status(500).json({ error: 'Failed to add comment' });
+  }
+};
+
+
+//TODO: only allows to delete own comment and not others
+const deleteCommentFromActivity = async (req, res) => {
+  const { activityId, commentId } = req.params;
+
+  try {
+>>>>>>> origin/master
     const activity = await Activity.findById(activityId);
     if (!activity) {
       return res.status(404).json({ error: 'Activity not found' });
     }
 
+<<<<<<< HEAD
     const commentIndex = activity.comments.findIndex((comment) => comment.id === commentId);
+=======
+    const commentIndex = activity.comments.findIndex(comment => comment._id.toString() === commentId);
+>>>>>>> origin/master
     if (commentIndex === -1) {
       return res.status(404).json({ error: 'Comment not found' });
     }
 
     activity.comments.splice(commentIndex, 1);
     await activity.save();
+<<<<<<< HEAD
 
     res.status(200).json({ message: 'Comment deleted successfully' });
   } catch (error) {
     console.error('Error deleting comment:', error.message);
+=======
+    res.status(200).json({ message: 'Comment deleted successfully', activity });
+  } catch (error) {
+    console.error('Error deleting comment:', error);
+>>>>>>> origin/master
     res.status(500).json({ error: 'Failed to delete comment' });
   }
 };
 
+<<<<<<< HEAD
+=======
+const toggleActivityCompletion = async (req, res) => {
+  const { activityId } = req.params;
+
+  try {
+    const activity = await Activity.findById(activityId); 
+    if (!activity) {
+      return res.status(404).json({ error: 'Activity not found' });
+    }
+
+    activity.isCompleted = !activity.isCompleted; 
+    await activity.save(); 
+
+    res.status(200).json({ isCompleted: activity.isCompleted }); 
+  } catch (error) {
+    console.error('Error toggling activity completion:', error);
+    res.status(500).json({ error: 'Failed to toggle activity completion' });
+  }
+};
+
+
+// Export all controller functions as a single default object
+>>>>>>> origin/master
 export default {
   getActivities,
   getActivitiesByLocation,
@@ -232,4 +322,5 @@ export default {
   downvoteActivity,
   addCommentToActivity,
   deleteCommentFromActivity,
+  toggleActivityCompletion,
 };
