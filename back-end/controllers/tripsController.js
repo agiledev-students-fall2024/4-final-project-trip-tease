@@ -40,7 +40,7 @@ const getTripLocations = async (req, res) => {
     const tripId = req.params.tripId; // Extract trip ID from the request parameters
     const trip = await Trip.findById(tripId).populate('locations'); // Populate the locations field
 
-    if (trip && trip.locations.length > 0) {
+    if (trip && trip.locations.length >= 0) {
       res.status(200).json(trip.locations);
     } else {
       res.status(404).json({ error: 'No locations found for this trip' });
@@ -54,19 +54,41 @@ const getTripLocations = async (req, res) => {
 // Create a new trip (POST) - Add a new trip to the system and respond with the newly created trip data
 const createTrip = async (req, res) => {
   try {
-    // Prepare new trip data from the request body
+    const { name, description, startDate, endDate, image } = req.body;
+
+    // Validate the required fields
+    if (!name) {
+      return res.status(400).json({ error: 'Trip name is required.' });
+    }
+
+    // Prepare new trip data
     const newTripData = {
-      ...req.body,
+      name,
+      description: description || '', // Default to an empty string if not provided
+      startDate: startDate ? new Date(startDate) : undefined, // Convert to Date if provided
+      endDate: endDate ? new Date(endDate) : undefined, // Convert to Date if provided
+      image: image || 'https://picsum.photos/200', // Default to an empty string if not provided
       status: 'upcoming', // Set default status to "upcoming"
+      participants: req.user ? [req.user._id] : [], // Add the creator as the first participant if authenticated
     };
 
-    const newTrip = new Trip(newTripData); // Create a new Trip instance
-    await newTrip.save(); // Save the new trip to the database
+    // Create and save the new trip
+    const newTrip = new Trip(newTripData);
+    const savedTrip = await newTrip.save();
 
-    res.status(201).json(newTrip); // Respond with the newly created trip
+    // Update the user's trips array
+    if (req.user) {
+      await User.findByIdAndUpdate(
+        req.user._id, // User's ID
+        { $push: { trips: savedTrip._id } }, // Add the trip ID to the user's trips array
+        { new: true } // Return the updated document
+      );
+    }
+
+    res.status(201).json(savedTrip); // Respond with the newly created trip
   } catch (error) {
-    console.error('Error creating trip:', error);
-    res.status(500).json({ error: 'Failed to create the trip' });
+    console.error('Error creating trip:', error.message);
+    res.status(500).json({ error: 'Failed to create the trip.' });
   }
 };
 
