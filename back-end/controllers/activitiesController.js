@@ -85,12 +85,18 @@ const getActivityById = async (req, res) => {
 // Create a new activity
 const createActivity = async (req, res) => {
   try {
-    const { name, description, price, locationId } = req.body;
+    const { name, description, price, locationId, type } = req.body; // Add `type`
 
     // Check if location exists
     const location = await Location.findById(locationId);
     if (!location) {
       return res.status(404).json({ error: 'Location not found' });
+    }
+
+    // Validate `type` field to ensure it matches the allowed values
+    const allowedTypes = ['food', 'activities', 'stay'];
+    if (!allowedTypes.includes(type)) {
+      return res.status(400).json({ error: 'Invalid activity type' });
     }
 
     // Create new activity
@@ -99,7 +105,8 @@ const createActivity = async (req, res) => {
       description,
       locationId,
       tripId: location.tripId, // Fetch tripId from the location
-      price,
+      price: parseInt(price, 10), // Ensure price is stored as a number
+      type, // Include the type field
       createdBy: req.user?.id || 'system', // Use authenticated user or default to 'system'
     });
 

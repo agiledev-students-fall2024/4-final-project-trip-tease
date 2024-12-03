@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import AddActivityForm from '../components/forms/AddActivityForm';
 import './AddActivityPage.css';
 
-const AddActivity = () => {
+const AddActivityPage = () => {
   const { locationId } = useParams();
   const navigate = useNavigate();
 
@@ -18,4 +18,4 @@ const AddActivity = () => {
   );
 };
 
-export default AddActivity;
+export default AddActivityPage;
