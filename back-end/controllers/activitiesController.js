@@ -176,6 +176,25 @@ const deleteCommentFromActivity = async (req, res) => {
   }
 };
 
+const toggleActivityCompletion = async (req, res) => {
+  const { activityId } = req.params;
+
+  try {
+    const activity = await Activity.findById(activityId); 
+    if (!activity) {
+      return res.status(404).json({ error: 'Activity not found' });
+    }
+
+    activity.isCompleted = !activity.isCompleted; 
+    await activity.save(); 
+
+    res.status(200).json({ isCompleted: activity.isCompleted }); 
+  } catch (error) {
+    console.error('Error toggling activity completion:', error);
+    res.status(500).json({ error: 'Failed to toggle activity completion' });
+  }
+};
+
 
 // Export all controller functions as a single default object
 export default {
@@ -186,4 +205,5 @@ export default {
   downvoteActivity,
   addCommentToActivity,
   deleteCommentFromActivity,
+  toggleActivityCompletion,
 };

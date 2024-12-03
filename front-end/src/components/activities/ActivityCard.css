@@ -163,3 +163,23 @@
   .comments-list p button:hover {
     color: #ff4081; 
   }
+
+  .activity-card__toggle-button {
+    background: none;
+    color: gray; 
+    border: none;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 5px 0;
+    text-decoration: none; 
+    transition: color 0.3s;
+  }
+  
+  .activity-card__toggle-button:hover {
+    color: black; 
+  }
+  
+  .activity-card__toggle-button:focus {
+    outline: none;
+  }

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import './ActivityCard.css';
 
-const ActivityCard = ({ id, title, votes, description, price, comments, imageUrl, isCompleted, onUpvote, onDownvote, onAddComment }) => {
+const ActivityCard = ({ id, title, votes, description, price, comments, imageUrl, isCompleted, onUpvote, onDownvote, onAddComment, toggleCompletion }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [newComment, setNewComment] = useState('');
   const [commentList, setCommentList] = useState([]);
@@ -52,6 +52,10 @@ const ActivityCard = ({ id, title, votes, description, price, comments, imageUrl
           <button onClick={(e) => { e.stopPropagation(); onDownvote(); }}>↓</button>
         </div>
       </div>
+
+    <button className="activity-card__toggle-button" onClick={() => toggleCompletion(id)}>
+      {isCompleted ? 'Mark as Not Completed' : 'Mark as Completed'}
+    </button>
 
       {isExpanded && (
         <div className="activity-details">
@@ -105,6 +109,7 @@ ActivityCard.propTypes = {
   onUpvote: PropTypes.func.isRequired,
   onDownvote: PropTypes.func.isRequired,
   onAddComment: PropTypes.func.isRequired,
+  toggleCompletion: PropTypes.func.isRequired
 };
 
 export default ActivityCard;

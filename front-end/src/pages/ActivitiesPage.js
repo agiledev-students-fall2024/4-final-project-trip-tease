@@ -27,6 +27,22 @@ const ActivitiesPage = () => {
       });
   }, [locationId]);
 
+  const toggleCompletion = (activityId) => {
+    axios.put(`/activities/${activityId}/toggle-completion`)
+      .then((response) => {
+        setActivities((prevActivities) =>
+          prevActivities.map((activity) =>
+            activity.id === activityId
+              ? { ...activity, isCompleted: response.data.isCompleted }
+              : activity
+          )
+        );
+      })
+      .catch((error) => {
+        console.error('Error toggling completion status:', error);
+      });
+  };
+
   const handleUpvote = (activityId) => {
     axios.post(`/activities/${activityId}/upvote`)
       .then((response) => {
@@ -72,9 +88,9 @@ const ActivitiesPage = () => {
       <GroupTripPictureCard tripName={locationName} tripId={locationId} />
 
       <div className="tabs">
-        <button>Food</button>
+        {/* <button>Food</button>
         <button>Activities</button>
-        <button>Stay</button>
+        <button>Stay</button> */}
         <Link to={`/add-activity/${locationId}`} className="add-activity-link">
           Create Activity
         </Link>
@@ -98,6 +114,7 @@ const ActivitiesPage = () => {
               onUpvote={() => handleUpvote(activity.id)}
               onDownvote={() => handleDownvote(activity.id)}
               onAddComment={handleAddComment} 
+              toggleCompletion={toggleCompletion}
             />
           ))}
         </div>
