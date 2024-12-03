@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import LocationsList from '../components/lists/LocationsList';
 import TripMembersList from '../components/lists/TripMembersList';
-import { fetchTripDetails, fetchLocationsForTrip } from '../api/apiUtils';
+import { fetchTripDetails, fetchLocationsForTrip, updateTripStatus } from '../api/apiUtils';
 import './LocationsPage.css';
 
 const LocationsPage = () => {
   const { tripId } = useParams();
+  const navigate = useNavigate();
   const [tripDetails, setTripDetails] = useState({});
   const [locations, setLocations] = useState([]);
   const [showMembers, setShowMembers] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [statusUpdateError, setStatusUpdateError] = useState('');
 
   const fetchData = async () => {
     try {
@@ -23,6 +25,17 @@ const LocationsPage = () => {
       setError('Failed to fetch trip details or locations.');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleStatusChange = async (newStatus) => {
+    try {
+      setStatusUpdateError('');
+      await updateTripStatus(tripId, newStatus);
+      // Navigate back to the homepage after updating the status
+      navigate('/');
+    } catch (err) {
+      setStatusUpdateError(err.message || 'Failed to update trip status.');
     }
   };
 
@@ -58,12 +71,7 @@ const LocationsPage = () => {
           <select
             className="status-dropdown"
             value={tripDetails.status}
-            onChange={(e) =>
-              setTripDetails((prev) => ({
-                ...prev,
-                status: e.target.value,
-              }))
-            }
+            onChange={(e) => handleStatusChange(e.target.value)}
           >
             <option value="ongoing">Ongoing</option>
             <option value="completed">Completed</option>
@@ -71,6 +79,7 @@ const LocationsPage = () => {
           </select>
         </div>
       </div>
+      {statusUpdateError && <p className="error-message">{statusUpdateError}</p>}
       {showMembers && <TripMembersList participants={tripDetails.participants || []} />}
       <LocationsList locations={locations} tripStatus={tripDetails.status} />
     </div>

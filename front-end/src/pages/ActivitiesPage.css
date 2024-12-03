@@ -2,39 +2,97 @@
   padding: 2rem;
   font-family: Arial, sans-serif;
   color: #333;
-  max-width: 800px;
+  max-width: 1200px;
   margin: 0 auto;
-  margin-top: 1rem;
   box-sizing: border-box;
-  background-color: #ffffff;
 }
 
-.tabs {
-  margin-top: 2rem;
+.activities-header {
   display: flex;
-  justify-content: left;
-  gap: 0.5rem;
-  margin-bottom: 0.5rem;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #ddd;
 }
 
-.tabs button {
-  padding: 0.5rem 1rem;
-  background-color: #fff;
-  border: 1px solid #FF385C;
-  border-radius: 20px;
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+}
+
+.location-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.location-name {
+  font-size: 2rem;
   font-weight: bold;
-  font-size: 0.85rem;
-  color: #FF385C;
-  cursor: pointer;
-  transition: background-color 0.3s, color 0.3s;
+  color: #333;
+  margin: 0;
 }
 
-.tabs button.active {
+.location-description {
+  font-size: 1.1rem;
+  color: #555;
+  margin-top: 0.5rem;
+}
+
+.create-activity-link {
+  color: #FF385C;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border: 2px solid #FF385C;
+  border-radius: 25px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.create-activity-link:hover {
   background-color: #FF385C;
   color: #fff;
 }
 
-.tabs button:hover {
-  background-color: #ffe5e9;
-  color: #FF385C;
+.filter-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.filter-label {
+  font-size: 1rem;
+  color: #333;
+  font-weight: bold;
+  margin-right: 0.5rem;
+}
+
+.activity-filter {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  border: 2px solid #FF385C; /* Match the primary theme color */
+  border-radius: 8px;
+  color: #333;
+  background-color: #fff;
+  outline: none;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.activity-filter:focus {
+  border-color: #FF385C;
+  background-color: #fdf2f6; /* Subtle pinkish background */
+}
+
+.activity-filter:hover {
+  border-color: #FF385C;
+  background-color: #fff5f8; /* Slight hover effect */
 }

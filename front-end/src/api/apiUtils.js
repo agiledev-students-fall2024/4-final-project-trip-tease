@@ -265,6 +265,22 @@ export const updateTripStatus = async (tripId, status) => {
 /** LOCATION APIs */
 
 /**
+ * Fetch location details
+ * @param {string} locationId - Location ID
+ * @returns {Object} - Location details
+ * @throws {Error} - If fetching location details fails
+ */
+export const fetchLocationDetails = async (locationId) => {
+  try {
+    const response = await axiosInstance.get(`/locations/${locationId}`);
+    return response.data;
+  } catch (error) {
+    throw new Error('Failed to fetch location details');
+  }
+};
+
+
+/**
  * Fetch locations for a specific trip
  * @param {string} tripId - Trip ID
  * @returns {Array} - List of locations

@@ -1,6 +1,18 @@
-.activity-list {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-  
+.activities-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.error-message {
+  color: #FF385C;
+  font-weight: bold;
+  text-align: center;
+}
+
+.no-activities-message {
+  color: #555;
+  font-size: 1rem;
+  text-align: center;
+}

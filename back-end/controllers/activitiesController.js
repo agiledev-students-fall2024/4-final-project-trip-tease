@@ -1,5 +1,6 @@
 import Activity from '../models/Activity.js';
 import Location from '../models/Location.js';
+import User from '../models/User.js';
 
 // Get all activities
 const getActivities = async (req, res) => {
@@ -13,19 +14,58 @@ const getActivities = async (req, res) => {
 };
 
 // Get activities by location ID
+const emojiMap = ['😀', '🍕', '🎉', '🐶', '🌟', '🎸', '🛹']; // Example emojis
+
 const getActivitiesByLocation = async (req, res) => {
   try {
     const { locationId } = req.params;
-    const activities = await Activity.find({ locationId }); // Fetch activities for the location
+
+    // Fetch activities for the specified location
+    const activities = await Activity.find({ locationId }).lean();
     if (activities.length === 0) {
       return res.status(404).json({ error: 'No activities found for this location' });
     }
-    res.status(200).json(activities);
+
+    // Collect unique user IDs from activities and comments
+    const userIds = new Set();
+    activities.forEach((activity) => {
+      userIds.add(activity.createdBy); // Collect activity creator IDs
+      activity.comments.forEach((comment) => {
+        userIds.add(comment.userId); // Collect commenter IDs
+      });
+    });
+
+    // Fetch user information based on collected user IDs
+    const users = await User.find({ _id: { $in: [...userIds] } }).lean();
+    const userMap = users.reduce((acc, user, index) => {
+      acc[user._id] = {
+        username: user.username,
+        avatar: user.profileAvatar|| emojiMap[index % emojiMap.length], // Assign emoji if no avatar
+      };
+      return acc;
+    }, {});
+
+    // Enrich activities and comments with cached usernames and avatars
+    const enrichedActivities = activities.map((activity) => ({
+      ...activity,
+      cachedUsername: userMap[activity.createdBy]?.username || 'Unknown User',
+      cachedAvatar: userMap[activity.createdBy]?.avatar || '🤔', // Default emoji if no avatar
+      comments: activity.comments.map((comment) => ({
+        ...comment,
+        cachedUsername: userMap[comment.userId]?.username || 'Anonymous',
+        cachedAvatar: userMap[comment.userId]?.avatar || '👻', // Default emoji for anonymous
+      })),
+    }));
+
+    // Return enriched activities
+    res.status(200).json(enrichedActivities);
   } catch (error) {
     console.error('Error fetching activities by location:', error.message);
     res.status(500).json({ error: 'Failed to retrieve activities for this location' });
   }
 };
+
+
 
 // Get a specific activity by ID
 const getActivityById = async (req, res) => {

@@ -1,0 +1,122 @@
+.comments-section {
+    margin-top: 1rem;
+    padding: 1rem;
+    border-top: 1px solid #e0e0e0;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+  }
+  
+  .comments-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: #333;
+  }
+  
+  .comments-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+  
+  .comment-item {
+    display: flex;
+    gap: 0.8rem;
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background-color: #fff;
+  }
+  
+  .comment-header {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
+  
+  .comment-avatar {
+    width: 32px; /* Reduced size */
+    height: 32px;
+    border-radius: 50%;
+    background-color: #ddd;
+  }
+  
+  .comment-metadata {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    font-size: 0.9rem; /* Smaller font size */
+  }
+  
+  .comment-author {
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .comment-date {
+    font-size: 0.85rem; /* Smaller font for the date */
+    color: #777;
+  }
+  
+  .comment-text {
+    font-size: 0.95rem; /* Reduced text size */
+    margin-left: 10px;
+    color: #444;
+  }
+  
+  .no-comments {
+    font-size: 0.9rem;
+    color: #777;
+    text-align: center;
+  }
+  
+  .comment-input-container {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .comment-input {
+    resize: none;
+    height: 2.5rem; /* Reduced height */
+    padding: 0.5rem;
+    font-size: 0.9rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background-color: #f9f9f9;
+  }
+  
+  .comment-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+  }
+  
+  .comment-cancel-button,
+  .comment-submit-button {
+    font-size: 0.9rem;
+    padding: 0.4rem 1rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  
+  .comment-cancel-button {
+    background-color: #e0e0e0;
+    color: #555;
+  }
+  
+  .comment-cancel-button:hover {
+    background-color: #d6d6d6;
+  }
+  
+  .comment-submit-button {
+    background-color: #ff385c;
+    color: #fff;
+  }
+  
+  .comment-submit-button:hover {
+    background-color: #e13453;
+  }
+  
