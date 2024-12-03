@@ -1,69 +1,67 @@
 .add-location-form {
-    background-color: white;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 400px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    margin: 0 auto;
-  }
-  
-  .add-location-form h2 {
-    text-align: center;
-    margin-bottom: 10px;
-    font-size: 24px;
-    color: #333;
-  }
-  
-  .add-location-form label {
-    display: flex;
-    flex-direction: column;
-    font-weight: bold;
-    font-size: 16px;
-    color: #444;
-  }
-  
-  .add-location-form input,
-  .add-location-form textarea {
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    margin-top: 5px;
-    font-size: 16px;
-    box-sizing: border-box;
-  }
-  
-  .add-location-form textarea {
-    resize: none;
-    height: 80px;
-  }
-  
-  .add-location-form input:focus,
-  .add-location-form textarea:focus {
-    outline: none;
-    border-color: #e91e63;
-    box-shadow: 0 0 4px rgba(233, 30, 99, 0.3);
-  }
-  
-  .add-location-form button {
-    padding: 12px 16px;
-    background-color: #e91e63;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: bold;
-    transition: background-color 0.3s, transform 0.1s;
-  }
-  
-  .add-location-form button:hover {
-    background-color: #ff4081;
-    transform: scale(1.05);
-  }
-  
-  .add-location-form button:active {
-    transform: scale(0.98);
-  }  
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.add-location-form h2 {
+  text-align: center;
+  font-size: 1.8rem;
+  color: #333;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #444;
+  margin-bottom: 0.5rem;
+}
+
+.form-group input,
+.form-group textarea {
+  padding: 0.8rem;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #fff;
+  box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: #ff385c;
+  outline: none;
+  box-shadow: 0 0 5px rgba(255, 56, 92, 0.3);
+}
+
+.form-submit-button {
+  padding: 0.8rem;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #fff;
+  background-color: #ff385c;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.form-submit-button:hover {
+  background-color: #e0304b;
+}
+
+.form-submit-button:active {
+  transform: scale(0.98);
+}
+
+.form-error {
+  color: red;
+  font-size: 0.9rem;
+  text-align: center;
+}

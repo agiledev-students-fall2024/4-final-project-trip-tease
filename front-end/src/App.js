@@ -1,73 +1,39 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/common/Header';
-import Home from './pages/Home';
-import PastTrip from './pages/PastTrip';
+import RouteAuth from './components/common/RouteAuth';
+import Home from './pages/HomePage';
+import PastTrip from './pages/PastTripPage';
 import ActivitiesPage from './pages/ActivitiesPage';
-import Locations from './pages/Locations';
-import AddActivity from './pages/AddActivity';
-import AddLocation from './pages/AddLocation';
-import ProfilesPage from './pages/ProfilesPage';
-import AddTrip from './pages/AddTrip';
-import JoinTrip from './pages/JoinTrip';
-import LogIn from './pages/LogIn';
-import SignUp from './pages/SignUp';
-import EditProfilePage from './pages/EditProfilePage'
+import Locations from './pages/LocationsPage';
+import AddActivity from './pages/AddActivityPage';
+import AddLocation from './pages/AddLocationPage';
+import ProfilesPage from './pages/ProfilePage';
+import AddTrip from './pages/AddTripPage';
+import JoinTrip from './pages/JoinTripPage';
+import LogIn from './pages/LogInPage';
+import SignUp from './pages/SignUpPage';
 
 const App = () => {
-  // Retrieve user data from localStorage safely (only if available)
-  const storedUser = localStorage.getItem('user');
-  const storedIsLoggedIn = localStorage.getItem('isLoggedIn');
-
-  const [isLoggedIn, setIsLoggedIn] = useState(storedIsLoggedIn === 'true'); // Default to stored value
-  // const [user, setUser] = useState(storedUser ? JSON.parse(storedUser) : null); // Default to stored user object
-  const [user, setUser] = useState(storedUser ? JSON.parse(storedUser) : { username: '', name: '', profileAvatar: '', email: '', bio: '' });
-
-
-  // Handle login persistence with localStorage
-  useEffect(() => {
-    if (user && isLoggedIn) {
-      // Store user and login state in localStorage when logged in
-      localStorage.setItem('user', JSON.stringify(user));
-      localStorage.setItem('isLoggedIn', 'true');
-    } else {
-      // Clear localStorage when logged out
-      localStorage.removeItem('user');
-      localStorage.removeItem('isLoggedIn');
-    }
-  }, [user, isLoggedIn]); // Depend on user and isLoggedIn
-
-  const handleSignOut = () => {
-    setIsLoggedIn(false);
-    setUser(null); // Reset user data on sign-out
-    localStorage.removeItem('user');
-    localStorage.removeItem('isLoggedIn');
-    localStorage.clear(); // Clear all data from localStorage
-    window.location.href = '/log-in'; // Redirect to login page on sign-out
-  };
-
-  const handleLogoClick = () => {
-    // Clicking the logo should not log out the user
-    window.location.href = '/'; // Redirect to the homepage
-  };
-
   return (
     <Router>
-      <Header user={user} isLoggedIn={isLoggedIn} onSignOut={handleSignOut} onLogoClick={handleLogoClick} />
-      <main className="App-main">
+      <Header /> {/* Always display the Header */}
+      <main>
         <Routes>
-          <Route path="/" element={<Home isLoggedIn={isLoggedIn} />} />
-          <Route path="/past-trip/:locationId" element={<PastTrip />} /> 
-          <Route path="/activities/:locationId" element={<ActivitiesPage />} /> 
-          <Route path="/locations/:tripId" element={<Locations />} />
-          <Route path="/add-activity/:locationId" element={<AddActivity />} />
-          <Route path="/add-location/:tripId" element={<AddLocation />} />
-          <Route path="/profile" element={<ProfilesPage user={user} setUser={setUser} />} />
-          <Route path="/create-trip/:userId" element={<AddTrip />} />
-          <Route path="/join-trip" element={<JoinTrip />} />
-          <Route path="/log-in" element={<LogIn user={user} setUser={setUser} setIsLoggedIn={setIsLoggedIn} />} />
-          <Route path="/sign-up" element={<SignUp user={user} setUser={setUser} setIsLoggedIn={setIsLoggedIn} />} />
-          <Route path="/edit-profile" element={<EditProfilePage />} />
+          {/* Public Routes */}
+          <Route path="/log-in" element={<RouteAuth isProtected={false}><LogIn /></RouteAuth>} />
+          <Route path="/sign-up" element={<RouteAuth isProtected={false}><SignUp /></RouteAuth>} />
+
+          {/* Protected Routes */}
+          <Route path="/" element={<RouteAuth isProtected><Home /></RouteAuth>} />
+          <Route path="/past-trip/:locationId" element={<RouteAuth isProtected><PastTrip /></RouteAuth>} />
+          <Route path="/activities/:locationId" element={<RouteAuth isProtected><ActivitiesPage /></RouteAuth>} />
+          <Route path="/locations/:tripId" element={<RouteAuth isProtected><Locations /></RouteAuth>} />
+          <Route path="/add-activity/:locationId" element={<RouteAuth isProtected><AddActivity /></RouteAuth>} />
+          <Route path="/add-location/:tripId" element={<RouteAuth isProtected><AddLocation /></RouteAuth>} />
+          <Route path="/profile" element={<RouteAuth isProtected><ProfilesPage /></RouteAuth>} />
+          <Route path="/create-trip/:userId" element={<RouteAuth isProtected><AddTrip /></RouteAuth>} />
+          <Route path="/join-trip" element={<RouteAuth isProtected><JoinTrip /></RouteAuth>} />
         </Routes>
       </main>
     </Router>

@@ -73,21 +73,28 @@ const getUserById = async (req, res) => {
 };
 
 // Get trips associated with a user (GET) - Retrieve and respond with a list of trips for a specific user by userId
+// Get trips associated with a user (GET) - Retrieve and respond with a list of trips for a specific user by userId
 const getUserTrips = async (req, res) => {
   try {
     const userId = req.params.userId; // Extract user ID from the request parameters
     const user = await User.findById(userId).populate('trips'); // Populate user's trips
 
-    if (user && user.trips.length > 0) {
-      res.status(200).json(user.trips); // Respond with the list of trips
-    } else {
-      res.status(404).json({ error: 'No trips found for this user' }); // Handle case where no trips are found
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' }); // Handle case where user does not exist
     }
+
+    // Check if the user has trips and respond accordingly
+    if (user.trips.length === 0) {
+      return res.status(200).json([]); // No trips, but this is not an error
+    }
+
+    res.status(200).json(user.trips); // Respond with the list of trips
   } catch (error) {
     console.error('Error fetching user trips:', error);
     res.status(500).json({ error: 'Failed to retrieve trips for the user' });
   }
 };
+
 
 const deleteUser = async (req, res) => {
   res.status(501).json({ message: 'Delete user endpoint not implemented yet' });
@@ -96,50 +103,31 @@ const deleteUser = async (req, res) => {
 
 // Update user (PUT)
 const updateUser = async (req, res) => {
-  const { userId } = req.params; // Extract user ID from the URL parameters
-  const { username, profileAvatar, name, email, password, bio } = req.body; // Extract fields from the request body
-
-  // Log the received data (optional for debugging)
-  console.log('Received request body for user update:', req.body);
+  const { username, profileAvatar, name, email, bio } = req.body; // Exclude password
+  const userId = req.user.id; // Assuming JWT middleware sets the user ID
 
   try {
-    // Find the user by ID
     const user = await User.findById(userId);
 
     if (!user) {
-      return res.status(404).json({ message: 'User not found' }); // Return if user is not found
+      return res.status(404).json({ message: 'User not found' });
     }
 
-    // Update the user with the new data, only if provided
-    if (username) user.username = username;
-    if (profileAvatar) user.profileAvatar = profileAvatar;
-    if (name) user.name = name;
-    if (email) user.email = email;
-    if (password) user.password = password;
-    if (bio) user.bio = bio;
+    user.username = username || user.username;
+    user.profileAvatar = profileAvatar || user.profileAvatar;
+    user.name = name || user.name;
+    user.email = email || user.email;
+    user.bio = bio || user.bio;
 
-
-
-    // Save the updated user to the database
     await user.save();
 
-    // Exclude the password from the response
-    const userResponse = user.toObject();
-    delete userResponse.password;
-
-
-    // Send back the updated user details
-    res.status(200).json({
-      message: 'User updated successfully',
-      user: userResponse,  // Send the updated user object without the password
-    });
-
-
+    res.status(200).json({ message: 'Profile updated successfully', user });
   } catch (error) {
-    console.error('Error updating user:', error);
-    res.status(500).json({ message: 'Failed to update user', error: error.message });
+    console.error('Error updating profile:', error);
+    res.status(500).json({ message: 'Failed to update profile' });
   }
 };
+
 
 
 // Export all controller functions as a single default object

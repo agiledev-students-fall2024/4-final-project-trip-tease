@@ -1,0 +1,199 @@
+/* Card Container */
+.activity-card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #e0e0e0;
+  border-radius: 16px; /* Slightly more rounded corners */
+  background-color: #ffffff;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.activity-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* Softer shadow for hover */
+}
+
+/* Card Content */
+.activity-card-container {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  gap: 1rem;
+}
+
+/* Emoji Section */
+.activity-emoji {
+  flex: 0 0 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f8f9fa; /* Softer background for emoji */
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  font-size: 3rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  margin-right: 12px;
+}
+
+/* Details Section */
+.activity-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.activity-title {
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: #333333;
+  margin: 0;
+}
+
+.activity-description {
+  font-size: 1rem;
+  color: #555555;
+  margin: 0.3rem 0;
+  line-height: 1.5;
+}
+
+.activity-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  font-size: 0.95rem;
+  color: #666666;
+}
+
+.meta-item {
+  display: inline-block;
+  font-weight: 600;
+  color: #444444;
+}
+
+/* Votes Section */
+.activity-votes {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+}
+
+.activity-votes .vote-button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  transition: transform 0.2s ease, color 0.2s ease;
+  font-size: 1.8rem;
+}
+
+.activity-votes .vote-button:hover {
+  transform: scale(1.2);
+}
+
+.activity-votes .vote-button.upvote {
+  color: #28a745; /* Green for upvote */
+}
+
+.activity-votes .vote-button.upvote:hover {
+  color: #218838; /* Darker green for hover */
+}
+
+.activity-votes .vote-button.downvote {
+  color: #dc3545; /* Red for downvote */
+}
+
+.activity-votes .vote-button.downvote:hover {
+  color: #c82333; /* Darker red for hover */
+}
+
+.activity-votes .vote-count {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #444444;
+  transition: color 0.3s ease-in-out;
+}
+
+.activity-votes .vote-count.vote-animate {
+  color: hsl(349, 100%, 61%); /* Highlight color for animation */
+}
+
+/* Footer Section */
+.activity-footer {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid #e0e0e0;
+  background-color: #fafafa;
+  text-align: center;
+}
+
+.toggle-comments-button {
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 25px;
+  padding: 0.6rem 1.2rem;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #ff385c;
+  transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.toggle-comments-button:hover {
+  background-color: #ff385c;
+  color: #ffffff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Comments Section */
+.comments-section {
+  margin-top: 1rem;
+}
+
+.comment {
+  padding: 0.8rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  background-color: #f8f9fa;
+  margin-bottom: 0.6rem;
+  font-size: 0.95rem;
+}
+
+.no-comments {
+  font-size: 0.9rem;
+  color: #777777;
+  text-align: center;
+}
+
+
+
+
+.activity-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  font-size: 0.95rem;
+  color: #555555;
+}
+
+.meta-item {
+  display: inline-block;
+  font-weight: 500;
+  color: #555555; /* Label color */
+}
+/* 
+.meta-item strong {
+  color: #777777; 
+  font-weight: 600;
+  margin-right: 0.3rem;
+} */
+
+.meta-item span {
+  color: #333333; /* Value color */
+  font-weight: 700;
+}

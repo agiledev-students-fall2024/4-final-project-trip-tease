@@ -1,5 +1,7 @@
 import express from 'express';
 import locationsController from '../controllers/locationsController.js';
+import { ensureAuthenticated } from '../config/jwt-config.js'; // Middleware for authentication
+
 import fs from 'fs';
 
 const router = express.Router();
@@ -7,14 +9,14 @@ const locations = JSON.parse(fs.readFileSync('./mock-data/locations.json', 'utf-
 
 
 //get all information for a specific location
-router.get('/:locationId', locationsController.getLocation);
+router.get('/:locationId', ensureAuthenticated, locationsController.getLocation);
 
 //get activities for location
-router.get('/activities/:locationId', locationsController.getLocationActivities);
+router.get('/activities/:locationId', ensureAuthenticated, locationsController.getLocationActivities);
 
 //post route for adding a new location
 //TODO: build the addLocation controller
-router.post('/', locationsController.addLocation);
+router.post('/', ensureAuthenticated, locationsController.addLocation);
 
   
 
@@ -32,7 +34,7 @@ router.post('/', locationsController.addLocation);
 //   });
 
 // TODO: Create a new location (POST) - Add a new location to a trip and respond with the newly created location data
-router.post('/', (req, res)=>{
+router.post('/', ensureAuthenticated, (req, res)=>{
   const newLocation = {
     ...req.body,
     status: 'upcoming',

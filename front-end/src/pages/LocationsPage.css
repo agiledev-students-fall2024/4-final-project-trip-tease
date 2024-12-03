@@ -1,0 +1,94 @@
+.locations-page {
+    padding: 2rem;
+  }
+  
+  .locations-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    border-bottom: 2px solid #ddd;
+    margin-top: 32px;
+    padding-bottom: 1rem;
+  }
+  
+  .locations-title {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #333; /* Neutral color for a chill vibe */
+    margin: 0;
+  }
+  
+  .locations-description {
+    font-size: 1.1rem;
+    color: #555; /* Softer text color */
+    margin: 0.01rem 0 0;
+  }
+  
+  .header-left {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .add-location-link {
+    color: #FF385C;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.2s ease;
+  }
+  
+  .add-location-link:hover {
+    color: #e0304b;
+  }
+  
+  .toggle-members-button {
+    color: #FF385C;
+    background: none;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.2s ease;
+    text-decoration: underline;
+    text-decoration: none;
+    font-size: 1rem;
+  }
+  
+  .toggle-members-button:hover {
+    color: #e0304b;
+  }
+  
+  .status-dropdown {
+    padding: 0.75rem;
+    font-size: 1rem;
+    border: 2px solid #FF385C;
+    border-radius: 25px;
+    cursor: pointer;
+    color: #333333;
+    background-color: #ffffff;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  }
+  
+  .status-dropdown:hover {
+    background-color: #FF385C;
+    color: #ffffff;
+  }
+  
+  .status-dropdown:focus {
+    outline: none;
+    border-color: #FF385C;
+    box-shadow: 0 0 5px rgba(255, 56, 92, 0.5);
+  }
+  
+  .status-dropdown option {
+    padding: 10px;
+    font-size: 1rem;
+    color: #333333;
+    background-color: #ffffff;
+  }
+  

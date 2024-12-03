@@ -2,96 +2,110 @@ import React, { useState } from 'react';
 import './SignUpForm.css';
 
 const SignUpForm = ({ onSubmit }) => {
-  const [username, setUsername] = useState('');
-  const [profileAvatar, setProfileAvatar] = useState('😊'); // Default emoji
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [bio, setBio] = useState('');
+  const [formData, setFormData] = useState({
+    username: '',
+    profileAvatar: '😊',
+    name: '',
+    email: '',
+    password: '',
+    bio: '',
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleAvatarSelect = (emoji) => {
+    setFormData((prev) => ({ ...prev, profileAvatar: emoji }));
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Form submitted with data:', { username, profileAvatar, name, email, password, bio });
-    onSubmit({ username, profileAvatar, name, email, password, bio });
-    
-    setUsername('');
-    setProfileAvatar('😊'); // Reset to default emoji
-    setName('');
-    setEmail('');
-    setPassword('');
-    setBio('');
+    onSubmit(formData);
+    setFormData({ username: '', profileAvatar: '😊', name: '', email: '', password: '', bio: '' });
   };
 
   return (
     <form className="signup-form" onSubmit={handleSubmit}>
       <h2>Sign Up</h2>
-
-      <label>
-        Username:
+      <div className="form-group">
+        <label htmlFor="username">Username:</label>
         <input
           type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          id="username"
+          name="username"
+          value={formData.username}
+          onChange={handleChange}
           required
         />
-      </label>
+      </div>
 
-      <label>
-        Profile Avatar:
-        <div className="avatar-selection">
+      <div className="form-group">
+        <label>Profile Avatar:</label>
+        <div className="avatar-grid">
           {['😊', '😎', '🌎', '🧳', '🎒', '✈️', '🏞️', '🌄'].map((emoji) => (
             <button
               key={emoji}
               type="button"
-              className={`avatar-button ${profileAvatar === emoji ? 'selected' : ''}`}
-              onClick={() => setProfileAvatar(emoji)}
+              className={`avatar-button ${formData.profileAvatar === emoji ? 'selected' : ''}`}
+              onClick={() => handleAvatarSelect(emoji)}
             >
               {emoji}
             </button>
           ))}
         </div>
-      </label>
+      </div>
 
-      <label>
-        Full Name:
+      <div className="form-group">
+        <label htmlFor="name">Full Name:</label>
         <input
           type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          id="name"
+          name="name"
+          value={formData.name}
+          onChange={handleChange}
           required
         />
-      </label>
-      <label>
-        Email:
+      </div>
+
+      <div className="form-group">
+        <label htmlFor="email">Email:</label>
         <input
           type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          id="email"
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
           required
         />
-      </label>
+      </div>
 
-      <label>
-        Password:
+      <div className="form-group">
+        <label htmlFor="password">Password:</label>
         <input
           type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          id="password"
+          name="password"
+          value={formData.password}
+          onChange={handleChange}
           required
         />
-      </label>
+      </div>
 
-      <label>
-        Bio:
+      <div className="form-group">
+        <label htmlFor="bio">Bio:</label>
         <textarea
-          value={bio}
-          onChange={(e) => setBio(e.target.value)}
-          placeholder="Tell us a bit about yourself"
+          id="bio"
+          name="bio"
+          value={formData.bio}
+          onChange={handleChange}
           rows="4"
+          placeholder="Tell us about yourself..."
         />
-      </label>
+      </div>
 
-      <button type="submit">Sign Up</button>
+      <button type="submit" className="signup-button">Sign Up</button>
     </form>
   );
 };

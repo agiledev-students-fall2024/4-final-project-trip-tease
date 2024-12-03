@@ -6,42 +6,46 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import connectDB from './config/db.js'; 
 import config from './config/config.js'; 
+import passport from 'passport';
+import './config/jwt-config.js'; // Initialize Passport JWT strategy
 
-// load env variables
+// Load environment variables
 dotenv.config();
 
 const app = express();
 const PORT = config.port;
 
-// will get the directory name of the current module
+// Get the directory name of the current module
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
 
 // Connect to MongoDB
 connectDB();
 
-// middleware
+// Middleware
 app.use(cors()); 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(morgan('dev'))
-app.use(express.static(path.join(__dirname, 'public'))); // serve static files (from public)
+app.use(passport.initialize());
+app.use(morgan('dev'));
+app.use(express.static(path.join(__dirname, 'public'))); // Serve static files (from public)
 
 // Import routes
 import userRoutes from './routes/users.js';
 import tripRoutes from './routes/trips.js';
 import locationRoutes from './routes/locations.js';
 import activityRoutes from './routes/activities.js';
+import authRoutes from './routes/auth.js';
 
-// route Handlers 
-app.use('/users', userRoutes);
-app.use('/trips', tripRoutes);
-app.use('/locations', locationRoutes);
-app.use('/activities', activityRoutes);
+// Route Handlers 
+app.use('/api/users', userRoutes);
+app.use('/api/trips', tripRoutes);
+app.use('/api/locations', locationRoutes);
+app.use('/api/activities', activityRoutes);
+app.use('/api/auth', authRoutes); // Added auth routes
 
-// root Route
-app.get('/', (req, res) => {
+// Root Route
+app.get('/api/', (req, res) => {
   res.send('This is the TripTease API!');
 });
 
@@ -51,9 +55,7 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'Something went wrong!' });
 });
 
-export default app;
-
 // Start the Server
 app.listen(PORT, () => {
-  console.log(`Server is running in ${config.nodeEnv} mode on http://localhost:${PORT}`);
+  console.log(`Server is running in ${config.nodeEnv} mode on http://localhost:${PORT}/api`);
 });

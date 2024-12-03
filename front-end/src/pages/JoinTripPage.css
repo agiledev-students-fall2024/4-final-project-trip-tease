@@ -1,0 +1,106 @@
+.join-trip-page {
+  max-width: 500px;
+  margin: 3rem auto;
+  padding: 2rem;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  font-family: 'Roboto', Arial, sans-serif;
+}
+
+.join-trip-page h2 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #555;
+  text-align: left;
+}
+
+.form-group input {
+  padding: 0.8rem;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  width: 100%;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+}
+
+.form-group input:focus {
+  border-color: #e0304b;
+  outline: none;
+  box-shadow: 0 0 5px rgba(224, 48, 75, 0.3);
+}
+
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.join-button {
+  background-color: #e0304b;
+  color: white;
+  padding: 0.9rem 1.5rem;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.join-button:hover {
+  background-color: #b9273a;
+  transform: scale(1.05);
+}
+
+.cancel-button {
+  background-color: #777;
+  color: white;
+  padding: 0.9rem 1.5rem;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.cancel-button:hover {
+  background-color: #555;
+  transform: scale(1.05);
+}
+
+.feedback-message {
+  font-size: 1rem;
+  margin-top: 1rem;
+  padding: 0.8rem;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.feedback-message.success {
+  color: #28a745;
+  background-color: #e6ffed;
+  border: 1px solid #b0e6b0;
+}
+
+.feedback-message.error {
+  color: #e0304b;
+  background-color: #ffe6e6;
+  border: 1px solid #ffcccc;
+}
