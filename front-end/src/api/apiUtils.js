@@ -113,9 +113,10 @@ export const fetchUserById = async (userId) => {
 export const updateUserById = async (userId, userData) => {
   try {
     const response = await axiosInstance.put(`/users/${userId}`, userData);
-    return response.data;
+    return response.data; // Return updated user data
   } catch (error) {
-    throw new Error('Failed to update user');
+    const message = error.response?.data?.message || 'Failed to update user';
+    throw new Error(message);
   }
 };
 

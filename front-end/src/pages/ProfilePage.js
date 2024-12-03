@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { fetchUserProfile, updateUserProfile } from '../api/apiUtils';
 import ProfileHeader from '../components/features/ProfileHeader';
 import ProfileStats from '../components/features/ProfileStats';
 import ProfileForm from '../components/forms/ProfileForm';
@@ -18,10 +19,12 @@ const ProfilesPage = () => {
   const handleSaveChanges = async (updatedData) => {
     try {
       setBackendError(''); // Clear previous backend errors
-      setUser(updatedData); // Update user in AuthContext
+      await updateUserProfile(updatedData); // Save changes to backend
+      const refreshedUser = await fetchUserProfile(); // Refetch the updated user profile
+      setUser(refreshedUser); // Update AuthContext with refreshed data
       setIsEditMode(false); // Exit edit mode
     } catch (error) {
-      console.error('Error updating profile:', error);
+      console.error('Error updating profile:', error.message);
       setBackendError('Failed to update profile. Please try again.');
     }
   };

@@ -3,7 +3,16 @@ import { formatDistanceToNow, parseISO } from 'date-fns';
 import './ProfileStats.css';
 
 const ProfileStats = ({ trips, createdAt }) => {
-  const daysMember = formatDistanceToNow(parseISO(createdAt), { unit: 'day' });
+  let daysMember = 'N/A'; // Default fallback
+
+  if (createdAt) {
+    try {
+      daysMember = formatDistanceToNow(parseISO(createdAt), { unit: 'day' }).split(' ')[0];
+    } catch (error) {
+      console.error('Error parsing date:', error.message);
+      daysMember = 'N/A'; // Fallback if date parsing fails
+    }
+  }
 
   return (
     <div className="profile-stats">
@@ -12,7 +21,7 @@ const ProfileStats = ({ trips, createdAt }) => {
         <span className="profile-stats-label">Trips</span>
       </div>
       <div className="profile-stats-item">
-        <span className="profile-stats-value">{daysMember.split(' ')[0]}</span>
+        <span className="profile-stats-value">{daysMember}</span>
         <span className="profile-stats-label">Member Days</span>
       </div>
     </div>
