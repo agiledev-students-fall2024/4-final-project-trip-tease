@@ -1,5 +1,6 @@
 import Trip from '../models/Trip.js'; // Trip model
 import User from '../models/User.js'; // User model
+import mongoose from 'mongoose'; // Import mongoose for object ID validation
 
 // Get all trips (GET) - Retrieve and respond with a list of all trips in the system
 const getAllTrips = async (req, res) => {
@@ -69,21 +70,37 @@ const createTrip = async (req, res) => {
   }
 };
 
-// Join a Trip (POST) - Add a user to a trip's participants and the trip to the user's list
+// Join a trip (POST) - Add a user to the list of participants for a specific trip
 const joinTrip = async (req, res) => {
   try {
     const { tripId } = req.params; // Extract trip ID from the request parameters
     const { userId } = req.body; // Extract user ID from the request body
 
+    console.log(`Attempting to join trip: tripId=${tripId}, userId=${userId}`);
+
+    // Validate tripId format
+    if (!mongoose.Types.ObjectId.isValid(tripId)) {
+      console.error('Invalid trip ID format');
+      return res.status(400).json({ message: 'Invalid trip ID format. Please enter a valid trip ID.' });
+    }
+
     const trip = await Trip.findById(tripId); // Find the trip by ID
     const user = await User.findById(userId); // Find the user by ID
 
-    if (!trip) return res.status(404).json({ error: 'Trip not found' }); // Handle case where trip does not exist
-    if (!user) return res.status(404).json({ error: 'User not found' }); // Handle case where user does not exist
+    if (!trip) {
+      console.error('Trip not found');
+      return res.status(404).json({ message: 'Trip not found. Please check the trip ID and try again.' });
+    }
+
+    if (!user) {
+      console.error('User not found');
+      return res.status(404).json({ message: 'User not found. Please ensure you are logged in and try again.' });
+    }
 
     // Check if the user is already a participant
     if (trip.participants.includes(userId)) {
-      return res.status(400).json({ error: 'User is already a participant in this trip' });
+      console.error('User already a participant');
+      return res.status(400).json({ message: 'You are already a participant in this trip.' });
     }
 
     // Add user to trip participants
@@ -99,9 +116,11 @@ const joinTrip = async (req, res) => {
     res.status(200).json({ message: 'Successfully joined the trip', trip });
   } catch (error) {
     console.error('Error joining trip:', error);
-    res.status(500).json({ error: 'Failed to join the trip' });
+    res.status(500).json({ message: 'Internal server error. Please try again later.' });
   }
 };
+
+
 
 // Update trip status (PUT) - Modify the status of a trip (e.g., upcoming, ongoing, completed)
 const updateTripStatus = async (req, res) => {

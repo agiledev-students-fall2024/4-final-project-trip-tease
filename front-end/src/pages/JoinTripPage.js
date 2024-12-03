@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { joinTrip } from '../api/apiUtils';
 import './JoinTripPage.css';
@@ -19,45 +19,41 @@ const JoinTrip = () => {
     setFeedback({ type: '', message: '' });
 
     try {
-      const response = await joinTrip(user.id, tripId); // Use the imported function
-      setFeedback({
-        type: 'success',
-        message: (
-          <>
-            Successfully joined the trip! <Link to={`/locations/${tripId}`}>View Trip</Link>
-          </>
-        ),
-      });
+      await joinTrip(user?.id, tripId);
+      setFeedback({ type: 'success', message: 'Successfully joined the trip!' });
+      // Navigate to home after showing success
+      setTimeout(() => navigate('/'), 2000);
     } catch (error) {
-      setFeedback({ type: 'error', message: error.message || 'Failed to join trip.' });
+      setFeedback({ type: 'error', message: error.message || 'Failed to join the trip.' });
     }
   };
 
   const handleCancel = () => {
-    navigate('/');
+    navigate('/'); // Redirect to home
   };
 
   return (
     <div className="join-trip-page">
       <h2>Join a Trip</h2>
       <form onSubmit={handleFormSubmit}>
-        <label>
-          Trip ID:
+        <div className="form-group">
+          <label htmlFor="tripId">Trip ID:</label>
           <input
             type="text"
+            id="tripId"
             value={tripId}
             onChange={handleInputChange}
             placeholder="Enter Trip ID"
             required
           />
-        </label>
-        <button type="submit">Join Trip</button>
-        <button type="button" onClick={handleCancel} className="cancel-button">
-          Cancel
-        </button>
+        </div>
+        <div className="button-group">
+          <button type="submit" className="join-button">Join Trip</button>
+          <button type="button" onClick={handleCancel} className="cancel-button">Cancel</button>
+        </div>
       </form>
       {feedback.message && (
-        <p className={`join-trip-${feedback.type === 'success' ? 'success' : 'error'}`}>
+        <p className={`feedback-message ${feedback.type === 'success' ? 'success' : 'error'}`}>
           {feedback.message}
         </p>
       )}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { formatDistanceToNow, parseISO } from 'date-fns';
+import { differenceInDays, parseISO } from 'date-fns';
 import './ProfileStats.css';
 
 const ProfileStats = ({ trips, createdAt }) => {
@@ -7,7 +7,9 @@ const ProfileStats = ({ trips, createdAt }) => {
 
   if (createdAt) {
     try {
-      daysMember = formatDistanceToNow(parseISO(createdAt), { unit: 'day' }).split(' ')[0];
+      const creationDate = parseISO(createdAt);
+      const currentDate = new Date();
+      daysMember = differenceInDays(currentDate, creationDate); // Calculate exact difference
     } catch (error) {
       console.error('Error parsing date:', error.message);
       daysMember = 'N/A'; // Fallback if date parsing fails

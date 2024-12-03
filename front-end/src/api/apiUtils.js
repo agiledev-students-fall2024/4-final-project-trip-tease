@@ -238,9 +238,13 @@ export const joinTrip = async (userId, tripId) => {
     const response = await axiosInstance.post(`/trips/${tripId}/join`, { userId });
     return response.data;
   } catch (error) {
-    throw new Error(error.response?.data?.message || 'Failed to join the trip.');
+    // Check if the error has a response and a data.message field
+    const errorMessage = error.response?.data?.message || error.message || 'Failed to join the trip.';
+    console.error('Join Trip Error:', errorMessage);
+    throw new Error(errorMessage); // Throw the message for frontend to handle
   }
 };
+
 
 /**
  * Update trip status

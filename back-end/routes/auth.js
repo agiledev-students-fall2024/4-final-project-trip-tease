@@ -61,7 +61,7 @@ router.post(
 
       // Generate a JWT token
       const token = jwt.sign({ id: newUser._id }, config.jwtSecret, {
-        expiresIn: '1h',
+        expiresIn: '7h',
       });
 
       res.status(201).json({
