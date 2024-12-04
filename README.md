@@ -42,6 +42,13 @@ Next, move to the `frontend` directory, install its dependencies by running `npm
 
 Once both servers are running, you can access the application by visiting `http://localhost:3000` for the frontend and `http://localhost:3002` for the backend.
 
+### How to use the application for testing purposes
+
+You can either sign up, and create a new user profile based on your own information. Or, you can use one of our premade accounts (with pre-populated fields) for testing. Here is a premade user you could use to test the application:
+
+* username: john_doe
+* password: password123
+
 ### Important Notes
 
 - The frontend is configured to proxy API requests to the backend server running on port 3002. This proxy configuration, specified in the `frontend/package.json` file, routes requests from the frontend at `http://localhost:3000` to the backend on `http://localhost:3002`. This setup helps handle API requests seamlessly without requiring additional CORS configurations.
@@ -56,10 +63,6 @@ To run the tests for our code, follow these simple steps:
 1. navigate to the backend: `cd back-end`
 2. run the tests + show the coverage report: `npm run coverage`
 3. Validation tests show up in the console (in back-end/validators)
-
-*Testing authentication* We have a pre-existing user profile for testing (with pre-populated trips, activities, etc.) if you would like to use. You can also create your own account of course:
-Username:john_doe
-Password: password123
 
 
 
