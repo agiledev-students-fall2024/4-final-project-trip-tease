@@ -1,7 +1,7 @@
 import express from 'express';
 import tripsController from '../controllers/tripsController.js';
 import { ensureAuthenticated } from '../config/jwt-config.js'; // Middleware for authentication
-import { validateGetTripById, validateGetTripLocations } from '../validators/tripsValidators.js'; //import the validators
+import { validateGetTripById, validateGetTripLocations, validateCreateTrip, validateJoinTrip, validateUpdateTripStatus } from '../validators/tripsValidators.js'; //import the validators
 import fs from 'fs';
 
 const router = express.Router();
@@ -21,13 +21,13 @@ router.get('/:tripId', ensureAuthenticated, validateGetTripById, tripsController
 router.get('/:tripId/locations', ensureAuthenticated, validateGetTripLocations, tripsController.getTripLocations);
 
 // Create a new trip (POST) - Add a new trip to the system and respond with the newly created trip data
-router.post('/', ensureAuthenticated, tripsController.createTrip);
+router.post('/', ensureAuthenticated, validateCreateTrip, tripsController.createTrip);
 
 // Join a Trip (POST) - Check if trip exists and add to user's and trip's data if valid
-router.post('/:tripId/join', ensureAuthenticated, tripsController.joinTrip);
+router.post('/:tripId/join', ensureAuthenticated, validateJoinTrip, tripsController.joinTrip);
 
 // Update trip status by Trip ID (PUT) - Modify the status of a trip (e.g., upcoming, ongoing, completed)
-router.put('/:tripId/status', ensureAuthenticated, tripsController.updateTripStatus);
+router.put('/:tripId/status', ensureAuthenticated, validateUpdateTripStatus, tripsController.updateTripStatus);
 
 //Stretch Goal Routes
 // TODO: Update trip information (PUT) - Modify trip data and respond with the updated information
