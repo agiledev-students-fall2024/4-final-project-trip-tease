@@ -1,6 +1,7 @@
 import express from 'express';
 import locationsController from '../controllers/locationsController.js';
 import { ensureAuthenticated } from '../config/jwt-config.js'; // Middleware for authentication
+import { validateGetLocationById, validateCreateLocation, validateGetActivitiesForLocation } from '../validators/locationsValidators.js';
 
 import fs from 'fs';
 
@@ -9,14 +10,14 @@ const locations = JSON.parse(fs.readFileSync('./mock-data/locations.json', 'utf-
 
 
 //get all information for a specific location
-router.get('/:locationId', ensureAuthenticated, locationsController.getLocation);
+router.get('/:locationId', ensureAuthenticated, validateGetLocationById, locationsController.getLocation);
 
 //get activities for location
-router.get('/activities/:locationId', ensureAuthenticated, locationsController.getLocationActivities);
+router.get('/activities/:locationId', ensureAuthenticated, validateGetActivitiesForLocation, locationsController.getLocationActivities);
 
 //post route for adding a new location
 //TODO: build the addLocation controller
-router.post('/', ensureAuthenticated, locationsController.addLocation);
+router.post('/', ensureAuthenticated, validateCreateLocation, locationsController.addLocation);
 
   
 
@@ -34,7 +35,7 @@ router.post('/', ensureAuthenticated, locationsController.addLocation);
 //   });
 
 // TODO: Create a new location (POST) - Add a new location to a trip and respond with the newly created location data
-router.post('/', ensureAuthenticated, (req, res)=>{
+router.post('/', ensureAuthenticated,  (req, res)=>{
   const newLocation = {
     ...req.body,
     status: 'upcoming',

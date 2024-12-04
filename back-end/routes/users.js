@@ -3,6 +3,8 @@ import { ensureAuthenticated } from '../config/jwt-config.js'; // Middleware for
 import usersController from '../controllers/usersController.js'; // Controller for user-related logic
 import User from '../models/User.js'; // Import the User model
 
+import { validateGetUserById, validateGetUserTripsById, validateCreateUser, validateUpdateUser, validateDeleteUserById } from '../validators/usersValidators.js';
+
 const router = express.Router();
 
 // Routes
@@ -49,31 +51,31 @@ router.get('/', ensureAuthenticated, usersController.getAllUsers);
  * GET /api/users/:userId
  * Retrieve details for the specified user, including their associated trips.
  */
-router.get('/:userId', ensureAuthenticated, usersController.getUserById);
+router.get('/:userId', ensureAuthenticated, validateGetUserById, usersController.getUserById);
 
 /**
  * GET /api/users/:userId/trips
  * Retrieve and respond with a list of trips for a specific user by userId.
  */
-router.get('/:userId/trips', ensureAuthenticated, usersController.getUserTrips);
+router.get('/:userId/trips', ensureAuthenticated, validateGetUserTripsById, usersController.getUserTrips);
 
 /**
  * POST /api/users/
  * Create a new user in the database.
  */
-router.post('/', usersController.createUser);
+router.post('/', validateCreateUser, usersController.createUser);
 
 /**
  * PUT /api/users/:userId
  * Update user information for a specific user.
  */
-router.put('/:userId', ensureAuthenticated, usersController.updateUser);
+router.put('/:userId', ensureAuthenticated, validateUpdateUser, usersController.updateUser);
 
 /**
  * DELETE /api/users/:userId
  * Delete a user from the database by ID.
  */
-router.delete('/:userId', ensureAuthenticated, usersController.deleteUser);
+router.delete('/:userId', ensureAuthenticated, validateDeleteUserById, usersController.deleteUser);
 
 
 
