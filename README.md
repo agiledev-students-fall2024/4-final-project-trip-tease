@@ -55,5 +55,12 @@ Once both servers are running, you can access the application by visiting `http:
 To run the tests for our code, follow these simple steps:
 1. navigate to the backend: `cd back-end`
 2. run the tests + show the coverage report: `npm run coverage`
+3. Validation tests show up in the console (in back-end/validators)
+
+*Testing authentication* We have a pre-existing user profile for testing (with pre-populated trips, activities, etc.) if you would like to use. You can also create your own account of course:
+Username:john_doe
+Password: password123
+
+
 
 
