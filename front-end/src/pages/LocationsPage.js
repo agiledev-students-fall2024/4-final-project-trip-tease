@@ -3,6 +3,7 @@ import { Link, useParams, useNavigate } from 'react-router-dom';
 import LocationsList from '../components/lists/LocationsList';
 import TripMembersList from '../components/lists/TripMembersList';
 import { fetchTripDetails, fetchLocationsForTrip, updateTripStatus } from '../api/apiUtils';
+import { FaClipboard } from 'react-icons/fa';
 import './LocationsPage.css';
 
 const LocationsPage = () => {
@@ -14,6 +15,7 @@ const LocationsPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [statusUpdateError, setStatusUpdateError] = useState('');
+  const [copySuccess, setCopySuccess] = useState(false);
 
   const fetchData = async () => {
     try {
@@ -41,6 +43,16 @@ const LocationsPage = () => {
 
   const toggleMembersList = () => setShowMembers((prev) => !prev);
 
+  const copyToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText(tripId);
+      setCopySuccess(true);
+      setTimeout(() => setCopySuccess(false), 2000); // Reset success message after 2 seconds
+    } catch (err) {
+      console.error('Failed to copy trip ID:', err);
+    }
+  };
+
   useEffect(() => {
     fetchData();
   }, [tripId]);
@@ -52,7 +64,16 @@ const LocationsPage = () => {
     <div className="locations-page">
       <div className="locations-header">
         <div className="header-left">
-          <h2 className="locations-title">{tripDetails.name}</h2>
+          <h2 className="locations-title">{tripDetails.name}
+            <span className="copy-container">
+              <FaClipboard
+                className="copy-icon"
+                onClick={copyToClipboard}
+                title="Copy Trip ID"
+              />
+              {copySuccess && <span className="copy-success-message">Copied Trip ID!</span>}
+            </span>
+          </h2>
           <p className="locations-description">
             {tripDetails.status === 'completed'
               ? 'View past trip locations'
