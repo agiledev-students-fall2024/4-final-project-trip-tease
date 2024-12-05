@@ -62,6 +62,7 @@ const LocationsPage = () => {
 
   return (
     <div className="locations-page">
+      {copySuccess && <p className="copy-success-message">Trip ID copied to clipboard!</p>}
       <div className="locations-header">
         <div className="header-left">
           <h2 className="locations-title">{tripDetails.name}
@@ -71,7 +72,6 @@ const LocationsPage = () => {
                 onClick={copyToClipboard}
                 title="Copy Trip ID"
               />
-              {copySuccess && <span className="copy-success-message">Copied Trip ID!</span>}
             </span>
           </h2>
           <p className="locations-description">
