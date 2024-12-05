@@ -67,25 +67,3 @@
     background-color: #f9f9f9;
     border-color: #E03150;
 }
-
-.copy-icon {
-    color: black;
-    font-size: 1.2rem;
-    margin-left: 10px; /* Add space to the left */
-    vertical-align: middle; /* Align with the text baseline */
-    display: inline-block; /* Ensure proper inline placement */
-    cursor: pointer;
-}
-
-.copy-success-message {
-    font-size: 0.9rem;
-    color: green;
-    margin-left: 10px;
-}
-
-.copy-container {
-    display: inline-flex;
-    align-items: center;
-    margin-left: 10px;
-}
-
