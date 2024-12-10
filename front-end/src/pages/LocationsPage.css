@@ -15,18 +15,15 @@
   .locations-title {
     font-size: 2rem;
     font-weight: bold;
-    color: #333;
-    margin: 0;         /* Remove margins */
-    padding: 0;        /* Remove padding */
-    text-align: left;  /* Align text to the left */
+    color: #333; /* Neutral color for a chill vibe */
+    margin: 0;
   }  
+
   .locations-description {
     font-size: 1.1rem;
-    color: #555;
-    margin-top: 0.5rem; /* Small gap for vertical spacing */
-    margin-left: 0;     /* Ensure no left margin */
-    padding-left: 0;    /* Ensure no left padding */
-    text-align: left;   /* Align text to the left */
+    color: #555; /* Softer text color */
+    margin: 0.01rem 0 0;
+
   }  
   
   
