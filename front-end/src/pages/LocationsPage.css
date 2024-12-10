@@ -17,13 +17,15 @@
     font-weight: bold;
     color: #333; /* Neutral color for a chill vibe */
     margin: 0;
-  }
-  
+  }  
+
   .locations-description {
     font-size: 1.1rem;
     color: #555; /* Softer text color */
     margin: 0.01rem 0 0;
-  }
+
+  }  
+  
   
   .header-left {
     display: flex;

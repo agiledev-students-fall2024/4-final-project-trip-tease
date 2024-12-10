@@ -37,7 +37,7 @@ const ActivitiesPage = () => {
             <div className="header-left">
               <div className="location-info">
                 <h2 className="location-name">{locationDetails.name}</h2>
-                <p className="location-description">{locationDetails.description || 'Explore activities for this location!'}</p>
+                <p className="location-description">{locationDetails.address || 'Explore activities for this location!'}</p>
               </div>
             </div>
             <div className="header-right">
