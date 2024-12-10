@@ -74,11 +74,18 @@ const LocationsPage = () => {
               />
             </span>
           </h2>
-          <p className="locations-description">
+          {/* <p className="locations-description">
             {tripDetails.status === 'completed'
               ? 'View past trip locations'
               : 'Explore your trip locations!'}
+          </p> */}
+          <p className="locations-description">
+  {         tripDetails.description ? tripDetails.description : (tripDetails.status === 'completed'
+              ? 'View past trip locations'
+              : 'Explore your trip locations!')}
           </p>
+
+
         </div>
         <div className="header-right">
           {tripDetails.status !== 'completed' && (
