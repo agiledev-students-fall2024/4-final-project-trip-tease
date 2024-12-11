@@ -14,7 +14,7 @@
 }
 
 .activity-card .status-dropdown:hover {
-  background-color: white;  /* Keeps the background color white on hover */
+  background-color: white;  
   color:#444444;
 }
 

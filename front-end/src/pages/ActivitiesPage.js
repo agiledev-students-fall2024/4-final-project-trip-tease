@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import ActivitiesList from '../components/lists/ActivitiesList';
-import { fetchLocationDetails, fetchTripDetails } from '../api/apiUtils'; // Assume fetchTripDetails is available
+import { fetchLocationDetails, fetchTripDetails } from '../api/apiUtils'; 
 import './ActivitiesPage.css';
 
 const ActivitiesPage = () => {
@@ -16,7 +16,6 @@ const ActivitiesPage = () => {
       try {
         const locationData = await fetchLocationDetails(locationId);
         setLocationDetails(locationData);
-        // Assuming locationData includes tripId
         const tripData = await fetchTripDetails(locationData.tripId);
         setTripDetails(tripData);
       } catch (err) {

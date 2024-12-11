@@ -23,7 +23,7 @@ const ActivityCard = ({ activity, refreshActivities }) => {
   const [isAnimating, setIsAnimating] = useState(false); // For vote animation
   const [activityStatus, setActivityStatus] = useState(activity.isCompleted ? 'Completed' : 'Ongoing');
   const [tripDetails, setTripDetails] = useState({});
-  const [error, setError] = useState(null); // Added error handling state
+  const [error, setError] = useState(null); 
   const { locationId } = useParams();
 
   useEffect(() => {

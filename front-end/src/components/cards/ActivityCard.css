@@ -3,7 +3,7 @@
   display: flex;
   flex-direction: column;
   border: 1px solid #e0e0e0;
-  border-radius: 16px; /* Slightly more rounded corners */
+  border-radius: 16px;
   background-color: #ffffff;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
   overflow: hidden;
@@ -13,7 +13,7 @@
 
 .activity-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* Softer shadow for hover */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); 
 }
 
 /* Card Content */
@@ -31,7 +31,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #f8f9fa; /* Softer background for emoji */
+  background-color: #f8f9fa; 
   border-radius: 50%;
   width: 100px;
   height: 100px;
@@ -74,7 +74,7 @@
   display: inline-block;
   font-weight: 600;
   color: #444444;
-  margin-right: 0.5rem; /* Space between label and value or dropdown */
+  margin-right: 0.5rem; 
 }
 
 /* Status Dropdown Styling */
