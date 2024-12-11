@@ -2,7 +2,7 @@ import express from 'express';
 import tripsController from '../controllers/tripsController.js';
 import { ensureAuthenticated } from '../config/jwt-config.js'; // Middleware for authentication
 import { validateGetTripById, validateGetTripLocations, validateCreateTrip, validateJoinTrip, validateUpdateTripStatus } from '../validators/tripsValidators.js'; //import the validators
-import fs from 'fs';
+
 
 const router = express.Router();
 // const trips = JSON.parse(fs.readFileSync('./mock-data/trips.json', 'utf-8'));
@@ -28,6 +28,9 @@ router.post('/:tripId/join', ensureAuthenticated, validateJoinTrip, tripsControl
 
 // Update trip status by Trip ID (PUT) - Modify the status of a trip (e.g., upcoming, ongoing, completed)
 router.put('/:tripId/status', ensureAuthenticated, validateUpdateTripStatus, tripsController.updateTripStatus);
+
+// Update trip information (PUT) - Modify trip data and respond with the updated information
+router.put('/:tripId', ensureAuthenticated, tripsController.updateTrip);
 
 //Stretch Goal Routes
 // TODO: Update trip information (PUT) - Modify trip data and respond with the updated information

@@ -262,6 +262,23 @@ export const updateTripStatus = async (tripId, status) => {
   }
 };
 
+/**
+ * Update details of a specific trip
+ * @param {string} tripId - Trip ID
+ * @param {Object} tripData - Updated trip data
+ * @returns {Object} - Updated trip details
+ * @throws {Error} - If updating trip details fails
+ */
+export const updateTripDetails = async (tripId, tripData) => {
+  try {
+    const response = await axiosInstance.put(`/trips/${tripId}`, tripData);
+    return response.data; // Return updated trip data
+  } catch (error) {
+    throw new Error(error.response?.data?.message || 'Failed to update trip details');
+  }
+};
+
+
 /** LOCATION APIs */
 
 /**

@@ -1,17 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { createTrip } from '../../api/apiUtils';
-import './AddTripForm.css';
+import { fetchTripDetails, updateTripDetails } from '../../api/apiUtils';
+import './EditTripForm.css';
 
-const AddTripForm = ({ onTripCreated }) => {
+const EditTripForm = ({ tripId, onTripUpdated }) => {
   const [formData, setFormData] = useState({
     name: '',
     description: '',
     startDate: '',
     endDate: '',
-    image: '', // New field for image URL
+    image: '',
   });
   const [error, setError] = useState(null);
+  const [successMessage, setSuccessMessage] = useState('');
+
+  useEffect(() => {
+    const loadTripDetails = async () => {
+      try {
+        const tripDetails = await fetchTripDetails(tripId);
+        setFormData({
+          name: tripDetails.name || '',
+          description: tripDetails.description || '',
+          startDate: tripDetails.startDate ? tripDetails.startDate.split('T')[0] : '',
+          endDate: tripDetails.endDate ? tripDetails.endDate.split('T')[0] : '',
+          image: tripDetails.image || '',
+        });
+      } catch (err) {
+        setError('Failed to load trip details. Please try again.');
+      }
+    };
+
+    loadTripDetails();
+  }, [tripId]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -21,19 +41,21 @@ const AddTripForm = ({ onTripCreated }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const newTrip = await createTrip(formData);
-      onTripCreated(newTrip); // Notify parent of the new trip
-      setFormData({ name: '', description: '', startDate: '', endDate: '', image: '' }); // Reset form
+      await updateTripDetails(tripId, formData);
+      setSuccessMessage('Trip details updated successfully!');
+      setTimeout(() => {
+        onTripUpdated();
+      }, 10);
     } catch (err) {
-      setError('Failed to create trip. Please try again.');
-      console.error('Error creating trip:', err.message);
+      setError('Failed to update trip details. Please try again.');
     }
   };
 
   return (
-    <form className="add-trip-form" onSubmit={handleSubmit}>
-      <h2 className="form-title">Add New Trip</h2>
+    <form className="edit-trip-form" onSubmit={handleSubmit}>
+      <h2 className="form-title">Edit Trip</h2>
       {error && <p className="form-error">{error}</p>}
+      {successMessage && <p className="form-success">{successMessage}</p>}
 
       <div className="form-group">
         <label htmlFor="name">Trip Name:</label>
@@ -90,19 +112,20 @@ const AddTripForm = ({ onTripCreated }) => {
           name="image"
           value={formData.image}
           onChange={handleChange}
-          placeholder="Provide an image URL for the trip"
+          placeholder="E.g., https://example.com/image.jpg"
         />
       </div>
 
       <button type="submit" className="form-submit-button">
-        Create Trip
+        Update Trip
       </button>
     </form>
   );
 };
 
-AddTripForm.propTypes = {
-  onTripCreated: PropTypes.func.isRequired,
+EditTripForm.propTypes = {
+  tripId: PropTypes.string.isRequired,
+  onTripUpdated: PropTypes.func.isRequired,
 };
 
-export default AddTripForm;
+export default EditTripForm;

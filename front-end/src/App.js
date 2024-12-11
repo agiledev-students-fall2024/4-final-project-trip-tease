@@ -13,6 +13,7 @@ import AddTrip from './pages/AddTripPage';
 import JoinTrip from './pages/JoinTripPage';
 import LogIn from './pages/LogInPage';
 import SignUp from './pages/SignUpPage';
+import EditTripPage from './pages/EditTripPage'; 
 
 const App = () => {
   return (
@@ -31,6 +32,7 @@ const App = () => {
           <Route path="/locations/:tripId" element={<RouteAuth isProtected><Locations /></RouteAuth>} />
           <Route path="/add-activity/:locationId" element={<RouteAuth isProtected><AddActivity /></RouteAuth>} />
           <Route path="/add-location/:tripId" element={<RouteAuth isProtected><AddLocation /></RouteAuth>} />
+          <Route path="/edit-trip/:tripId" element={<RouteAuth isProtected><EditTripPage /></RouteAuth>} /> {/* Add EditTripPage */}
           <Route path="/profile" element={<RouteAuth isProtected><ProfilesPage /></RouteAuth>} />
           <Route path="/create-trip/:userId" element={<RouteAuth isProtected><AddTrip /></RouteAuth>} />
           <Route path="/join-trip" element={<RouteAuth isProtected><JoinTrip /></RouteAuth>} />

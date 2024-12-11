@@ -34,8 +34,7 @@ const LocationsPage = () => {
     try {
       setStatusUpdateError('');
       await updateTripStatus(tripId, newStatus);
-      // Navigate back to the homepage after updating the status
-      navigate('/');
+      navigate('/'); // Navigate back to the homepage after updating the status
     } catch (err) {
       setStatusUpdateError(err.message || 'Failed to update trip status.');
     }
@@ -65,7 +64,8 @@ const LocationsPage = () => {
       {copySuccess && <p className="copy-success-message">Trip ID copied to clipboard!</p>}
       <div className="locations-header">
         <div className="header-left">
-          <h2 className="locations-title">{tripDetails.name}
+          <h2 className="locations-title">
+            {tripDetails.name}
             <span className="copy-container">
               <FaClipboard
                 className="copy-icon"
@@ -74,24 +74,24 @@ const LocationsPage = () => {
               />
             </span>
           </h2>
-          {/* <p className="locations-description">
-            {tripDetails.status === 'completed'
+          <p className="locations-description">
+            {tripDetails.description
+              ? tripDetails.description
+              : tripDetails.status === 'completed'
               ? 'View past trip locations'
               : 'Explore your trip locations!'}
-          </p> */}
-          <p className="locations-description">
-  {         tripDetails.description ? tripDetails.description : (tripDetails.status === 'completed'
-              ? 'View past trip locations'
-              : 'Explore your trip locations!')}
           </p>
-
-
         </div>
         <div className="header-right">
           {tripDetails.status !== 'completed' && (
-            <Link to={`/add-location/${tripId}`} className="add-location-link">
-              Add Location
-            </Link>
+            <>
+              <Link to={`/add-location/${tripId}`} className="add-location-link">
+                Add Location
+              </Link>
+              <Link to={`/edit-trip/${tripId}`} className="edit-trip-link">
+                Edit Trip
+              </Link>
+            </>
           )}
           <button onClick={toggleMembersList} className="toggle-members-button">
             {showMembers ? 'Hide Members' : 'Show Members'}
