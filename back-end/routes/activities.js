@@ -31,6 +31,9 @@ router.post('/:activityId/downvote', ensureAuthenticated, validateDownvoteActivi
 // Add a comment to an activity
 router.post('/:activityId/comments', ensureAuthenticated, validateCreateComment, activitiesController.addCommentToActivity);
 
+//delete an entire activity (along with handling its dependencies)
+router.delete('/:activityId', ensureAuthenticated, activitiesController.deleteActivity);
+
 // Delete a comment from an activity
 router.delete('/:activityId/comments/:commentId', ensureAuthenticated, validateDeleteComment, activitiesController.deleteCommentFromActivity);
 
