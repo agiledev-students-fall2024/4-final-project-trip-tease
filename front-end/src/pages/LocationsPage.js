@@ -3,7 +3,6 @@ import { Link, useParams, useNavigate } from 'react-router-dom';
 import LocationsList from '../components/lists/LocationsList';
 import TripMembersList from '../components/lists/TripMembersList';
 import { fetchTripDetails, fetchLocationsForTrip, updateTripStatus } from '../api/apiUtils';
-import { FaClipboard } from 'react-icons/fa';
 import './LocationsPage.css';
 
 const LocationsPage = () => {
@@ -69,6 +68,9 @@ const LocationsPage = () => {
             <p className="locations-description">{tripDetails.description}</p>
           </div>
         </div>
+        <button onClick={toggleMembersList} className="toggle-members-button">
+            {showMembers ? 'Hide Members' : 'Show Members'}
+          </button>
         <div className="header-right">
           {tripDetails.status !== 'completed' && (
             <>
@@ -80,9 +82,6 @@ const LocationsPage = () => {
               </Link>
             </>
           )}
-          <button onClick={toggleMembersList} className="toggle-members-button">
-            {showMembers ? 'Hide Members' : 'Show Members'}
-          </button>
           <select
             className="status-dropdown"
             value={tripDetails.status}
