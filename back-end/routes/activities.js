@@ -10,7 +10,6 @@ const router = express.Router();
 router.get('/', ensureAuthenticated, activitiesController.getActivities);
 
 //Update Status
-// Router configuration in your activities router file
 router.put('/:activityId/status', ensureAuthenticated, activitiesController.updateActivityStatus);
 
 
