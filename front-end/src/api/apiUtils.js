@@ -388,6 +388,24 @@ export const addCommentToActivity = async (activityId, comment) => {
   }
 };
 
+/**
+ * Update the status of an activity
+ * @param {string} activityId - Activity ID
+ * @param {boolean} isCompleted - New status of the activity
+ * @returns {Object} - Updated activity data
+ * @throws {Error} - If updating status fails
+ */
+ export const updateActivityStatus = async (activityId, isCompleted) => {
+  try {
+    const response = await axiosInstance.put(`/activities/${activityId}/status`, {
+      isCompleted
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error('Failed to update activity status');
+  }
+};
+
 /** PARTICIPANTS APIs */
 
 /**

@@ -74,6 +74,31 @@
   display: inline-block;
   font-weight: 600;
   color: #444444;
+  margin-right: 0.5rem; /* Space between label and value or dropdown */
+}
+
+/* Status Dropdown Styling */
+
+.status-dropdown label {
+  font-size: 0.95rem;
+  color: #666666;
+}
+
+.status-dropdown select {
+  padding: 0.2rem 0.5rem;
+  border: 2px solid #FF385C;
+  border-radius: 20px;
+  background-color: white;
+  font-size: 0.95rem;
+  color: #444444;
+  cursor: pointer;
+  outline: none;
+}
+
+.status-dropdown select:focus, .status-dropdown select:hover {
+  background-color: white;
+  border-color: #D52B1E;
+  box-shadow: 0 0 0 1px rgba(255, 56, 92, 0.5);
 }
 
 /* Votes Section */
@@ -98,19 +123,19 @@
 }
 
 .activity-votes .vote-button.upvote {
-  color: #28a745; /* Green for upvote */
+  color: #28a745;
 }
 
 .activity-votes .vote-button.upvote:hover {
-  color: #218838; /* Darker green for hover */
+  color: #218838;
 }
 
 .activity-votes .vote-button.downvote {
-  color: #dc3545; /* Red for downvote */
+  color: #dc3545;
 }
 
 .activity-votes .vote-button.downvote:hover {
-  color: #c82333; /* Darker red for hover */
+  color: #c82333;
 }
 
 .activity-votes .vote-count {
@@ -118,10 +143,6 @@
   font-weight: bold;
   color: #444444;
   transition: color 0.3s ease-in-out;
-}
-
-.activity-votes .vote-count.vote-animate {
-  color: hsl(349, 100%, 61%); /* Highlight color for animation */
 }
 
 /* Footer Section */
@@ -168,32 +189,4 @@
   font-size: 0.9rem;
   color: #777777;
   text-align: center;
-}
-
-
-
-
-.activity-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  font-size: 0.95rem;
-  color: #555555;
-}
-
-.meta-item {
-  display: inline-block;
-  font-weight: 500;
-  color: #555555; /* Label color */
-}
-/* 
-.meta-item strong {
-  color: #777777; 
-  font-weight: 600;
-  margin-right: 0.3rem;
-} */
-
-.meta-item span {
-  color: #333333; /* Value color */
-  font-weight: 700;
 }

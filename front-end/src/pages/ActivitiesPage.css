@@ -7,6 +7,35 @@
   box-sizing: border-box;
 }
 
+.activity-card .status-dropdown {
+  margin-left: 5px;
+  border: none;  
+  background: transparent;  
+}
+
+.activity-card .status-dropdown:hover {
+  background-color: white;  /* Keeps the background color white on hover */
+  color:#444444;
+}
+
+.activity-card .status-dropdown select {
+  padding: 0.2rem;  
+  border: 2px solid #FF385C;  
+  border-radius: 20px;  
+  background-color: white;  
+  font-size: 0.95rem;  
+  color: #444444;  
+  cursor: pointer;  
+  outline: none;  
+}
+
+.activity-card .status-dropdown select:focus, 
+.activity-card .status-dropdown select:hover {
+  background-color: white; 
+  border-color: #D52B1E;  
+  box-shadow: 0 0 0 1px rgba(255, 56, 92, 0.5);  
+}
+
 .activities-header {
   display: flex;
   justify-content: space-between;
