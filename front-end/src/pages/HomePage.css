@@ -1,16 +1,48 @@
 .home {
-  padding: 2rem;
+  padding: 1rem 2rem;
 }
 
 .home__trips {
-  margin-top: 2rem;
+  margin-top: 0;
 }
 
 .home__trips-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem; 
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #ddd;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.join-trip-link,
+.create-trip-link {
+  color: #FF385C;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border: 2px solid #FF385C;
+  border-radius: 25px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.join-trip-link:hover,
+.create-trip-link:hover {
+  background-color: #FF385C;
+  color: #fff;
 }
 
 .home__trips-title {

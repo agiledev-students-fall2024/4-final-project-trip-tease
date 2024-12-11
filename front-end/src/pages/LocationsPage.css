@@ -7,29 +7,32 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 2rem;
-    border-bottom: 2px solid #ddd;
-    margin-top: 32px;
     padding-bottom: 1rem;
+    border-bottom: 2px solid #ddd;
   }
-  
+
   .locations-title {
     font-size: 2rem;
     font-weight: bold;
-    color: #333; /* Neutral color for a chill vibe */
+    color: #333;
     margin: 0;
-  }  
+  }
 
   .locations-description {
     font-size: 1.1rem;
-    color: #555; /* Softer text color */
-    margin: 0.01rem 0 0;
+    color: #555;
+    margin-top: 0.5rem;
+  }
 
-  }  
-  
+  .location-info {
+    display: flex;
+    flex-direction: column;
+  }
   
   .header-left {
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
   }
   
   .header-right {
@@ -38,15 +41,22 @@
     gap: 1rem;
   }
   
-  .add-location-link, .edit-trip-link {
+  .edit-trip-link,
+  .add-location-link {
     color: #FF385C;
     text-decoration: none;
     font-weight: bold;
-    transition: color 0.2s ease;
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    border: 2px solid #FF385C;
+    border-radius: 25px;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
   
-  .add-location-link:hover, .edit-trip-link:hover{
-    color: #e0304b;
+  .edit-trip-link:hover,
+  .add-location-link:hover {
+    background-color: #FF385C;
+    color: #fff;
   }
   
   .toggle-members-button {
@@ -97,9 +107,9 @@
   .copy-icon {
     color: black;
     font-size: 1.2rem;
-    margin-left: 10px; /* Add space to the left */
-    vertical-align: middle; /* Align with the text baseline */
-    display: inline-block; /* Ensure proper inline placement */
+    margin-left: 10px; 
+    vertical-align: middle; 
+    display: inline-block; 
     cursor: pointer;
 }
 
