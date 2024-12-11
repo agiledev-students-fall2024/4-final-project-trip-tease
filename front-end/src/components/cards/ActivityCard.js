@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'; 
 import { useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { upvoteActivity, downvoteActivity, fetchUserById, updateActivityStatus, fetchTripDetails, fetchLocationDetails } from '../../api/apiUtils';
 import ActivityComments from '../features/ActivityComments';
@@ -120,6 +121,9 @@ const ActivityCard = ({ activity, refreshActivities }) => {
               <strong>Created At:</strong> {new Date(activity.createdAt).toLocaleDateString()}
             </span>
           </div>
+          <Link to={`/edit-activity/${activity._id}`} className="edit-activity-link">
+            Edit Activity
+          </Link>
         </div>
         <span className="meta-item">
         {tripDetails.status !== 'completed' && (

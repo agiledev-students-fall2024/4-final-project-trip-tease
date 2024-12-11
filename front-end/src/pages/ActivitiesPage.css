@@ -125,3 +125,14 @@
   border-color: #FF385C;
   background-color: #fff5f8; /* Slight hover effect */
 }
+
+.edit-location-link {
+  color: #FF385C;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.2s ease;
+}
+
+.edit-location-link:hover {
+  color: #e0304b;
+}

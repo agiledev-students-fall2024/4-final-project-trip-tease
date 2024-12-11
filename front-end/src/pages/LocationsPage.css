@@ -7,27 +7,32 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 2rem;
-    border-bottom: 2px solid #ddd;
-    margin-top: 32px;
     padding-bottom: 1rem;
+    border-bottom: 2px solid #ddd;
   }
-  
+
   .locations-title {
     font-size: 2rem;
     font-weight: bold;
-    color: #333; /* Neutral color for a chill vibe */
+    color: #333;
     margin: 0;
   }
-  
+
   .locations-description {
     font-size: 1.1rem;
-    color: #555; /* Softer text color */
-    margin: 0.01rem 0 0;
+    color: #555;
+    margin-top: 0.5rem;
+  }
+
+  .location-info {
+    display: flex;
+    flex-direction: column;
   }
   
   .header-left {
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
   }
   
   .header-right {
@@ -36,15 +41,22 @@
     gap: 1rem;
   }
   
+  .edit-trip-link,
   .add-location-link {
     color: #FF385C;
     text-decoration: none;
     font-weight: bold;
-    transition: color 0.2s ease;
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    border: 2px solid #FF385C;
+    border-radius: 25px;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
   
+  .edit-trip-link:hover,
   .add-location-link:hover {
-    color: #e0304b;
+    background-color: #FF385C;
+    color: #fff;
   }
   
   .toggle-members-button {
@@ -92,3 +104,38 @@
     background-color: #ffffff;
   }
   
+  .copy-icon {
+    color: black;
+    font-size: 1.2rem;
+    margin-left: 10px; 
+    vertical-align: middle; 
+    display: inline-block; 
+    cursor: pointer;
+}
+
+.copy-success-message {
+    font-size: 0.9rem;
+    color: green;
+    margin-left: 230px;
+}
+
+.copy-container {
+    display: inline-flex;
+    align-items: center;
+    margin-left: 10px;
+}
+
+.popup-message {
+  position: fixed;
+  top: 20px;
+  left: 55%; 
+  transform: translateX(-50%);
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 1rem;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000; 
+  animation: fadeOut 2s forwards;
+}

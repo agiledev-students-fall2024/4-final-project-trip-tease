@@ -150,6 +150,32 @@ const updateActivityStatus = async (req, res) => {
   } catch (error) {
     console.error('Error updating activity status:', error);
     res.status(500).json({ error: 'Failed to update activity status' });
+
+}
+}
+// Edit an existing activity
+const editActivity = async (req, res) => {
+  try {
+    const { activityId } = req.params;
+    const { name, description, price, type, isCompleted } = req.body;
+
+    const updatedActivity = await Activity.findByIdAndUpdate(
+      activityId,
+      { name, description, price, type, isCompleted },
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedActivity) {
+      return res.status(404).json({ error: 'Activity not found' });
+    }
+
+    res.status(200).json({
+      message: 'Activity updated successfully',
+      activity: updatedActivity,
+    });
+  } catch (error) {
+    console.error('Error updating activity:', error.message);
+    res.status(500).json({ error: 'Failed to update activity' });
   }
 };
 
@@ -247,6 +273,34 @@ const deleteCommentFromActivity = async (req, res) => {
   }
 };
 
+//delete activity & remove it from location's activities array
+const deleteActivity = async (req, res) => {
+  try {
+    const { activityId } = req.params;
+    
+    //find the activity
+    const activity = await Activity.findById(activityId);
+    if (!activity) {
+      return res.status(404).json({ error: 'Activity not found' });
+    }
+    //get location id
+    const { locationId } = activity;
+    //delete activity from list in location 
+    await Location.findByIdAndUpdate(
+      locationId,
+      { $pull: { activities: activityId } },
+      { new: true }
+    );
+    //delete the activity
+    await Activity.findByIdAndDelete(activityId);
+
+    res.status(200).json({ message: 'Activity successfully deleted' });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to delete activity' });
+  }
+};
+
+
 export default {
   getActivities,
   getActivitiesByLocation,
@@ -257,4 +311,6 @@ export default {
   downvoteActivity,
   addCommentToActivity,
   deleteCommentFromActivity,
+  editActivity,
+  deleteActivity
 };

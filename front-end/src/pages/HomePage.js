@@ -17,11 +17,16 @@ const Home = () => {
     <div className="home">
       <div className="home__trips">
         <div className="home__trips-header">
-          <h2 className="home__trips-title">My Trips</h2>
-          <div className="home__trips-actions">
-            <a href="/join-trip">Join Trip</a>
-            <span className="home__trips-actions__separator">|</span>
-            {user && <a href={`/create-trip/${user.id}`}>Create Trip</a>}
+          <div className="header-left">
+            <h2 className="home__trips-title">My Trips</h2>
+          </div>
+          <div className="header-right">
+            <a href="/join-trip" className="join-trip-link">
+              Join Trip
+            </a>
+            <a href={`/create-trip/${user.id}`} className="create-trip-link">
+              Create Trip
+            </a>
           </div>
         </div>
         <TripTabs activeTab={activeTab} setActiveTab={setActiveTab} />

@@ -190,3 +190,42 @@
   color: #777777;
   text-align: center;
 }
+
+.activity-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  font-size: 0.95rem;
+  color: #555555;
+}
+
+.meta-item {
+  display: inline-block;
+  font-weight: 500;
+  color: #555555; /* Label color */
+}
+/* 
+.meta-item strong {
+  color: #777777; 
+  font-weight: 600;
+  margin-right: 0.3rem;
+} */
+
+.meta-item span {
+  color: #333333; /* Value color */
+  font-weight: 700;
+}
+
+
+.edit-activity-link {
+  margin-top: 5px;
+  color: #FF385C;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.2s ease;
+  font-size: 0.9rem;
+}
+
+.edit-activity-link:hover {
+  color: #e0304b;
+}

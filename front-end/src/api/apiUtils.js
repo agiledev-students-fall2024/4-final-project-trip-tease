@@ -262,6 +262,23 @@ export const updateTripStatus = async (tripId, status) => {
   }
 };
 
+/**
+ * Update details of a specific trip
+ * @param {string} tripId - Trip ID
+ * @param {Object} tripData - Updated trip data
+ * @returns {Object} - Updated trip details
+ * @throws {Error} - If updating trip details fails
+ */
+export const updateTripDetails = async (tripId, tripData) => {
+  try {
+    const response = await axiosInstance.put(`/trips/${tripId}`, tripData);
+    return response.data; // Return updated trip data
+  } catch (error) {
+    throw new Error(error.response?.data?.message || 'Failed to update trip details');
+  }
+};
+
+
 /** LOCATION APIs */
 
 /**
@@ -310,6 +327,23 @@ export const createLocation = async (locationData) => {
   }
 };
 
+/**
+ * Update location details
+ * @param {string} locationId - Location ID
+ * @param {Object} locationData - Updated location data
+ * @returns {Object} - Updated location details
+ * @throws {Error} - If updating location fails
+ */
+export const updateLocationDetails = async (locationId, locationData) => {
+  try {
+    const response = await axiosInstance.put(`/locations/${locationId}`, locationData);
+    return response.data;
+  } catch (error) {
+    throw new Error('Failed to update location details');
+  }
+};
+
+
 /** ACTIVITY APIs */
 
 /**
@@ -328,6 +362,37 @@ export const fetchActivitiesForLocation = async (locationId) => {
 };
 
 /**
+ * Fetch location details
+ * @param {string} activityId - Location ID
+ * @returns {Object} - Activity details
+ * @throws {Error} - If fetching activity details fails
+ */
+export const fetchActivityDetails = async (activityId) => {
+
+  try {
+    const response = await axiosInstance.get(`/activities/${activityId}`);
+    return response.data;
+  } catch (error) {
+    throw new Error('Failed to fetch location details');
+  }
+};
+
+/**
+ * Edit an existing activity
+ * @param {Object} activityData - Activity details
+ * @returns {Object} - newly updated activity
+ * @throws {Error} - If creating activity fails
+ */
+export const editActivity = async (activityId, activityData) => {
+  try {
+    const response = await axiosInstance.put(`/activities/${activityId}`, activityData);
+    return response.data;
+  } catch (error) {
+    throw new Error('Failed to create activity');
+  }
+};
+
+/**
  * Create a new activity
  * @param {Object} activityData - Activity details
  * @returns {Object} - Newly created activity
@@ -341,6 +406,23 @@ export const createActivity = async (activityData) => {
     throw new Error('Failed to create activity');
   }
 };
+
+/**
+ * Delete an activity and remove it from the location's activities array
+ * @param {string} locationId - The ID of the location
+ * @param {string} activityId - The ID of the activity to delete
+ * @returns {Object} - The response containing the deleted activity and updated location
+ * @throws {Error} - If deleting the activity or updating the location fails
+ */
+export const deleteActivity = async (activityId) => {
+  try {
+    const response = await axiosInstance.delete(`/activities/${activityId}`);
+    return response.data;
+  } catch (error) {
+    throw new Error('Failed to delete activity');
+  }
+};
+
 
 /**
  * Upvote an activity
@@ -422,3 +504,5 @@ export const fetchTripParticipants = async (tripId) => {
     throw new Error('Failed to fetch trip participants');
   }
 };
+
+

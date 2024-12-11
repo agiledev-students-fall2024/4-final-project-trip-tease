@@ -3,6 +3,7 @@ import { Link, useParams, useNavigate } from 'react-router-dom';
 import LocationsList from '../components/lists/LocationsList';
 import TripMembersList from '../components/lists/TripMembersList';
 import { fetchTripDetails, fetchLocationsForTrip, updateTripStatus } from '../api/apiUtils';
+import { FaClipboard } from 'react-icons/fa';
 import './LocationsPage.css';
 
 const LocationsPage = () => {
@@ -14,6 +15,7 @@ const LocationsPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [statusUpdateError, setStatusUpdateError] = useState('');
+  const [copySuccess, setCopySuccess] = useState(false);
 
   const fetchData = async () => {
     try {
@@ -32,14 +34,23 @@ const LocationsPage = () => {
     try {
       setStatusUpdateError('');
       await updateTripStatus(tripId, newStatus);
-      // Navigate back to the homepage after updating the status
-      navigate('/');
+      navigate('/'); // Navigate back to the homepage after updating the status
     } catch (err) {
       setStatusUpdateError(err.message || 'Failed to update trip status.');
     }
   };
 
   const toggleMembersList = () => setShowMembers((prev) => !prev);
+
+  const copyToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText(tripId);
+      setCopySuccess(true);
+      setTimeout(() => setCopySuccess(false), 2000); // Reset success message after 2 seconds
+    } catch (err) {
+      console.error('Failed to copy trip ID:', err);
+    }
+  };
 
   useEffect(() => {
     fetchData();
@@ -50,20 +61,24 @@ const LocationsPage = () => {
 
   return (
     <div className="locations-page">
+      {copySuccess && <p className="copy-success-message">Trip ID copied to clipboard!</p>}
       <div className="locations-header">
         <div className="header-left">
-          <h2 className="locations-title">{tripDetails.name}</h2>
-          <p className="locations-description">
-            {tripDetails.status === 'completed'
-              ? 'View past trip locations'
-              : 'Explore your trip locations!'}
-          </p>
+          <div className="location-info">
+            <h2 className="locations-title">{tripDetails.name}</h2>
+            <p className="locations-description">{tripDetails.description}</p>
+          </div>
         </div>
         <div className="header-right">
           {tripDetails.status !== 'completed' && (
-            <Link to={`/add-location/${tripId}`} className="add-location-link">
-              Add Location
-            </Link>
+            <>
+              <Link to={`/edit-trip/${tripId}`} className="edit-trip-link">
+                Edit Trip
+              </Link>
+              <Link to={`/add-location/${tripId}`} className="add-location-link">
+                Add Location
+              </Link>
+            </>
           )}
           <button onClick={toggleMembersList} className="toggle-members-button">
             {showMembers ? 'Hide Members' : 'Show Members'}

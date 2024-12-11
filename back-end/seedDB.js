@@ -1,78 +1,51 @@
-// // Import Database Connection
-// import connectDB from './config/db.js';
+// 
 
-// // Import Models
-// import User from './models/User.js';
-// import Trip from './models/Trip.js';
-// import Location from './models/Location.js';
-// import Activity from './models/Activity.js';
-
-// // Import Mock Data from the updated db-mock-data folder
-// import users from './db-mock-data/users.js';
-// import trips from './db-mock-data/trips.js';
-// import locations from './db-mock-data/locations.js';
-// import activities from './db-mock-data/activities.js';
-
-// // Seed Data
-// const seedDatabase = async () => {
-//   try {
-//     // Connect to the database
-//     await connectDB();
-
-//     console.log('Clearing existing data...');
-//     await User.deleteMany();
-//     await Trip.deleteMany();
-//     await Location.deleteMany();
-//     await Activity.deleteMany();
-
-//     console.log('Inserting users...');
-//     await User.insertMany(users);
-
-//     console.log('Inserting trips...');
-//     await Trip.insertMany(trips);
-
-//     console.log('Inserting locations...');
-//     await Location.insertMany(locations);
-
-//     console.log('Inserting activities...');
-//     await Activity.insertMany(activities);
-
-//     console.log('Database seeding completed!');
-//     process.exit();
-//   } catch (error) {
-//     console.error(`Error: ${error.message}`);
-//     process.exit(1);
-//   }
-// };
-
-// seedDatabase();
-
-
-import bcrypt from 'bcrypt';
 import mongoose from 'mongoose';
-import User from './models/User.js'; // Update with your correct User model path
-import config from './config/config.js'; // Ensure database connection config
+import User from './models/User.js'; // Adjust the path as needed
+import Trip from './models/Trip.js'; // Adjust the path as needed
+import config from './config/config.js'; // Update with your database connection config
 
-const updateMockPassword = async () => {
+const assignJohnDoeAsOwner = async () => {
   try {
-    await mongoose.connect(config.mongoURI); // Replace with your database URI
+    // Connect to the database
+    await mongoose.connect(config.mongoURI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
 
-    const user = await User.findOne({ username: 'john_doe' });
-    if (!user) {
-      console.log('User not found');
+    console.log('Connected to MongoDB.');
+
+    // John Doe's user ID
+    const johnDoeId = '64b1c7c8f2a5b9a2d5c8f001';
+
+    // Fetch trips where John Doe is a participant
+    const trips = await Trip.find({ participants: johnDoeId });
+
+    if (trips.length === 0) {
+      console.log('No trips found where John Doe is a participant.');
       return;
     }
 
-    const hashedPassword = await bcrypt.hash('password123', 10); // Hash the password
-    user.password = hashedPassword; // Update the password field
-    await user.save(); // Save the updated user
+    // Update each trip to set John Doe as the owner
+    for (const trip of trips) {
+      if (!trip.owner) { // Only update if the owner is not already set
+        trip.owner = johnDoeId; // Set John Doe as the owner
+        await trip.save(); // Save the updated trip
+        console.log(`Updated trip ${trip._id} with owner John Doe (${johnDoeId}).`);
+      } else {
+        console.log(`Trip ${trip._id} already has an owner (${trip.owner}).`);
+      }
+    }
 
-    console.log('Password updated successfully');
-    mongoose.connection.close();
+    console.log('All applicable trips updated with John Doe as owner.');
   } catch (error) {
-    console.error('Error updating password:', error);
-    mongoose.connection.close();
+    console.error('Error assigning John Doe as owner:', error);
+  } finally {
+    // Disconnect from the database
+    await mongoose.disconnect();
+    console.log('Disconnected from MongoDB.');
   }
 };
 
-updateMockPassword();
+// Run the script
+assignJohnDoeAsOwner();

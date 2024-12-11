@@ -1,0 +1,137 @@
+.edit-activity-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 2rem;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    width: 100%;
+    margin: 2rem auto;
+}
+  
+.edit-activity-form h2 {
+    text-align: center;
+    margin-bottom: 1rem;
+    font-size: 1.8rem;
+    color: #333;
+}
+  
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+  
+.form-group label {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    color: #444;
+}
+  
+.form-group input,
+.form-group select,
+.form-group textarea {
+    padding: 0.8rem;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-sizing: border-box;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+  
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: #ff385c;
+    outline: none;
+    box-shadow: 0 0 5px rgba(255, 56, 92, 0.3);
+}
+  
+.form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+  
+.form-group select {
+    cursor: pointer;
+}
+  
+.form-group .tooltip {
+    font-size: 0.85rem;
+    color: #888;
+    margin-top: 0.3rem;
+}
+  
+.form-submit-button {
+    padding: 0.8rem;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #fff;
+    background-color: #ff385c;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+  
+.form-submit-button:hover {
+    background-color: #e0304b;
+}
+  
+.form-submit-button:active {
+    transform: translateY(2px);
+}
+  
+.form-error {
+    color: red;
+    font-size: 0.9rem;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+  
+.edit-activity-form .error-message {
+    color: red;
+    margin-bottom: 10px;
+}
+  
+.edit-activity-form select {
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-top: 5px;
+    background-color: #f9f9f9;
+}
+  
+.edit-activity-form select:focus {
+    border-color: #ff385c;
+    outline: none;
+    box-shadow: 0 0 5px rgba(255, 56, 92, 0.3);
+}
+  
+.edit-activity-form select option {
+    padding: 0.8rem;
+}
+  
+  /* Responsive Design */
+@media (max-width: 768px) {
+    .edit-activity-form {
+      padding: 1.5rem;
+      gap: 1rem;
+    }
+  
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      font-size: 0.9rem;
+      padding: 0.6rem;
+    }
+  
+    .form-submit-button {
+      font-size: 0.9rem;
+    }
+}
+  
