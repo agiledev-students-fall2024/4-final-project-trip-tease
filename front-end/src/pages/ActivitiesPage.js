@@ -41,6 +41,9 @@ const ActivitiesPage = () => {
               </div>
             </div>
             <div className="header-right">
+              <Link to={`/edit-location/${locationId}`} className="edit-location-link">
+                Edit Location
+              </Link>
               <Link to={`/add-activity/${locationId}`} className="create-activity-link">
                 Create Activity
               </Link>

@@ -327,6 +327,23 @@ export const createLocation = async (locationData) => {
   }
 };
 
+/**
+ * Update location details
+ * @param {string} locationId - Location ID
+ * @param {Object} locationData - Updated location data
+ * @returns {Object} - Updated location details
+ * @throws {Error} - If updating location fails
+ */
+export const updateLocationDetails = async (locationId, locationData) => {
+  try {
+    const response = await axiosInstance.put(`/locations/${locationId}`, locationData);
+    return response.data;
+  } catch (error) {
+    throw new Error('Failed to update location details');
+  }
+};
+
+
 /** ACTIVITY APIs */
 
 /**
@@ -452,3 +469,5 @@ export const fetchTripParticipants = async (tripId) => {
     throw new Error('Failed to fetch trip participants');
   }
 };
+
+

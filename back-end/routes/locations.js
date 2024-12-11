@@ -16,10 +16,14 @@ router.get('/:locationId', ensureAuthenticated, validateGetLocationById, locatio
 router.get('/activities/:locationId', ensureAuthenticated, validateGetActivitiesForLocation, locationsController.getLocationActivities);
 
 //post route for adding a new location
-//TODO: build the addLocation controller
 router.post('/', ensureAuthenticated, validateCreateLocation, locationsController.addLocation);
 
-  
+/**
+ * Update location information (PUT)
+ * - Updates an existing location with new details and responds with the updated location.
+ */
+router.put('/:locationId', ensureAuthenticated,locationsController.updateLocation);
+
 
 //not needed anymore because @ant built this in trips.js
 // Get locations by Trip ID (GET) - Retrieve all locations associated with a specific trip

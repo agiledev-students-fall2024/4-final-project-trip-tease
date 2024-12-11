@@ -1,15 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { createLocation } from '../../api/apiUtils';
-import './AddLocationForm.css';
+import { fetchLocationDetails, updateLocationDetails } from '../../api/apiUtils';
+import './EditLocationForm.css';
 
-const AddLocationForm = ({ tripId, onLocationCreated }) => {
+const EditLocationForm = ({ locationId, onLocationUpdated }) => {
   const [formData, setFormData] = useState({
     name: '',
     address: '',
     image: '',
   });
   const [error, setError] = useState(null);
+  const [successMessage, setSuccessMessage] = useState('');
+
+  useEffect(() => {
+    const loadLocationDetails = async () => {
+      try {
+        const locationDetails = await fetchLocationDetails(locationId);
+        setFormData({
+          name: locationDetails.name || '',
+          address: locationDetails.address || '',
+          image: locationDetails.image || 'https://picsum.photos/200',
+        });
+      } catch (err) {
+        setError('Failed to load location details. Please try again.');
+      }
+    };
+
+    loadLocationDetails();
+  }, [locationId]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -19,18 +37,21 @@ const AddLocationForm = ({ tripId, onLocationCreated }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const newLocation = await createLocation({ ...formData, tripId });
-      onLocationCreated(newLocation); // Notify parent about the new location
-      setFormData({ name: '', address: '', image: '' }); // Clear form
+      await updateLocationDetails(locationId, formData);
+      setSuccessMessage('Location details updated successfully!');
+      setTimeout(() => {
+        onLocationUpdated();
+      }, 10);
     } catch (err) {
-      setError('Failed to create location. Please try again.');
-      console.error('Error creating location:', err.message);
+      setError('Failed to update location. Please try again.');
     }
   };
 
   return (
-    <form className="add-location-form" onSubmit={handleSubmit}>
+    <form className="edit-location-form" onSubmit={handleSubmit}>
+      <h2 className="form-title">Edit Location</h2>
       {error && <p className="form-error">{error}</p>}
+      {successMessage && <p className="form-success">{successMessage}</p>}
 
       <div className="form-group">
         <label htmlFor="name">Location Name:</label>
@@ -70,15 +91,15 @@ const AddLocationForm = ({ tripId, onLocationCreated }) => {
       </div>
 
       <button type="submit" className="form-submit-button">
-        Create Location
+        Update Location
       </button>
     </form>
   );
 };
 
-AddLocationForm.propTypes = {
-  tripId: PropTypes.string.isRequired,
-  onLocationCreated: PropTypes.func.isRequired,
+EditLocationForm.propTypes = {
+  locationId: PropTypes.string.isRequired,
+  onLocationUpdated: PropTypes.func.isRequired,
 };
 
-export default AddLocationForm;
+export default EditLocationForm;

@@ -74,58 +74,90 @@ export const getLocationActivities = async (req, res) => {
 }
 
 export const addLocation = async (req, res) => {
-    console.log('Attempting to add location...');
-    try {
-        const { name, address, tripId } = req.body;
+  console.log('Attempting to add location...');
+  try {
+      const { name, address, tripId, image } = req.body;
 
-        // Validate input fields
-        if (!name || !tripId) {
-            return res.status(400).json({ error: 'Name and tripId are required fields.' });
-        }
+      // Validate input fields
+      if (!name || !tripId) {
+          return res.status(400).json({ error: 'Name and tripId are required fields.' });
+      }
 
-        // Check if the trip exists
-        const trip = await Trip.findById(tripId);
-        if (!trip) {
-            return res.status(404).json({ error: 'Trip not found. Cannot add location to a non-existent trip.' });
-        }
+      // Check if the trip exists
+      const trip = await Trip.findById(tripId);
+      if (!trip) {
+          return res.status(404).json({ error: 'Trip not found. Cannot add location to a non-existent trip.' });
+      }
 
-        // Create a new location
-        const newLocation = new Location({
-            name,
-            address,
-            tripId, // Link the location to the trip
-        });
+      // Create a new location
+      const newLocation = new Location({
+          name,
+          address,
+          tripId, // Link the location to the trip
+          image: image || 'https://picsum.photos/200', // Use default image if none provided
+      });
 
-        // Save the location to the database
-        const savedLocation = await newLocation.save();
-        console.log('New location saved:', savedLocation);
+      // Save the location to the database
+      const savedLocation = await newLocation.save();
+      console.log('New location saved:', savedLocation);
 
-        // Update the trip with the new location ID
-        const updatedTrip = await Trip.findByIdAndUpdate(
-            tripId,
-            { $push: { locations: savedLocation._id } }, // Add the location ID to the trip's locations array
-            { new: true } // Return the updated trip
-        );
+      // Update the trip with the new location ID
+      const updatedTrip = await Trip.findByIdAndUpdate(
+          tripId,
+          { $push: { locations: savedLocation._id } }, // Add the location ID to the trip's locations array
+          { new: true } // Return the updated trip
+      );
 
-        if (!updatedTrip) {
-            return res.status(404).json({ error: 'Failed to update trip with new location.' });
-        }
+      if (!updatedTrip) {
+          return res.status(404).json({ error: 'Failed to update trip with new location.' });
+      }
 
-        // Respond with success
-        res.status(201).json({
-            message: 'Location successfully created and added to trip.',
-            newLocation,
-            updatedTrip,
-        });
-    } catch (error) {
-        console.error('Error adding location:', error.message);
-        res.status(500).json({ error: 'Failed to create location and update trip.' });
-    }
+      // Respond with success
+      res.status(201).json({
+          message: 'Location successfully created and added to trip.',
+          newLocation,
+          updatedTrip,
+      });
+  } catch (error) {
+      console.error('Error adding location:', error.message);
+      res.status(500).json({ error: 'Failed to create location and update trip.' });
+  }
 };
 
 
+/**
+ * Update a location (PUT)
+ * - Updates details of an existing location, such as name, address, or image.
+ * @param {string} locationId - The ID of the location to update.
+ * @param {string} name - Updated name for the location.
+ * @param {string} address - Updated address or description for the location.
+ * @param {string} image - Updated image URL for the location.
+ */
+export const updateLocation = async (req, res) => {
+  try {
+    const { locationId } = req.params;
+    const { name, address, image } = req.body;
+
+    const location = await Location.findById(locationId);
+    if (!location) {
+      return res.status(404).json({ error: 'Location not found.' });
+    }
+
+    if (name) location.name = name;
+    if (address) location.address = address;
+    if (image) location.image = image;
+
+    const updatedLocation = await location.save();
+    res.status(200).json(updatedLocation);
+  } catch (error) {
+    console.error('Error updating location:', error.message);
+    res.status(500).json({ error: 'Failed to update the location.' });
+  }
+};
+
 export default {
-    getLocation,
-    getLocationActivities,
-    addLocation
-  };
+  getLocation,
+  getLocationActivities,
+  addLocation,
+  updateLocation,
+};
