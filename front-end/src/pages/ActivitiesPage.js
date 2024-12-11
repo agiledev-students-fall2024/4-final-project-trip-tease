@@ -1,26 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import ActivitiesList from '../components/lists/ActivitiesList';
-import { fetchLocationDetails } from '../api/apiUtils'; // API function for location details
+import { fetchLocationDetails, fetchTripDetails } from '../api/apiUtils'; // Assume fetchTripDetails is available
 import './ActivitiesPage.css';
 
 const ActivitiesPage = () => {
   const { locationId } = useParams();
   const [locationDetails, setLocationDetails] = useState({});
+  const [tripDetails, setTripDetails] = useState({});
   const [selectedType, setSelectedType] = useState('all');
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const loadLocationDetails = async () => {
+    const loadDetails = async () => {
       try {
-        const details = await fetchLocationDetails(locationId);
-        setLocationDetails(details);
+        const locationData = await fetchLocationDetails(locationId);
+        setLocationDetails(locationData);
+        // Assuming locationData includes tripId
+        const tripData = await fetchTripDetails(locationData.tripId);
+        setTripDetails(tripData);
       } catch (err) {
-        setError('Failed to fetch location details');
+        setError('Failed to fetch details');
       }
     };
 
-    loadLocationDetails();
+    loadDetails();
   }, [locationId]);
 
   const handleFilterChange = (event) => {
@@ -41,9 +45,11 @@ const ActivitiesPage = () => {
               </div>
             </div>
             <div className="header-right">
-              <Link to={`/add-activity/${locationId}`} className="create-activity-link">
-                Create Activity
-              </Link>
+              {tripDetails.status !== 'completed' && (
+                <Link to={`/add-activity/${locationId}`} className="create-activity-link">
+                  Create Activity
+                </Link>
+              )}
             </div>
           </div>
           <div className="filter-container">
