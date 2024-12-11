@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'; 
+import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { upvoteActivity, downvoteActivity, fetchUserById, updateActivityStatus } from '../../api/apiUtils'; // Import the API functions
+import { upvoteActivity, downvoteActivity, fetchUserById, updateActivityStatus, fetchTripDetails, fetchLocationDetails } from '../../api/apiUtils';
 import ActivityComments from '../features/ActivityComments';
 import './ActivityCard.css';
 
@@ -21,6 +22,9 @@ const ActivityCard = ({ activity, refreshActivities }) => {
   const [createdByUsername, setCreatedByUsername] = useState('Loading...');
   const [isAnimating, setIsAnimating] = useState(false); // For vote animation
   const [activityStatus, setActivityStatus] = useState(activity.isCompleted ? 'Completed' : 'Ongoing');
+  const [tripDetails, setTripDetails] = useState({});
+  const [error, setError] = useState(null); // Added error handling state
+  const { locationId } = useParams();
 
   useEffect(() => {
     const loadUsername = async () => {
@@ -36,29 +40,43 @@ const ActivityCard = ({ activity, refreshActivities }) => {
     loadUsername();
   }, [activity.createdBy]);
 
+  useEffect(() => {
+    const loadDetails = async () => {
+      try {
+        const locationData = await fetchLocationDetails(locationId);
+        // Assuming locationData includes tripId
+        const tripData = await fetchTripDetails(locationData.tripId);
+        setTripDetails(tripData);
+      } catch (err) {
+        setError('Failed to fetch details');
+      }
+    };
+
+    loadDetails();
+  }, [locationId]); // Missing dependency for useEffect
+
   const handleStatusChange = async (event) => {
     const newStatus = event.target.value === 'Completed';
-    setActivityStatus(newStatus ? 'Completed' : 'Ongoing'); 
-  
+    setActivityStatus(newStatus ? 'Completed' : 'Ongoing');
+
     try {
-      await updateActivityStatus(activity._id, newStatus); 
-      refreshActivities(); 
+      await updateActivityStatus(activity._id, newStatus);
+      refreshActivities();
     } catch (error) {
       console.error('Error updating activity status:', error);
     }
   };
-  
 
   const handleVoteAnimation = () => {
     setIsAnimating(true);
-    setTimeout(() => setIsAnimating(false), 500); // Animation lasts 500ms
+    setTimeout(() => setIsAnimating(false), 500);
   };
 
   const handleUpvote = async () => {
     try {
       await upvoteActivity(activity._id);
-      handleVoteAnimation(); // Trigger animation
-      refreshActivities(); // Reload the activities
+      handleVoteAnimation();
+      refreshActivities();
     } catch (err) {
       console.error('Error upvoting activity:', err.message);
     }
@@ -67,8 +85,8 @@ const ActivityCard = ({ activity, refreshActivities }) => {
   const handleDownvote = async () => {
     try {
       await downvoteActivity(activity._id);
-      handleVoteAnimation(); // Trigger animation
-      refreshActivities(); // Reload the activities
+      handleVoteAnimation();
+      refreshActivities();
     } catch (err) {
       console.error('Error downvoting activity:', err.message);
     }
@@ -105,25 +123,28 @@ const ActivityCard = ({ activity, refreshActivities }) => {
           </div>
         </div>
         <span className="meta-item">
+        {tripDetails.status !== 'completed' && (
             <div className="status-dropdown">
               <strong>Status:</strong>
               <select value={activityStatus} onChange={handleStatusChange}>
                 <option value="Ongoing">Ongoing</option>
                 <option value="Completed">Completed</option>
               </select>
-            </div>
+            </div>)}
             </span>
-        <div className="activity-votes">
-          <button onClick={handleUpvote} className="vote-button upvote">
-            <span className="emoji">👍</span>
-          </button>
-          <span className={`vote-count ${isAnimating ? 'vote-animate' : ''}`}>
-            {activity.votes}
-          </span>
-          <button onClick={handleDownvote} className="vote-button downvote">
-            <span className="emoji">👎</span>
-          </button>
-        </div>
+            {tripDetails.status !== 'completed' && (
+              <div className="activity-votes">
+                <button onClick={handleUpvote} className="vote-button upvote">
+                  <span className="emoji">👍</span>
+                </button>
+                <span className={`vote-count ${isAnimating ? 'vote-animate' : ''}`}>
+                  {activity.votes}
+                </span>
+                <button onClick={handleDownvote} className="vote-button downvote">
+                  <span className="emoji">👎</span>
+                </button>
+              </div>
+            )}
       </div>
       <div className="activity-footer">
         <button onClick={toggleComments} className="toggle-comments-button">
