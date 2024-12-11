@@ -13,7 +13,7 @@ const LocationCard = ({ location }) => {
     <div className="location-card" onClick={handleCardClick}>
       <div className="location-card__image-wrapper">
         <img
-          src={`https://picsum.photos/400/300?random=${location.id}`}
+          src={location.image}
           alt={location.name}
           className="location-card__image"
         />
