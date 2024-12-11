@@ -328,6 +328,37 @@ export const fetchActivitiesForLocation = async (locationId) => {
 };
 
 /**
+ * Fetch location details
+ * @param {string} activityId - Location ID
+ * @returns {Object} - Activity details
+ * @throws {Error} - If fetching activity details fails
+ */
+export const fetchActivityDetails = async (activityId) => {
+
+  try {
+    const response = await axiosInstance.get(`/activities/${activityId}`);
+    return response.data;
+  } catch (error) {
+    throw new Error('Failed to fetch location details');
+  }
+};
+
+/**
+ * Edit an existing activity
+ * @param {Object} activityData - Activity details
+ * @returns {Object} - newly updated activity
+ * @throws {Error} - If creating activity fails
+ */
+export const editActivity = async (activityId, activityData) => {
+  try {
+    const response = await axiosInstance.put(`/activities/${activityId}`, activityData);
+    return response.data;
+  } catch (error) {
+    throw new Error('Failed to create activity');
+  }
+};
+
+/**
  * Create a new activity
  * @param {Object} activityData - Activity details
  * @returns {Object} - Newly created activity

@@ -129,6 +129,32 @@ const createActivity = async (req, res) => {
   }
 };
 
+// Edit an existing activity
+const editActivity = async (req, res) => {
+  try {
+    const { activityId } = req.params;
+    const { name, description, price, type, isCompleted } = req.body;
+
+    const updatedActivity = await Activity.findByIdAndUpdate(
+      activityId,
+      { name, description, price, type, isCompleted },
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedActivity) {
+      return res.status(404).json({ error: 'Activity not found' });
+    }
+
+    res.status(200).json({
+      message: 'Activity updated successfully',
+      activity: updatedActivity,
+    });
+  } catch (error) {
+    console.error('Error updating activity:', error.message);
+    res.status(500).json({ error: 'Failed to update activity' });
+  }
+};
+
 // Upvote an activity
 const upvoteActivity = async (req, res) => {
   try {
@@ -232,4 +258,5 @@ export default {
   downvoteActivity,
   addCommentToActivity,
   deleteCommentFromActivity,
+  editActivity
 };

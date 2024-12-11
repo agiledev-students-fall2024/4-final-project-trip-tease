@@ -18,6 +18,17 @@ export const validateCreateActivity = validate([
     body('image').if((value) => value !== undefined && value !== '').isURL().withMessage('Image must be a valid URL.'),
 ]);
 
+export const validateEditActivity = validate([
+    param('activityId').isMongoId().withMessage('Activity ID must be a valid MongoDB ObjectId.'),
+    body('name').if((value) => value !== undefined && value !== '').isString().withMessage('Activity name must be a string.'),
+    body('description').if((value) => value !== undefined && value !== '').isString().withMessage('Description must be a string.'),
+    body('price')
+        .if((value) => value !== undefined && value !== '')
+        .isInt({ min: 0, max: 4 })
+        .withMessage('Price must be an integer between 0 and 4.'),
+    body('isCompleted').if((value) => value !== undefined && value !== '').isBoolean().withMessage('Status (isCompleted) must be a boolean value.'),
+]);
+
 export const validateCreateComment = validate([
     param('activityId')
         .isMongoId()

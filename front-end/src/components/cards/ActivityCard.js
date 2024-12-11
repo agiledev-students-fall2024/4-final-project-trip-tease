@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { upvoteActivity, downvoteActivity, fetchUserById } from '../../api/apiUtils'; // Ensure you have these API functions in place
 import ActivityComments from '../features/ActivityComments';
@@ -97,6 +98,9 @@ const ActivityCard = ({ activity, refreshActivities }) => {
               <strong>Created At:</strong> {new Date(activity.createdAt).toLocaleDateString()}
             </span>
           </div>
+          <Link to={`/edit-activity/${activity._id}`} className="edit-activity-link">
+            Edit Activity
+          </Link>
         </div>
 
         {/* Votes Section */}

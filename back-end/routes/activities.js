@@ -1,7 +1,7 @@
 import express from 'express';
 import activitiesController from '../controllers/activitiesController.js';
 import { ensureAuthenticated } from '../config/jwt-config.js'; 
-import { validateGetActivityById, validateCreateActivity, validateDeleteComment, validateCreateComment, validateGetActivitiesByLocationId, validateUpvoteActivity, validateDownvoteActivity } from '../validators/activitiesValidators.js';
+import { validateGetActivityById, validateCreateActivity, validateEditActivity, validateDeleteComment, validateCreateComment, validateGetActivitiesByLocationId, validateUpvoteActivity, validateDownvoteActivity } from '../validators/activitiesValidators.js';
 
 
 const router = express.Router();
@@ -14,6 +14,10 @@ router.get('/location/:locationId', ensureAuthenticated, validateGetActivitiesBy
 
 // Get a specific activity by ID
 router.get('/:activityId', ensureAuthenticated, validateGetActivityById, activitiesController.getActivityById);
+
+// Get a specific activity by ID
+//haven't written the validator
+router.put('/:activityId', ensureAuthenticated, validateEditActivity, activitiesController.editActivity);
 
 // Create a new activity
 router.post('/', ensureAuthenticated, validateCreateActivity, activitiesController.createActivity);
