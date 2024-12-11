@@ -408,6 +408,23 @@ export const createActivity = async (activityData) => {
 };
 
 /**
+ * Delete an activity and remove it from the location's activities array
+ * @param {string} locationId - The ID of the location
+ * @param {string} activityId - The ID of the activity to delete
+ * @returns {Object} - The response containing the deleted activity and updated location
+ * @throws {Error} - If deleting the activity or updating the location fails
+ */
+export const deleteActivity = async (activityId) => {
+  try {
+    const response = await axiosInstance.delete(`/activities/${activityId}`);
+    return response.data;
+  } catch (error) {
+    throw new Error('Failed to delete activity');
+  }
+};
+
+
+/**
  * Upvote an activity
  * @param {string} activityId - Activity ID
  * @returns {Object} - Updated activity data
