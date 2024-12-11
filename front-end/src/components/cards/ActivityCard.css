@@ -197,3 +197,17 @@
   color: #333333; /* Value color */
   font-weight: 700;
 }
+
+
+.edit-activity-link {
+  margin-top: 5px;
+  color: #FF385C;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.2s ease;
+  font-size: 0.9rem;
+}
+
+.edit-activity-link:hover {
+  color: #e0304b;
+}

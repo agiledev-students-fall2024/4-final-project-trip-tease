@@ -13,6 +13,7 @@ import AddTrip from './pages/AddTripPage';
 import JoinTrip from './pages/JoinTripPage';
 import LogIn from './pages/LogInPage';
 import SignUp from './pages/SignUpPage';
+import EditActivity from './pages/EditActivityPage';
 
 const App = () => {
   return (
@@ -34,6 +35,8 @@ const App = () => {
           <Route path="/profile" element={<RouteAuth isProtected><ProfilesPage /></RouteAuth>} />
           <Route path="/create-trip/:userId" element={<RouteAuth isProtected><AddTrip /></RouteAuth>} />
           <Route path="/join-trip" element={<RouteAuth isProtected><JoinTrip /></RouteAuth>} />
+
+          <Route path="/edit-activity/:activityId" element={<RouteAuth isProtected><EditActivity /></RouteAuth>} />
         </Routes>
       </main>
     </Router>

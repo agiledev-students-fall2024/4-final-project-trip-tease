@@ -40,7 +40,7 @@ const ActivitiesList = ({ locationId, selectedType }) => {
       ) : (
         filteredActivities.map((activity) => (
           <ActivityCard
-            key={activity.id}
+            key={activity._id}
             activity={activity}
             refreshActivities={loadActivities}
           />

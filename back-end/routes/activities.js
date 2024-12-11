@@ -15,6 +15,10 @@ router.get('/location/:locationId', ensureAuthenticated, validateGetActivitiesBy
 // Get a specific activity by ID
 router.get('/:activityId', ensureAuthenticated, validateGetActivityById, activitiesController.getActivityById);
 
+// Get a specific activity by ID
+//haven't written the validator
+router.put('/:activityId', ensureAuthenticated, activitiesController.editActivity);
+
 // Create a new activity
 router.post('/', ensureAuthenticated, validateCreateActivity, activitiesController.createActivity);
 
