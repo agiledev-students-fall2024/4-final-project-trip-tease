@@ -64,32 +64,19 @@ const LocationsPage = () => {
       {copySuccess && <p className="copy-success-message">Trip ID copied to clipboard!</p>}
       <div className="locations-header">
         <div className="header-left">
-          <h2 className="locations-title">
-            {tripDetails.name}
-            <span className="copy-container">
-              <FaClipboard
-                className="copy-icon"
-                onClick={copyToClipboard}
-                title="Copy Trip ID"
-              />
-            </span>
-          </h2>
-          <p className="locations-description">
-            {tripDetails.description
-              ? tripDetails.description
-              : tripDetails.status === 'completed'
-              ? 'View past trip locations'
-              : 'Explore your trip locations!'}
-          </p>
+          <div className="location-info">
+            <h2 className="locations-title">{tripDetails.name}</h2>
+            <p className="locations-description">{tripDetails.description}</p>
+          </div>
         </div>
         <div className="header-right">
           {tripDetails.status !== 'completed' && (
             <>
-              <Link to={`/add-location/${tripId}`} className="add-location-link">
-                Add Location
-              </Link>
               <Link to={`/edit-trip/${tripId}`} className="edit-trip-link">
                 Edit Trip
+              </Link>
+              <Link to={`/add-location/${tripId}`} className="add-location-link">
+                Add Location
               </Link>
             </>
           )}
