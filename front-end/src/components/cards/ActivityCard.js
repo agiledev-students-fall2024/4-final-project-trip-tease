@@ -44,7 +44,6 @@ const ActivityCard = ({ activity, refreshActivities }) => {
     const loadDetails = async () => {
       try {
         const locationData = await fetchLocationDetails(locationId);
-        // Assuming locationData includes tripId
         const tripData = await fetchTripDetails(locationData.tripId);
         setTripDetails(tripData);
       } catch (err) {
@@ -53,7 +52,7 @@ const ActivityCard = ({ activity, refreshActivities }) => {
     };
 
     loadDetails();
-  }, [locationId]); // Missing dependency for useEffect
+  }, [locationId]); 
 
   const handleStatusChange = async (event) => {
     const newStatus = event.target.value === 'Completed';
