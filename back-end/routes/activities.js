@@ -9,6 +9,10 @@ const router = express.Router();
 // Get all activities
 router.get('/', ensureAuthenticated, activitiesController.getActivities);
 
+//Update Status
+router.put('/:activityId/status', ensureAuthenticated, activitiesController.updateActivityStatus);
+
+
 // Get activities by location ID
 router.get('/location/:locationId', ensureAuthenticated, validateGetActivitiesByLocationId, activitiesController.getActivitiesByLocation);
 

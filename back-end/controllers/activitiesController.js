@@ -129,6 +129,30 @@ const createActivity = async (req, res) => {
   }
 };
 
+//Updated Activity
+const updateActivityStatus = async (req, res) => {
+  const { activityId } = req.params;
+  const { isCompleted } = req.body;
+
+  try {
+    const activity = await Activity.findById(activityId);
+    if (!activity) {
+      return res.status(404).json({ error: 'Activity not found' });
+    }
+
+    activity.isCompleted = isCompleted;
+    await activity.save();
+    
+    res.status(200).json({
+      message: 'Activity status updated successfully',
+      activity
+    });
+  } catch (error) {
+    console.error('Error updating activity status:', error);
+    res.status(500).json({ error: 'Failed to update activity status' });
+
+}
+}
 // Edit an existing activity
 const editActivity = async (req, res) => {
   try {
@@ -282,6 +306,7 @@ export default {
   getActivitiesByLocation,
   getActivityById,
   createActivity,
+  updateActivityStatus,
   upvoteActivity,
   downvoteActivity,
   addCommentToActivity,

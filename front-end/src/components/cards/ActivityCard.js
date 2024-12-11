@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'; 
+import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { upvoteActivity, downvoteActivity, fetchUserById } from '../../api/apiUtils'; // Ensure you have these API functions in place
+import { upvoteActivity, downvoteActivity, fetchUserById, updateActivityStatus, fetchTripDetails, fetchLocationDetails } from '../../api/apiUtils';
 import ActivityComments from '../features/ActivityComments';
 import './ActivityCard.css';
 
@@ -21,6 +22,10 @@ const ActivityCard = ({ activity, refreshActivities }) => {
   const [isCommentsVisible, setIsCommentsVisible] = useState(false);
   const [createdByUsername, setCreatedByUsername] = useState('Loading...');
   const [isAnimating, setIsAnimating] = useState(false); // For vote animation
+  const [activityStatus, setActivityStatus] = useState(activity.isCompleted ? 'Completed' : 'Ongoing');
+  const [tripDetails, setTripDetails] = useState({});
+  const [error, setError] = useState(null); 
+  const { locationId } = useParams();
 
   useEffect(() => {
     const loadUsername = async () => {
@@ -36,19 +41,42 @@ const ActivityCard = ({ activity, refreshActivities }) => {
     loadUsername();
   }, [activity.createdBy]);
 
-  const toggleComments = () => setIsCommentsVisible(!isCommentsVisible);
+  useEffect(() => {
+    const loadDetails = async () => {
+      try {
+        const locationData = await fetchLocationDetails(locationId);
+        const tripData = await fetchTripDetails(locationData.tripId);
+        setTripDetails(tripData);
+      } catch (err) {
+        setError('Failed to fetch details');
+      }
+    };
+
+    loadDetails();
+  }, [locationId]); 
+
+  const handleStatusChange = async (event) => {
+    const newStatus = event.target.value === 'Completed';
+    setActivityStatus(newStatus ? 'Completed' : 'Ongoing');
+
+    try {
+      await updateActivityStatus(activity._id, newStatus);
+      refreshActivities();
+    } catch (error) {
+      console.error('Error updating activity status:', error);
+    }
+  };
 
   const handleVoteAnimation = () => {
     setIsAnimating(true);
-    setTimeout(() => setIsAnimating(false), 500); // Animation lasts 500ms
+    setTimeout(() => setIsAnimating(false), 500);
   };
 
   const handleUpvote = async () => {
     try {
-      // Ensure you use correct endpoint and activity._id
       await upvoteActivity(activity._id);
-      handleVoteAnimation(); // Trigger animation
-      refreshActivities(); // Reload the activities
+      handleVoteAnimation();
+      refreshActivities();
     } catch (err) {
       console.error('Error upvoting activity:', err.message);
     }
@@ -56,40 +84,35 @@ const ActivityCard = ({ activity, refreshActivities }) => {
 
   const handleDownvote = async () => {
     try {
-      // Ensure you use correct endpoint and activity._id
       await downvoteActivity(activity._id);
-      handleVoteAnimation(); // Trigger animation
-      refreshActivities(); // Reload the activities
+      handleVoteAnimation();
+      refreshActivities();
     } catch (err) {
       console.error('Error downvoting activity:', err.message);
     }
   };
 
-  const activityEmoji = typeToEmoji[activity.type] || typeToEmoji.default;
+  const toggleComments = () => {
+    setIsCommentsVisible(!isCommentsVisible);
+  };
 
   return (
     <div className="activity-card">
       <div className="activity-card-container">
-        {/* Emoji Section */}
         <div className="activity-emoji">
-          <span>{activityEmoji}</span>
+          <span>{typeToEmoji[activity.type] || typeToEmoji.default}</span>
         </div>
-
-        {/* Details Section */}
         <div className="activity-details">
           <h3 className="activity-title">{activity.name}</h3>
           <p className="activity-description">
             {activity.description || 'No description available.'}
           </p>
           <div className="activity-meta">
-            <span className="meta-item important">
+            <span className="meta-item">
               <strong>Type:</strong> {activity.type}
             </span>
-            <span className="meta-item important">
+            <span className="meta-item">
               <strong>Price:</strong> {priceToDollarSigns(activity.price)}
-            </span>
-            <span className="meta-item important">
-              <strong>Status:</strong> {activity.isCompleted ? 'Completed' : 'Ongoing'}
             </span>
             <span className="meta-item">
               <strong>Created By:</strong> {createdByUsername}
@@ -102,22 +125,30 @@ const ActivityCard = ({ activity, refreshActivities }) => {
             Edit Activity
           </Link>
         </div>
-
-        {/* Votes Section */}
-        <div className="activity-votes">
-          <button onClick={handleUpvote} className="vote-button upvote">
-            <span className="emoji">👍</span>
-          </button>
-          <span className={`vote-count ${isAnimating ? 'vote-animate' : ''}`}>
-            {activity.votes}
-          </span>
-          <button onClick={handleDownvote} className="vote-button downvote">
-            <span className="emoji">👎</span>
-          </button>
-        </div>
+        <span className="meta-item">
+        {tripDetails.status !== 'completed' && (
+            <div className="status-dropdown">
+              <strong>Status:</strong>
+              <select value={activityStatus} onChange={handleStatusChange}>
+                <option value="Ongoing">Ongoing</option>
+                <option value="Completed">Completed</option>
+              </select>
+            </div>)}
+            </span>
+            {tripDetails.status !== 'completed' && (
+              <div className="activity-votes">
+                <button onClick={handleUpvote} className="vote-button upvote">
+                  <span className="emoji">👍</span>
+                </button>
+                <span className={`vote-count ${isAnimating ? 'vote-animate' : ''}`}>
+                  {activity.votes}
+                </span>
+                <button onClick={handleDownvote} className="vote-button downvote">
+                  <span className="emoji">👎</span>
+                </button>
+              </div>
+            )}
       </div>
-
-      {/* Footer Section */}
       <div className="activity-footer">
         <button onClick={toggleComments} className="toggle-comments-button">
           {isCommentsVisible ? 'Hide Comments' : `Show Comments (${activity.comments.length})`}
@@ -136,7 +167,7 @@ const ActivityCard = ({ activity, refreshActivities }) => {
 
 ActivityCard.propTypes = {
   activity: PropTypes.shape({
-    _id: PropTypes.string.isRequired, // Use _id instead of id for consistency
+    _id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     votes: PropTypes.number.isRequired,
     description: PropTypes.string,
@@ -144,7 +175,6 @@ ActivityCard.propTypes = {
     comments: PropTypes.array.isRequired,
     type: PropTypes.string,
     isCompleted: PropTypes.bool,
-    cachedUsername: PropTypes.string.isRequired,
     createdAt: PropTypes.string.isRequired,
   }).isRequired,
   refreshActivities: PropTypes.func.isRequired,
