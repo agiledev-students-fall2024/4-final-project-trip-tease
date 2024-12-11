@@ -38,14 +38,14 @@
     gap: 1rem;
   }
   
-  .add-location-link {
+  .add-location-link, .edit-trip-link {
     color: #FF385C;
     text-decoration: none;
     font-weight: bold;
     transition: color 0.2s ease;
   }
   
-  .add-location-link:hover {
+  .add-location-link:hover, .edit-trip-link:hover{
     color: #e0304b;
   }
   

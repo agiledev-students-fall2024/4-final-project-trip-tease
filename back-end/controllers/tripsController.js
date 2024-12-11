@@ -67,9 +67,10 @@ const createTrip = async (req, res) => {
       description: description || '', // Default to an empty string if not provided
       startDate: startDate ? new Date(startDate) : undefined, // Convert to Date if provided
       endDate: endDate ? new Date(endDate) : undefined, // Convert to Date if provided
-      image: image || 'https://picsum.photos/200', // Default to an empty string if not provided
+      image: image || 'https://picsum.photos/200', // Default to placeholder image if not provided
       status: 'upcoming', // Set default status to "upcoming"
       participants: req.user ? [req.user._id] : [], // Add the creator as the first participant if authenticated
+      owner: req.user._id, // Set the authenticated user as the owner of the trip
     };
 
     // Create and save the new trip
@@ -166,9 +167,37 @@ const updateTripStatus = async (req, res) => {
   }
 };
 
-// Placeholder functions for other routes
+// Update a trip (PUT) - Modify trip details and respond with the updated trip
 const updateTrip = async (req, res) => {
-  res.status(501).json({ message: 'Update trip endpoint not implemented yet' });
+  try {
+    const { tripId } = req.params; // Extract the trip ID from the URL parameters
+    const { name, description, startDate, endDate, status, image } = req.body; // Extract fields from the request body
+
+    // Find the trip by ID
+    const trip = await Trip.findById(tripId);
+
+    // Check if the trip exists
+    if (!trip) {
+      return res.status(404).json({ error: 'Trip not found.' });
+    }
+
+    // Update the trip details (only if fields are provided in the request)
+    if (name !== undefined) trip.name = name;
+    if (description !== undefined) trip.description = description;
+    if (startDate !== undefined) trip.startDate = new Date(startDate);
+    if (endDate !== undefined) trip.endDate = new Date(endDate);
+    if (status !== undefined) trip.status = status;
+    if (image !== undefined) trip.image = image;
+
+    // Save the updated trip
+    const updatedTrip = await trip.save();
+
+    // Respond with the updated trip details
+    res.status(200).json(updatedTrip);
+  } catch (error) {
+    console.error('Error updating trip:', error.message);
+    res.status(500).json({ error: 'Failed to update the trip.' });
+  }
 };
 
 const deleteTrip = async (req, res) => {
