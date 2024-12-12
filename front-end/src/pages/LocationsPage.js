@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
+import Breadcrumb from '../components/common/Breadcrumb';
 import LocationsList from '../components/lists/LocationsList';
 import TripMembersList from '../components/lists/TripMembersList';
 import { fetchTripDetails, fetchLocationsForTrip, updateTripStatus } from '../api/apiUtils';
@@ -60,6 +61,12 @@ const LocationsPage = () => {
 
   return (
     <div className="locations-page">
+      <Breadcrumb
+        breadcrumbs={[
+          { label: 'Trips', path: '/' },
+          { label: tripDetails.name }, // Current trip
+        ]}
+      />
       {copySuccess && <p className="copy-success-message">Trip ID copied to clipboard!</p>}
       <div className="locations-header">
         <div className="header-left">
@@ -69,8 +76,8 @@ const LocationsPage = () => {
           </div>
         </div>
         <button onClick={toggleMembersList} className="toggle-members-button">
-            {showMembers ? 'Hide Members' : 'Show Members'}
-          </button>
+          {showMembers ? 'Hide Members' : 'Show Members'}
+        </button>
         <div className="header-right">
           {tripDetails.status !== 'completed' && (
             <>

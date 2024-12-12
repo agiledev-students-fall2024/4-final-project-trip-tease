@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import Breadcrumb from '../components/common/Breadcrumb';
 import ActivitiesList from '../components/lists/ActivitiesList';
 import { fetchLocationDetails, fetchTripDetails } from '../api/apiUtils'; 
 import './ActivitiesPage.css';
@@ -36,6 +37,13 @@ const ActivitiesPage = () => {
         <p className="error-message">{error}</p>
       ) : (
         <>
+          <Breadcrumb
+            breadcrumbs={[
+              { label: 'Trips', path: '/' },
+              { label: tripDetails.name, path: `/locations/${locationDetails.tripId}` },
+              { label: locationDetails.name }, // Current location
+            ]}
+          />
           <div className="activities-header">
             <div className="header-left">
               <div className="location-info">
@@ -44,10 +52,11 @@ const ActivitiesPage = () => {
               </div>
             </div>
             <div className="header-right">
-            {tripDetails.status !== 'completed' && (
-            <Link to={`/edit-location/${locationId}`} className="edit-location-link">
-                Edit Location
-              </Link>)}
+              {tripDetails.status !== 'completed' && (
+                <Link to={`/edit-location/${locationId}`} className="edit-location-link">
+                  Edit Location
+                </Link>
+              )}
               {tripDetails.status !== 'completed' && (
                 <Link to={`/add-activity/${locationId}`} className="create-activity-link">
                   Create Activity
