@@ -32,6 +32,9 @@ router.put('/:tripId/status', ensureAuthenticated, validateUpdateTripStatus, tri
 // Update trip information (PUT) - Modify trip data and respond with the updated information
 router.put('/:tripId', ensureAuthenticated, tripsController.updateTrip);
 
+// delete trip (DELETE) - delete trip and respond with a message
+router.delete('/:tripId', ensureAuthenticated, tripsController.deleteTrip);
+
 //Stretch Goal Routes
 // TODO: Update trip information (PUT) - Modify trip data and respond with the updated information
 // TODO: Delete a trip (DELETE) - Remove the specified trip and respond with a confirmation message

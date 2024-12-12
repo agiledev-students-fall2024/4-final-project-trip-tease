@@ -1,6 +1,7 @@
 import Trip from '../models/Trip.js'; // Trip model
 import User from '../models/User.js'; // User model
 import mongoose from 'mongoose'; // Import mongoose for object ID validation
+import locationsController from './locationsController.js'; //using this in the delete trip call
 
 // Get all trips (GET) - Retrieve and respond with a list of all trips in the system
 const getAllTrips = async (req, res) => {
@@ -200,8 +201,39 @@ const updateTrip = async (req, res) => {
   }
 };
 
-const deleteTrip = async (req, res) => {
-  res.status(501).json({ message: 'Delete trip endpoint not implemented yet' });
+
+//delete the trip by tripId
+export const deleteTrip = async (req, res) => {
+  const { deleteLocationById } = locationsController; //get the deleteLocation function
+  const { tripId } = req.params; // get tripId from request parameters
+
+  try {
+    // Step 1: Find the trip by tripId
+    const trip = await Trip.findById(tripId).populate('locations');
+
+    if (!trip) {
+      return res.status(404).json({ error: 'Trip not found' });
+    }
+
+    // Step 2: remove the trip from all participants' trips array
+    await User.updateMany(
+      { _id: { $in: trip.participants } },
+      { $pull: { trips: tripId } }
+    );
+
+    // Step 3: delete all locations associated with the trip
+    for (const location of trip.locations) {
+      await deleteLocationById(location._id); // deleteLocation handles location and its activities
+    }
+
+    // Step 4: delete the trip itself
+    await Trip.findByIdAndDelete(tripId);
+
+    res.status(200).json({ message: 'Trip and all associated data successfully deleted' });
+  } catch (error) {
+    console.error('Error deleting trip:', error);
+    res.status(500).json({ error: 'Failed to delete trip' });
+  }
 };
 
 // Export all controller functions as a single default object

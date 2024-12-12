@@ -278,6 +278,21 @@ export const updateTripDetails = async (tripId, tripData) => {
   }
 };
 
+/**
+ * Delete an trip and handle all data dependencies
+ * @param {string} tripId - The ID of the trip to delete
+ * @returns {Object} - The response containing a success message
+ * @throws {Error} - If deleting the trip fails
+ */
+export const deleteTrip = async (tripId) => {
+  try {
+    const response = await axiosInstance.delete(`/trips/${tripId}`);
+    return response.data;
+  } catch (error) {
+    throw new Error('Failed to delete trip');
+  }
+};
+
 
 /** LOCATION APIs */
 

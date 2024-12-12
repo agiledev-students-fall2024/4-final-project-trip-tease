@@ -156,14 +156,23 @@ export const updateLocation = async (req, res) => {
 };
 
 const deleteLocation = async (req, res) => {
-  try {
-    //get the locationId from the req
+  try{
     const { locationId } = req.params;
+    await deleteLocationById(locationId);
 
+    res.status(200).json({ message: 'Location and associated data successfully deleted' });
+  }catch(error){
+    res.status(error.statusCode || 500).json({ error: 'Failed to delete location' });
+  }
+}
+//this is a helper function so we can reuse it
+const deleteLocationById = async (locationId) => {
     // find the location by locationId
     const location = await Location.findById(locationId);
     if (!location) {
-      return res.status(404).json({ error: 'Location not found' });
+      const error = new Error('Location not found');
+      error.statusCode = 404;
+      throw error;
     }
 
     //we're going to need these to delete dependencies
@@ -181,11 +190,6 @@ const deleteLocation = async (req, res) => {
 
     // delete the location itself
     await Location.findByIdAndDelete(locationId);
-
-    res.status(200).json({ message: 'Location and associated data successfully deleted' });
-  } catch (error) {
-    res.status(500).json({ error: 'Failed to delete location' });
-  }
 };
 
 export default {
@@ -193,5 +197,6 @@ export default {
   getLocationActivities,
   addLocation,
   updateLocation,
-  deleteLocation
+  deleteLocation,
+  deleteLocationById //we want to use this helper function in tripsController.js
 };
