@@ -343,6 +343,21 @@ export const updateLocationDetails = async (locationId, locationData) => {
   }
 };
 
+/**
+ * Delete an activity and remove it from the location's activities array
+ * @param {string} locationId - The ID of the location to delete
+ * @returns {Object} - The response containing the deleted location
+ * @throws {Error} - If deleting the location/activities or updating the trip fails
+ */
+export const deleteLocation = async (locationId) => {
+  try {
+    const response = await axiosInstance.delete(`/locations/${locationId}`);
+    return response.data;
+  } catch (error) {
+    throw new Error('Failed to delete location');
+  }
+};
+
 
 /** ACTIVITY APIs */
 

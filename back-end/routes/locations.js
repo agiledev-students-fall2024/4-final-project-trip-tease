@@ -24,6 +24,9 @@ router.post('/', ensureAuthenticated, validateCreateLocation, locationsControlle
  */
 router.put('/:locationId', ensureAuthenticated,locationsController.updateLocation);
 
+//delete location and associated data
+router.delete('/:locationId', ensureAuthenticated, locationsController.deleteLocation);
+
 
 //not needed anymore because @ant built this in trips.js
 // Get locations by Trip ID (GET) - Retrieve all locations associated with a specific trip
