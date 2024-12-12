@@ -16,6 +16,7 @@ const LocationsPage = () => {
   const [error, setError] = useState(null);
   const [statusUpdateError, setStatusUpdateError] = useState('');
   const [copySuccess, setCopySuccess] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const fetchData = async () => {
     try {
@@ -52,6 +53,9 @@ const LocationsPage = () => {
     }
   };
 
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+
   useEffect(() => {
     fetchData();
   }, [tripId]);
@@ -67,11 +71,13 @@ const LocationsPage = () => {
           { label: tripDetails.name }, // Current trip
         ]}
       />
-      {copySuccess && <p className="copy-success-message">Trip ID copied to clipboard!</p>}
       <div className="locations-header">
         <div className="header-left">
           <div className="location-info">
-            <h2 className="locations-title">{tripDetails.name}</h2>
+            <h2 className="locations-title">
+              {tripDetails.name}
+              <button onClick={openModal} className="share-button">Share</button>
+            </h2>
             <p className="locations-description">{tripDetails.description}</p>
           </div>
         </div>
@@ -103,6 +109,23 @@ const LocationsPage = () => {
       {statusUpdateError && <p className="error-message">{statusUpdateError}</p>}
       {showMembers && <TripMembersList participants={tripDetails.participants || []} />}
       <LocationsList locations={locations} tripStatus={tripDetails.status} />
+
+      {isModalOpen && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <h3>Share Trip</h3>
+            <p>
+        Share this Trip ID with someone you’d like to join the trip. They can use this ID to access the trip.
+      </p>
+            <div className="modal-content">
+              <p><strong>Trip ID:</strong> {tripId}</p>
+              <button onClick={copyToClipboard} className="copy-button">Copy to Clipboard</button>
+            </div>
+            {copySuccess && <p className="popup-message">Trip ID copied to clipboard!</p>}
+            <button onClick={closeModal} className="close-modal-button">Close</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
