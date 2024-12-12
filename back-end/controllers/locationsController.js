@@ -155,9 +155,43 @@ export const updateLocation = async (req, res) => {
   }
 };
 
+const deleteLocation = async (req, res) => {
+  try {
+    //get the locationId from the req
+    const { locationId } = req.params;
+
+    // find the location by locationId
+    const location = await Location.findById(locationId);
+    if (!location) {
+      return res.status(404).json({ error: 'Location not found' });
+    }
+
+    //we're going to need these to delete dependencies
+    const { activities, tripId } = location;
+
+    // delete all activities associated with the location
+    await Activity.deleteMany({ _id: { $in: activities } });
+
+    // remove the location from the trip's locations array
+    await Trip.findByIdAndUpdate(
+      tripId,
+      { $pull: { locations: locationId } },
+      { new: true }
+    );
+
+    // delete the location itself
+    await Location.findByIdAndDelete(locationId);
+
+    res.status(200).json({ message: 'Location and associated data successfully deleted' });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to delete location' });
+  }
+};
+
 export default {
   getLocation,
   getLocationActivities,
   addLocation,
   updateLocation,
+  deleteLocation
 };
