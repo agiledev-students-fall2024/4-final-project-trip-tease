@@ -1,5 +1,7 @@
 # TripTease
 
+[tripteasenow.com](https://tripteasenow.com/)
+
 ## Project Description
 
 **TripTease** is a collaborative travel planning platform designed to streamline the group travel planning process. Organizing trips with friends, family, or colleagues can become chaotic and stressful with disagreements and indecision about where to go, what to do, or where to eat. TripTease solves this problem by offering a shared space where users can suggest trip ideas and vote on them in real-time. This ensures that decisions are made democratically, reducing friction and making trip planning more enjoyable.
@@ -61,6 +63,10 @@ To run the tests for our code, follow these simple steps:
 Username:john_doe
 Password: password123
 
+## Live Deployments
+Our App is now fully deployed with a digital Ocean Droplet. We set up Nginx, HTTPS (certs), and the 'tripteasenow.com' domain name for our web app!
 
+View it live here!
+[tripteasenow.com](https://tripteasenow.com/)
 
 
