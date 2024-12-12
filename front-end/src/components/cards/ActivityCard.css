@@ -229,3 +229,7 @@
 .edit-activity-link:hover {
   color: #e0304b;
 }
+
+.select {
+  margin-left: 10px;
+}
