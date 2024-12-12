@@ -129,7 +129,7 @@ const ActivityCard = ({ activity, refreshActivities }) => {
         {tripDetails.status !== 'completed' && (
             <div className="status-dropdown">
               <strong>Status:</strong>
-              <select value={activityStatus} onChange={handleStatusChange}>
+              <select className="select" value={activityStatus} onChange={handleStatusChange}>
                 <option value="Ongoing">Ongoing</option>
                 <option value="Completed">Completed</option>
               </select>
